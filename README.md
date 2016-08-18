@@ -1,4 +1,9 @@
-# jade
+# Jade
 
+Jade provides a standard set of tools for lawyers to manage their cases and clients. 
 
-[![Stories in Ready](https://badge.waffle.io/vvaswani/jade.svg?label=ready&title=Ready)](http://waffle.io/vvaswani/jade)
+## Features
+
+ * Browser-based dashboard for client and case management
+ * Electronic, searchable repository of documents and other case artifacts
+ * Consolidated time recording and reporting system
