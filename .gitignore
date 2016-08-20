@@ -9,3 +9,4 @@ nbproject
 composer.phar
 *.*~
 vendor
+data/cache/*
