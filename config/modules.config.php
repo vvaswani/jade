@@ -12,6 +12,9 @@
  */
 return [
     'Zend\Router',
+    'Zend\Cache',
     'Zend\Validator',
+    'DoctrineModule',
+    'DoctrineORMModule',
     'Application',
 ];
