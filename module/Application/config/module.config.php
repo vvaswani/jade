@@ -57,22 +57,4 @@ return [
             __DIR__ . '/../view',
         ],
     ],
-    /*
-    'doctrine' => [
-        'driver' => [
-            'annotation_driver' => [
-                'class' => 'AnnotationDriver::class',
-                'cache' => 'array',
-                'paths' => [
-                    'Application/Entity',
-                ],
-            ],
-            'orm_default' => [
-                'drivers' => [
-                    'Application\\Entity' => 'annotation_driver'
-                ]
-            ]
-        ]
-    ],
-    */
 ];
