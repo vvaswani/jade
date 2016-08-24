@@ -15,4 +15,7 @@ return [
         'config_cache_enabled' => false,
         'module_map_cache_enabled' => false,
     ],
+    'view_manager' => [
+        'display_exceptions' => true,
+    ],
 ];
