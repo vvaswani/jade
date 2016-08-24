@@ -46,16 +46,16 @@ If administrator access to the `php.ini` file is not available, set these values
 
 Sample commands:
 
-      echo "CREATE DATABASE jade" | mysql -u root -p
-      cd /var/www
-      git clone https://github.com/vvaswani/jade/
-      cd jade
-      composer install
-      chown -R www-data data/tmp
-      chown -R www-data data/cache
-      cp config/autoload/local.php.dist config/autoload/local.php
-      cp config/autoload/development.config.php.dist config/autoload/development.config.php
-      ./vendor/bin/doctrine-module orm:schema-tool:create
+      $ echo "CREATE DATABASE jade" | mysql -u root -p
+      $ cd /var/www
+      $ git clone https://github.com/vvaswani/jade/
+      $ cd jade
+      $ composer install
+      $ chown -R www-data data/tmp
+      $ chown -R www-data data/cache
+      $ cp config/autoload/local.php.dist config/autoload/local.php
+      $ cp config/autoload/development.config.php.dist config/autoload/development.config.php
+      $ ./vendor/bin/doctrine-module orm:schema-tool:create
       
 ## Roadmap
 If you are interested in the future direction of this project, please contribute using the [issues log](https://github.com/vvaswani/jade/issues). Your feedback is appreciated.
