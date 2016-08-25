@@ -42,7 +42,7 @@ If administrator access to the `php.ini` file is not available, set these values
   * Copy `$APP_DIR/config/autoload/local.php.dist` to `$APP_DIR/config/autoload/local.php`. Any changes to this file will be ignored by Git to enable per-developer configuration.
   * Update `$APP_DIR/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection.
   * (For development environments, optional) Copy `$APP_DIR/config/development.config.php.dist` to `$APP_DIR/config/development.config.php`. This enables detailed exception listings and the Zend Developer Tools (ZDT) toolbar. This is not recommended for production environments.
-  * Create the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:create` from the $APP_DIR directory.
+  * Create the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:create` from the `$APP_DIR` directory.
 
 Sample commands:
 
