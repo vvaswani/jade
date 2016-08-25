@@ -19,12 +19,16 @@ return [
                 ],
             ],
             'cases' => [
-                'type'    => Literal::class,
+                'type'    => Segment::class,
                 'options' => [
                     'route'    => '/cases[/:action][/:id]',
                     'defaults' => [
                         'controller' => Controller\JobController::class,
                         'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
                     ],
                 ],
             ],
@@ -34,7 +38,7 @@ return [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\JobController::class => InvokableFactory::class,
-        ],
+        ]
     ],
     'view_manager' => [
         'display_not_found_reason' => true,
