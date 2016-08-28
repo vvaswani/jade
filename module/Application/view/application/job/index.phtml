@@ -1,0 +1,32 @@
+        <div class="page-header">
+          <h2>Cases</h2>
+        </div>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->jobs as $j): ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($j->getId()); ?></td>
+                    <td><?php echo $this->escapeHtml($j->getTitle()); ?></td>
+                    <td>
+                        <a role="button" class="btn btn-primary btn-sm" href="">
+                            <span class="glyphicon glyphicon-edit"></span> Edit
+                        </a>
+                    </td>
+                    <td>
+                        <a role="button" class="btn btn-danger btn-sm" href="">
+                            <span class="glyphicon glyphicon-remove"></span> Remove
+                        </a>
+                    </td>
+                </tr>            
+                <?php endforeach; ?>
+            </tbody>
+        </table>
