@@ -1,0 +1,20 @@
+body {
+    padding-top: 30px;
+}
+
+.navbar {
+    text-transform: uppercase;
+    font-size: small;
+    border: none;
+    border-bottom: solid 1px grey;
+    background-color: white;
+}
+
+.navbar a {
+    color: black;
+    font-weight: 700;
+}
+
+.navbar .navbar-toggle .icon-bar {
+    background-color: black;
+}

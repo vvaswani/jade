@@ -17,9 +17,5 @@ class JobController extends AbstractActionController
 
     public function indexAction()
     {
-        echo '<pre>';
-        print_r( $this->em->getRepository(Job::class)->findAll() );
-        echo '</pre>';
-        return new ViewModel();
     }
 }
