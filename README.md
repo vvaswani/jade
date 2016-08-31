@@ -20,7 +20,7 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 ### Configuration: Apache
 
-  * Ensure that your Apache server has `.htaccess` file support.
+  * Ensure that your Apache server has the `AllowOverride All` directive set for the Web sever document root.
   * Ensure that your Apache server has the `mod_rewrite` module enabled.
 
 ### Configuration: PHP
@@ -56,7 +56,20 @@ Sample commands:
       $ cp config/autoload/local.php.dist config/autoload/local.php
       $ cp config/autoload/development.config.php.dist config/autoload/development.config.php
       $ ./vendor/bin/doctrine-module orm:schema-tool:create
-      
+
+### Upgrade
+
+  * Pull the [latest application code from Github](https://github.com/vvaswani/jade/). 
+  * Update dependencies by executing `composer update`.  
+  * Update the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:update --force` from the `$APP_DIR` directory.
+
+Sample commands:
+
+      $ cd jade
+      $ git pull
+      $ composer update
+      $ ./vendor/bin/doctrine-module orm:schema-tool:update --force
+        
 ## Roadmap
 If you are interested in the future direction of this project, please contribute using the [issues log](https://github.com/vvaswani/jade/issues). Your feedback is appreciated.
   
