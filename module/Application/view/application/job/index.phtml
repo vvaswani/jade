@@ -1,32 +1,47 @@
-        <div class="page-header">
-          <h2>Cases</h2>
-        </div>
-        
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($this->jobs as $j): ?>
-                <tr>
-                    <td><?php echo $this->escapeHtml($j->getId()); ?></td>
-                    <td><?php echo $this->escapeHtml($j->getTitle()); ?></td>
-                    <td>
-                        <a role="button" class="btn btn-primary btn-sm" href="">
-                            <span class="glyphicon glyphicon-edit"></span> Edit
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">Current Cases</span>
+                    <div class="pull-right">
+                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('cases', array('action' => 'save')); ?>">
+                            <span class="glyphicon glyphicon-plus"></span> Add New Case
                         </a>
-                    </td>
-                    <td>
-                        <a role="button" class="btn btn-danger btn-sm" href="">
-                            <span class="glyphicon glyphicon-remove"></span> Remove
-                        </a>
-                    </td>
-                </tr>            
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                    </div>                    
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($this->jobs as $j): ?>
+                            <tr>
+                                <td><?php echo $this->escapeHtml($j->getId()); ?></td>
+                                <td><?php echo $this->escapeHtml($j->getTitle()); ?></td>
+                                <td>
+                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('cases', array('action' => 'view', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-eye-open"></span> View
+                                    </a>
+                                </td>                        
+                                <td>
+                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('cases', array('action' => 'save', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-edit"></span> Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('cases', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> Remove
+                                    </a>
+                                </td>
+                            </tr>            
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            

@@ -1,0 +1,53 @@
+<?php        
+$form = $this->form;
+$form->setAttribute('action', $this->url('cases', array('action' => 'save', 'id' => $this->id)));
+$form->setAttribute('method', 'POST');
+$form->setAttribute('novalidate', 'true');
+$form->prepare();
+?>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo (!$this->id) ? 'Create New' : 'Edit'; ?> Case
+                    </span>
+                    <div class="pull-right">
+                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('cases'); ?>">
+                            <span class="glyphicon glyphicon-remove"></span> Cancel
+                        </a>
+                    </div>                    
+                </div>
+                <div class="panel-body">
+                    <?php echo $this->form()->openTag($form); ?>
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('title')) ?>
+                            <?php echo $this->formInput($form->get('title')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('title')) ?>
+                            </span>
+                        </div> 
+
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('description')) ?>
+                            <?php echo $this->formTextarea($form->get('description')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('description')) ?>
+                            </span>
+                        </div> 
+
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('comments')) ?>
+                            <?php echo $this->formTextarea($form->get('comments')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('comments')) ?>
+                            </span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span> Save
+                            </button> 
+                        </div>	 
+                    <?php echo $this->form()->closeTag($form); ?>
+                </div>
+            </div>

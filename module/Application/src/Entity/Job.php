@@ -2,10 +2,12 @@
 namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Form\Annotation;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="job")
+ * @Annotation\Name("job")
  */
 class Job
 {
@@ -13,18 +15,53 @@ class Job
      * @ORM\Id 
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
+     * @Annotation\Exclude()
      */
     protected $id;
  
     /**
      * @ORM\Column(type="string")
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
+     * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
+     * @Annotation\Options({"label":"Title"})     
      */
     protected $title;
     
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
+     * @Annotation\Required(false)
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
+     * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
+     * @Annotation\Options({"label":"Description"})     
      */
-    protected $note;
+    protected $description;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Annotation\Required(false)
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
+     * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
+     * @Annotation\Options({"label":"Comments"})     
+     */
+    protected $comments;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Annotation\Exclude()
+     */
+    protected $creationTime;
+    
+    /**
+     * @Annotation\Type("Zend\Form\Element\Submit")
+     * @Annotation\Attributes({"value":"Submit"})
+     */
+    public $submit;    
 
     public function setId($id)
     {
@@ -46,14 +83,34 @@ class Job
         $this->title = $title;
     }
 
-    public function getNote()
+    public function getDescription()
     {
-        return $this->note;
+        return $this->description;
     }
 
-    public function setNote($note)
+    public function setDescription($description)
     {
-        $this->note = $note;
+        $this->description = $description;
+    }
+
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
+    public function getCreationTime()
+    {
+        return $this->creationTime;
+    }
+
+    public function setCreationTime($creationTime)
+    {
+        $this->creationTime = $creationTime;
     }
     
 }

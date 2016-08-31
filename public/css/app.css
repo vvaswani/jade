@@ -1,5 +1,5 @@
 body {
-    padding-top: 30px;
+    padding-top: 70px;
 }
 
 .navbar {
@@ -17,4 +17,34 @@ body {
 
 .navbar .navbar-toggle .icon-bar {
     background-color: black;
+}
+
+label { 
+    display: block; 
+}
+
+input, textarea {
+    display: block; 
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.form-errors ul {
+    list-style: none;       
+    padding-left: 0;       
+}
+
+.form-errors li {
+    color: red;
+    font-weight: 700;
+}
+
+.btn {
+    border-radius: 24px;    
+}
+
+.table > tbody > tr:first-child > td {
+    border: none;           
 }

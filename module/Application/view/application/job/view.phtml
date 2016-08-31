@@ -1,0 +1,37 @@
+            
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        Case #<?php echo $this->escapeHtml($this->job->getId()); ?>: <?php echo $this->escapeHtml($this->job->getTitle()); ?>
+                    </span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Created on</strong></td>
+                                <td><?php echo $this->job->getCreationTime()->format('d M Y'); ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Description</strong></td>
+                                <td><?php echo ($this->job->getDescription()) ? $this->escapeHtml($this->job->getDescription()) : 'None'; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Comments</strong></td>
+                                <td><?php echo ($this->job->getComments()) ? $this->escapeHtml($this->job->getComments()) : 'None'; ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pull-right">
+                <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('cases', array('action' => 'save', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
+                </a>
+                <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('cases', array('action' => 'delete', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
+                    <span class="glyphicon glyphicon-remove"></span> Remove
+                </a>
+            </div>
+                    
