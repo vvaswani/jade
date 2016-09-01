@@ -19,10 +19,10 @@ return [
                     ],
                 ],
             ],
-            'cases' => [
+            'jobs' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/cases[/:action][/:id]',
+                    'route'    => '/jobs[/:action][/:id]',
                     'defaults' => [
                         'controller' => Controller\JobController::class,
                         'action'     => 'index',
@@ -35,6 +35,21 @@ return [
             ],
         ],
     ],
+    'service_manager' => array(
+        'factories' => array(
+            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+        ),
+    ),
+    'translator' => array(
+        'locale' => 'en_US',
+        'translation_file_patterns' => array(
+            array(
+                'type'     => 'phparray',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.php',
+            ),
+        ),
+    ),
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
