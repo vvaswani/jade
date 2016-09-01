@@ -1790,16 +1790,16 @@
         },
         {
             "name": "zendframework/zend-mvc",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-mvc.git",
-                "reference": "3c6c9e570e01a8b8fcb0605d2f8eb25812c0c273"
+                "reference": "69ac3e4dcf0639101ac71478dcb39941ba4e7e7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-mvc/zipball/3c6c9e570e01a8b8fcb0605d2f8eb25812c0c273",
-                "reference": "3c6c9e570e01a8b8fcb0605d2f8eb25812c0c273",
+                "url": "https://api.github.com/repos/zendframework/zend-mvc/zipball/69ac3e4dcf0639101ac71478dcb39941ba4e7e7e",
+                "reference": "69ac3e4dcf0639101ac71478dcb39941ba4e7e7e",
                 "shasum": ""
             },
             "require": {
@@ -1851,7 +1851,7 @@
                 "mvc",
                 "zf2"
             ],
-            "time": "2016-06-30 20:30:28"
+            "time": "2016-08-29 18:41:32"
         },
         {
             "name": "zendframework/zend-mvc-form",

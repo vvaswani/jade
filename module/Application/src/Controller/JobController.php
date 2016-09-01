@@ -27,7 +27,7 @@ class JobController extends AbstractActionController
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('cases');
+            return $this->redirect()->toRoute('jobs');
         }
         $job = $this->em->getRepository(Job::class)->find($id);
         return new ViewModel(array('job' => $job));
@@ -39,7 +39,7 @@ class JobController extends AbstractActionController
         if ($id) {
             $job = $this->em->getRepository(Job::class)->find($id);        
             if (!$job) {
-                return $this->redirect()->toRoute('cases');
+                return $this->redirect()->toRoute('jobs');
             }
         } else {
             $job = new Job();
@@ -57,7 +57,7 @@ class JobController extends AbstractActionController
             if ($form->isValid()){  
                 $this->em->persist($job); 
                 $this->em->flush();
-                return $this->redirect()->toRoute('cases');
+                return $this->redirect()->toRoute('jobs');
             }
         }
          
@@ -71,12 +71,12 @@ class JobController extends AbstractActionController
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('cases');
+            return $this->redirect()->toRoute('jobs');
         }
         $job = $this->em->getRepository(Job::class)->find($id);
         $this->em->remove($job);
         $this->em->flush();
-        return $this->redirect()->toRoute('cases');
+        return $this->redirect()->toRoute('jobs');
     }
     
 }
