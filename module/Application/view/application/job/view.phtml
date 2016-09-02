@@ -27,10 +27,10 @@
                 </div>
             </div>
             <div class="pull-right">
-                <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('cases', array('action' => 'save', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
+                <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </a>
-                <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('cases', array('action' => 'delete', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
+                <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                     <span class="glyphicon glyphicon-remove"></span> Remove
                 </a>
             </div>
