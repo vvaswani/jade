@@ -33,6 +33,20 @@ return [
                     ],
                 ],
             ],
+            'labels' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/labels[/:action][/:id]',
+                    'defaults' => [
+                        'controller' => Controller\LabelController::class,
+                        'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                    ],
+                ],
+            ],
         ],
     ],
     'service_manager' => array(
@@ -54,6 +68,7 @@ return [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\JobController::class => ApplicationControllerFactory::class,
+            Controller\LabelController::class => ApplicationControllerFactory::class,
         ]
     ],
     'view_manager' => [
