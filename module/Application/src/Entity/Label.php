@@ -39,7 +39,7 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":3, "max":7}})
-     * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
+     * @Annotation\Attributes({"type":"Zend\Form\Element\Color"})
      * @Annotation\Options({"label":"Colour"})     
      */
     protected $colour;
