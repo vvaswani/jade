@@ -15,6 +15,8 @@ return [
     'Zend\Router',
     'Zend\Cache',
     'Zend\Validator',
+    'Zend\I18n',
+    'Zend\Mvc\I18n',
     'DoctrineModule',
     'DoctrineORMModule',
     'Application',

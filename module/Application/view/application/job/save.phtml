@@ -1,6 +1,6 @@
 <?php        
 $form = $this->form;
-$form->setAttribute('action', $this->url('cases', array('action' => 'save', 'id' => $this->id)));
+$form->setAttribute('action', $this->url('jobs', array('action' => 'save', 'id' => $this->id)));
 $form->setAttribute('method', 'POST');
 $form->setAttribute('novalidate', 'true');
 $form->prepare();
@@ -9,7 +9,7 @@ $form->prepare();
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
-                        <?php echo (!$this->id) ? 'Create New' : 'Edit'; ?> Case
+                        <?php echo (!$this->id) ? $this->translate('application.common.create') : $this->translate('application.common.edit'); ?>  <?php echo $this->translate('application.job.entity'); ?>
                     </span>
                     <div class="pull-right">
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs'); ?>">
@@ -51,3 +51,4 @@ $form->prepare();
                     <?php echo $this->form()->closeTag($form); ?>
                 </div>
             </div>
+            

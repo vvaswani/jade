@@ -6,6 +6,7 @@
         "zendframework/zend-component-installer": "^1.0",
         "zendframework/zend-mvc": "^3.0.2",
         "zendframework/zend-mvc-form": "^1.0.0",
+        "zendframework/zend-mvc-i18n": "^1.0.0",
         "doctrine/doctrine-orm-module": "dev-master",
         "doctrine/doctrine-module": "dev-master"
     },

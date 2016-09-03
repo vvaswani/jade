@@ -6,9 +6,9 @@ use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Application\Entity\Job;
+use Application\Entity\Label;
 
-class JobController extends AbstractActionController
+class LabelController extends AbstractActionController
 {
     private $em;
     
@@ -19,51 +19,41 @@ class JobController extends AbstractActionController
 
     public function indexAction()
     {
-        $jobs = $this->em->getRepository(Job::class)->findAll();
-        return new ViewModel(array('jobs' => $jobs));
+        $labels = $this->em->getRepository(Label::class)->findAll();
+        return new ViewModel(array('labels' => $labels));
     }
-    
-    public function viewAction()
-    {   
-        $id = (int) $this->params()->fromRoute('id', 0);
-        if (!$id) {
-            return $this->redirect()->toRoute('jobs');
-        }
-        $job = $this->em->getRepository(Job::class)->find($id);
-        return new ViewModel(array('job' => $job));
-    }    
     
     public function saveAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
         if ($id) {
-            $job = $this->em->getRepository(Job::class)->find($id);        
-            if (!$job) {
-                return $this->redirect()->toRoute('jobs');
+            $label = $this->em->getRepository(Label::class)->find($id);        
+            if (!$label) {
+                return $this->redirect()->toRoute('labels');
             }
         } else {
-            $job = new Job();
-            $job->setCreationTime(new \DateTime("now"));
+            $label = new Label();
+            $label->setCreationTime(new \DateTime("now"));
         }
         
         $builder = new AnnotationBuilder();
         $hydrator = new DoctrineHydrator($this->em);
-        $form = $builder->createForm($job);
+        $form = $builder->createForm($label);
         $form->setHydrator($hydrator);
-        $form->bind($job);
+        $form->bind($label);
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
             if ($form->isValid()){  
-                $this->em->persist($job); 
+                $this->em->persist($label); 
                 $this->em->flush();
-                return $this->redirect()->toRoute('jobs');
+                return $this->redirect()->toRoute('labels');
             }
         }
          
         return new ViewModel(array(
             'form' => $form,
-            'id' => $job->getId(),
+            'id' => $label->getId(),
         ));
     }
     
@@ -71,12 +61,12 @@ class JobController extends AbstractActionController
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('jobs');
+            return $this->redirect()->toRoute('labels');
         }
-        $job = $this->em->getRepository(Job::class)->find($id);
-        $this->em->remove($job);
+        $label = $this->em->getRepository(Label::class)->find($id);
+        $this->em->remove($label);
         $this->em->flush();
-        return $this->redirect()->toRoute('jobs');
+        return $this->redirect()->toRoute('labels');
     }
     
 }

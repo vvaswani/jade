@@ -29,9 +29,9 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="<?php echo $this->url('jobs'); ?>">Dashboard</a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Settings</a></li>
+                <li class="active"><a href="<?php echo $this->url('jobs'); ?>"><?php echo $this->translate('application.common.dashboard'); ?></a></li>
+                <li><a href="<?php echo $this->url('labels'); ?>"><?php echo $this->translate('application.common.reports'); ?></a></li>
+                <li><a href="#"><?php echo $this->translate('application.common.settings'); ?></a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
@@ -43,6 +43,16 @@
 
         <script src="<?php echo $this->basePath('public/js/jquery.min.js'); ?>"></script>
         <script src="<?php echo $this->basePath('public/js/bootstrap.min.js'); ?>"></script>
+        <script src="<?php echo $this->basePath('public/js/modernizr.min.js'); ?>"></script>
+        <script>
+        if (!Modernizr.inputtypes.color) { 
+            jQuery.getScript("<?php echo $this->basePath('public/js/polyfill/spectrum.js'); ?>");
+            $('<link>')
+                .appendTo('head')
+                .attr({type : 'text/css', rel : 'stylesheet'})
+                .attr('href', '<?php echo $this->basePath('public/css/polyfill/spectrum.css'); ?>');  
+        }          
+        </script>
         <script src="<?php echo $this->basePath('public/js/app.js'); ?>"></script>
     </body>
 </html>
