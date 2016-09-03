@@ -29,6 +29,7 @@ input, textarea {
     border: 1px solid #ccc;
     padding: 6px 12px;
     border-radius: 4px;
+    background-color: white;
 }
 
 .form-errors ul {

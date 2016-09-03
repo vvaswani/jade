@@ -16,7 +16,6 @@
                                 <th><?php echo $this->translate('application.common.name'); ?></th>
                                 <th></th>
                                 <th></th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,11 +23,6 @@
                             <tr>
                                 <td><?php echo $this->escapeHtml($l->getId()); ?></td>
                                 <td><?php echo $this->escapeHtml($l->getName()); ?></td>
-                                <td>
-                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('labels', array('action' => 'view', 'id' => $this->escapeHtml($l->getId()))); ?>">
-                                        <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('application.common.view'); ?>
-                                    </a>
-                                </td>                        
                                 <td>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('labels', array('action' => 'save', 'id' => $this->escapeHtml($l->getId()))); ?>">
                                         <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('application.common.edit'); ?>

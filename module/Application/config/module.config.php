@@ -55,7 +55,7 @@ return [
         ),
     ),
     'translator' => array(
-        'locale' => 'en_UK',
+        'locale' => 'en_GB',
         'translation_file_patterns' => array(
             array(
                 'type'     => 'phparray',

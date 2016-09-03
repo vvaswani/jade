@@ -43,6 +43,16 @@
 
         <script src="<?php echo $this->basePath('public/js/jquery.min.js'); ?>"></script>
         <script src="<?php echo $this->basePath('public/js/bootstrap.min.js'); ?>"></script>
+        <script src="<?php echo $this->basePath('public/js/modernizr.min.js'); ?>"></script>
+        <script>
+        if (!Modernizr.inputtypes.color) { 
+            jQuery.getScript("<?php echo $this->basePath('public/js/polyfill/spectrum.js'); ?>");
+            $('<link>')
+                .appendTo('head')
+                .attr({type : 'text/css', rel : 'stylesheet'})
+                .attr('href', '<?php echo $this->basePath('public/css/polyfill/spectrum.css'); ?>');  
+        }          
+        </script>
         <script src="<?php echo $this->basePath('public/js/app.js'); ?>"></script>
     </body>
 </html>

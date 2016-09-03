@@ -29,7 +29,7 @@ $form->prepare();
 
                         <div class="form-group"> 
                             <?php echo $this->formLabel($form->get('colour')) ?>
-                            <?php echo $this->formColor($form->get('colour')) ?>
+                            <?php echo $this->formColor($form->get('colour', array('id' => 'aa'))) ?>
                             <span class="form-errors">
                                 <?php echo $this->formElementErrors($form->get('colour')) ?>
                             </span>
@@ -44,14 +44,3 @@ $form->prepare();
                 </div>
             </div>
 
-            <script src="<?php echo $this->basePath('public/js/webshim/polyfiller.js'); ?>"></script>
-            <script>
-            //configure before calling webshims.polyfill
-            webshim.setOptions("forms-ext", {
-              "widgets": {
-                "buttonOnly": true
-              }
-            });
-            webshim.polyfill("forms forms-ext");
-            </script>
-            

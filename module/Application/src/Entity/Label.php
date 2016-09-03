@@ -33,12 +33,11 @@ use Zend\Form\Annotation;
     protected $name;     
     
     
-    //TODO Implement pattern validation to ensure standard RGB code is used
     /**
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
-     * @Annotation\Filter({"name":"StripTags"})     
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":3, "max":7}})
+     * @Annotation\Filter({"name":"StripTags"})
+     * @Annotation\Validator({"name":"Regex", "options":{"pattern":"/^#[0-9a-f]{3}([0-9a-f]{3})?$/"}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Color"})
      * @Annotation\Options({"label":"Colour"})     
      */
