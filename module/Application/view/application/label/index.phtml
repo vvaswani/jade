@@ -1,10 +1,10 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
-                    <span class="panel-title"> <?php echo $this->translate('application.label.current_labels'); ?></span>
+                    <span class="panel-title"> <?php echo $this->translate('application.label.current-labels'); ?></span>
                     <div class="pull-right">
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('labels', array('action' => 'save')); ?>">
-                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('application.label.create'); ?>
+                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('application.common.create'); ?>
                         </a>
                     </div>                    
                 </div>
@@ -36,7 +36,7 @@
                                 </td>
                                 <td>
                                     <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('labels', array('action' => 'delete', 'id' => $this->escapeHtml($l->getId()))); ?>">
-                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('application.common.remove'); ?>
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('application.common.delete'); ?>
                                     </a>
                                 </td>
                             </tr>            

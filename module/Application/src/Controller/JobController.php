@@ -23,7 +23,7 @@ class JobController extends AbstractActionController
         return new ViewModel(array('jobs' => $jobs));
     }
     
-    public function viewAction($id)
+    public function viewAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {

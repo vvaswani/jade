@@ -55,7 +55,7 @@ return [
         ),
     ),
     'translator' => array(
-        'locale' => 'en_US',
+        'locale' => 'en_UK',
         'translation_file_patterns' => array(
             array(
                 'type'     => 'phparray',
@@ -67,7 +67,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-            Controller\JobController::class => ApplicationControllerFactory::class,
+            Controller\JobController::class   => ApplicationControllerFactory::class,
             Controller\LabelController::class => ApplicationControllerFactory::class,
         ]
     ],
