@@ -25,7 +25,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
-     * @Annotation\Options({"label":"Title"})     
+     * @Annotation\Options({"label":"application.common.title"})     
      */
     protected $title;
     
@@ -36,7 +36,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
-     * @Annotation\Options({"label":"Description"})     
+     * @Annotation\Options({"label":"application.common.description"})     
      */
     protected $description;
 
@@ -47,7 +47,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
-     * @Annotation\Options({"label":"Comments"})     
+     * @Annotation\Options({"label":"application.common.comments"})     
      */
     protected $comments;
 
