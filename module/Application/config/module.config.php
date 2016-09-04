@@ -49,21 +49,24 @@ return [
             ],
         ],
     ],
-    'service_manager' => array(
-        'factories' => array(
+    'service_manager' => [
+        'factories' => [
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-        ),
-    ),
-    'translator' => array(
+        ],
+        'invokables' => [
+            'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
+        ],
+    ],
+    'translator' => [
         'locale' => 'en_GB',
-        'translation_file_patterns' => array(
-            array(
+        'translation_file_patterns' =>  [
+            [
                 'type'     => 'phparray',
                 'base_dir' => __DIR__ . '/../language',
                 'pattern'  => '%s.php',
-            ),
-        ),
-    ),
+            ],
+        ],
+    ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
@@ -87,4 +90,11 @@ return [
             __DIR__ . '/../view',
         ],
     ],
+    'doctrine' => [
+        'configuration' => [
+            'orm_default' => [
+                'naming_strategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy'
+            ],
+        ],
+    ],    
 ];
