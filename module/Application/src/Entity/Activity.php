@@ -16,11 +16,26 @@ class Activity
      * @ORM\GeneratedValue
      */
     protected $id;
- 
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $created;
+        
     /**
      * @ORM\Column(type="string")
      */
-    protected $type;
+    protected $operationType;
+    
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $entityType;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $entityId;
     
     /**
      * @ORM\Column(type="integer")
@@ -37,11 +52,6 @@ class Activity
      */
     protected $data;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    protected $created;
-    
     public function setId($id)
     {
         $this->id = $id;
@@ -52,26 +62,46 @@ class Activity
         return $this->id;
     }
 
-    public function getType()
+    public function getCreated()
     {
-        return $this->type;
+        return $this->created;
     }
 
-    public function setType($type)
+    public function setCreated($created)
     {
-        $this->type = $type;
+        $this->created = $created;
+    }    
+
+    public function getOperationType()
+    {
+        return $this->operationType;
     }
 
-    public function getUserId()
+    public function setOperationType($operationType)
     {
-        return $this->userId;
+        $this->operationType = $operationType;
+    }
+    
+    public function getEntityType()
+    {
+        return $this->entityType;
     }
 
-    public function setUserId($userId)
+    public function setEntityType($entityType)
     {
-        $this->userId = $userId;
+        $this->entityType = $entityType;
+    }    
+
+    public function getEntityId()
+    {
+        return $this->entityId;
     }
 
+    public function setEntityId($entityId)
+    {
+        $this->entityId = $entityId;
+    }
+    
     public function getCaseId()
     {
         return $this->caseId;
@@ -82,6 +112,16 @@ class Activity
         $this->caseId = $caseId;
     }
     
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
     public function getData()
     {
         return $this->data;
@@ -92,14 +132,4 @@ class Activity
         $this->data = $data;
     }
 
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    public function setCreated($created)
-    {
-        $this->created = $created;
-    }
-    
 }
