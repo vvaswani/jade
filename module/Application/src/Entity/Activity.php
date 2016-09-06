@@ -40,7 +40,7 @@ class Activity
     /**
      * @ORM\Column(type="integer")
      */
-    protected $caseId;
+    protected $jobId;
 
     /**
      * @ORM\Column(type="integer")
@@ -102,14 +102,14 @@ class Activity
         $this->entityId = $entityId;
     }
     
-    public function getCaseId()
+    public function getJobId()
     {
-        return $this->caseId;
+        return $this->jobId;
     }
 
-    public function setCaseId($caseId)
+    public function setJobId($jobId)
     {
-        $this->caseId = $caseId;
+        $this->jobId = $jobId;
     }
     
     public function getUserId()
