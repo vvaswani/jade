@@ -33,7 +33,7 @@ class LabelController extends AbstractActionController
             }
         } else {
             $label = new Label();
-            $label->setCreationTime(new \DateTime("now"));
+            $label->setCreated(new \DateTime("now"));
         }
         
         $builder = new AnnotationBuilder();

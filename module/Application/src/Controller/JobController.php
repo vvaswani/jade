@@ -43,7 +43,7 @@ class JobController extends AbstractActionController
             }
         } else {
             $job = new Job();
-            $job->setCreationTime(new \DateTime("now"));
+            $job->setCreated(new \DateTime("now"));
         }
         
         $builder = new AnnotationBuilder();

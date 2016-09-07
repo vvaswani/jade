@@ -55,7 +55,7 @@ class Job
      * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
      */
-    protected $creationTime;
+    protected $created;
     
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
@@ -103,14 +103,14 @@ class Job
         $this->comments = $comments;
     }
 
-    public function getCreationTime()
+    public function getCreated()
     {
-        return $this->creationTime;
+        return $this->created;
     }
 
-    public function setCreationTime($creationTime)
+    public function setCreated($created)
     {
-        $this->creationTime = $creationTime;
+        $this->created = $created;
     }
     
 }
