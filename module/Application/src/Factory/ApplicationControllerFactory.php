@@ -7,18 +7,27 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service names
 use Application\Service\ActivityStreamLogger;
 =======
 use Application\Service\ActivityRecorder;
 >>>>>>> Added activity recording service and activity stream in case view
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 use Application\Service\ActivityStreamLogger;
 >>>>>>> Updated service names
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+=======
+use Application\Service\ActivityStreamLogger;
+>>>>>>> Updated service names
+>>>>>>> Updated service names
 
 class ApplicationControllerFactory implements FactoryInterface
 {
@@ -28,6 +37,9 @@ class ApplicationControllerFactory implements FactoryInterface
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Updated service names
         $ar = $container->get(ActivityStreamLogger::class);
 =======
         $ar = $container->get(ActivityRecorder::class);
@@ -35,12 +47,15 @@ class ApplicationControllerFactory implements FactoryInterface
 =======
         $ar = $container->get(ActivityStreamLogger::class);
 >>>>>>> Updated service names
+<<<<<<< HEAD
 =======
         $ar = $container->get(ActivityStreamLogger::class);
 =======
         $ar = $container->get(ActivityRecorder::class);
 >>>>>>> Added activity recording service and activity stream in case view
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service names
         return new $requestedName($em, $ar);
     }
 }

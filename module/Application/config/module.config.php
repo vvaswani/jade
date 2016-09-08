@@ -55,18 +55,27 @@ return [
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service names
             'Application\Service\ActivityStreamLogger' => 'Application\Factory\ActivityStreamLoggerFactory',            
 =======
             'Application\Service\ActivityRecorder' => 'Application\Factory\ActivityRecorderFactory',            
 >>>>>>> Added activity recording service and activity stream in case view
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
             'Application\Service\ActivityStreamLogger' => 'Application\Factory\ActivityStreamLoggerFactory',            
 >>>>>>> Updated service names
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+=======
+            'Application\Service\ActivityStreamLogger' => 'Application\Factory\ActivityStreamLoggerFactory',            
+>>>>>>> Updated service names
+>>>>>>> Updated service names
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',

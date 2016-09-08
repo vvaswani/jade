@@ -9,6 +9,7 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
 <<<<<<< HEAD
@@ -20,6 +21,8 @@ use Application\Service\ActivityRecorder;
 =======
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service names
 use Application\Service\ActivityStreamLogger;
 >>>>>>> Updated service names
 use Application\Entity\Job;
@@ -39,6 +42,9 @@ use Application\Entity\User;
 =======
 =======
 use Application\Service\ActivityRecorder;
+=======
+use Application\Service\ActivityStreamLogger;
+>>>>>>> Updated service names
 use Application\Entity\Job;
 use Application\Entity\Activity;
 >>>>>>> Added activity recording service and activity stream in case view
@@ -51,8 +57,11 @@ class JobController extends AbstractActionController
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service names
     public function __construct(EntityManager $em, ActivityStreamLogger $asl)
     {
         $this->em = $em;
@@ -67,11 +76,15 @@ class JobController extends AbstractActionController
         $this->ar = $ar;
 >>>>>>> Added activity recording service and activity stream in case view
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Updated service names
 =======
     public function __construct(EntityManager $em, ActivityStreamLogger $asl)
     {
         $this->em = $em;
         $this->asl = $asl;
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> Updated service names
 =======
@@ -81,6 +94,9 @@ class JobController extends AbstractActionController
 >>>>>>> Updated service
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service names
+>>>>>>> Updated service names
     }
 
     public function indexAction()
@@ -126,10 +142,13 @@ class JobController extends AbstractActionController
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Updated service
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service names
                 if ($job->getEntityOperationType() == Job::OPERATION_TYPE_CREATE) {
                     $this->asl->log(
                         Job::OPERATION_TYPE_CREATE, 
@@ -154,10 +173,13 @@ class JobController extends AbstractActionController
 =======
                 $this->asl->log(
 >>>>>>> Updated service names
+<<<<<<< HEAD
 =======
 =======
                 $this->ar->record(
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service names
                     $job->getEntityOperationType(), 
                     Activity::ENTITY_TYPE_JOB, 
                     $job->getId(), 
@@ -252,6 +274,7 @@ class JobController extends AbstractActionController
         $this->em->remove($job);
         $this->em->flush();
 <<<<<<< HEAD
+<<<<<<< HEAD
         $this->asl->log(
             Job::OPERATION_TYPE_DELETE, 
             $clone,
@@ -259,6 +282,9 @@ class JobController extends AbstractActionController
             $clone
 =======
         $this->ar->record(
+=======
+        $this->asl->log(
+>>>>>>> Updated service names
             Activity::ENTITY_OPERATION_TYPE_DELETE, 
             Activity::ENTITY_TYPE_JOB, 
             $id, 
