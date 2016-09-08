@@ -14,7 +14,11 @@ namespace Application;
 		'application.common.dashboard' => 'Dashboard', 
 		'application.common.reports' => 'Reports', 
 		'application.common.settings' => 'Settings', 
-		'application.common.empty' => 'empty', 
+
+		'application.activity-stream.created' => '%s created this case', 
+		'application.activity-stream.deleted' => '%s deleted this case', 
+		'application.activity-stream.updated' => '%s modified the %s from %s to %s', 
+		'application.activity-stream.empty' => 'empty', 
 		
 		// entity specific labels
 		
@@ -26,7 +30,7 @@ namespace Application;
 		'application.job.description' => 'Description', 
 		'application.job.comments' => 'Comments', 
 		'application.job.entity' => 'Case',
-		'application.job.current-cases' => 'Current Cases',
+		'application.job.current-jobs' => 'Current Cases',
 
 		// label entity
 		'application.label.id' => '#', 
