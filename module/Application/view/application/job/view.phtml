@@ -52,18 +52,30 @@
                                     <?php $properties = json_decode($activity->getData(), true); ?>
                                     <?php foreach ($properties as $propertyName => $propertyValues): ?>
                             <tr>                               
+<<<<<<< HEAD
                                 <td><strong><?php echo 'Unknown User'; // TODO ?></strong> modified the <?php echo strtolower($this->translate('job.' . $propertyName)); ?> of this case from <strong><?php echo !empty($propertyValues[0]) ? $this->escapeHtml($propertyValues[0]) : '(' . $this->translate('common.empty') . ')'; ?></strong> to <strong><?php echo !empty($propertyValues[1]) ? $this->escapeHtml($propertyValues[1]) : '(' . $this->translate('common.empty') . ')'; ?></strong>.</td>
+=======
+                                <td>
+                                <?php echo sprintf(
+                                    $this->translate('application.activity-stream.updated'), 
+                                    '<strong>Unknown User</strong>', 
+                                    strtolower($this->translate('application.job.' . $propertyName)), 
+                                    !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('application.activity-stream.empty') . ')</strong>', 
+                                    !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('application.activity-stream.empty') . ')</strong>' 
+                                ); //TODO ?>.
+                                </td>
+>>>>>>> Updated translation strings
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                                                      
                                     <?php endforeach; ?>
                                 <?php elseif ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_CREATE): ?>                                    
                             <tr>                               
-                                <td><strong><?php echo 'Unknown User'; // TODO ?></strong> created this case.</td>
+                                <td><?php echo sprintf($this->translate('application.activity-stream.created'), '<strong>Unknown User</strong>'); //TODO ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                          
                                 <?php elseif ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_DELETE): ?>  
                             <tr>                               
-                                <td><strong><?php echo 'Unknown User'; // TODO ?></strong> deleted this case.</td>
+                                <td><?php echo sprintf($this->translate('application.activity-stream.deleted'), '<strong>Unknown User</strong>'); //TODO ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                          
                                 <?php endif; ?>        
