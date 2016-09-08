@@ -52,6 +52,7 @@ return [
     'service_manager' => [
         'factories' => [
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            'Application\Service\ActivityRecorder' => 'Application\Factory\ActivityRecorderFactory',            
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',

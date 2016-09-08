@@ -19,19 +19,15 @@ class LabelController extends AbstractActionController
 
     public function indexAction()
     {
-        $labels = $this->em->getRepository(Label::class)->findAll();
+        $labels = $this->em->getRepository(Label::class)->findBy(array(), array('created' => 'DESC'));
         return new ViewModel(array('labels' => $labels));
     }
     
     public function saveAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
-        if ($id) {
-            $label = $this->em->getRepository(Label::class)->find($id);        
-            if (!$label) {
-                return $this->redirect()->toRoute('labels');
-            }
-        } else {
+        $label = $this->em->getRepository(Label::class)->find($id);    
+        if (!$label) {
             $label = new Label();
             $label->setCreated(new \DateTime("now"));
         }
@@ -46,7 +42,7 @@ class LabelController extends AbstractActionController
             $form->setData($request->getPost());
             if ($form->isValid()){  
                 $this->em->persist($label); 
-                $this->em->flush();
+                $this->em->flush();            
                 return $this->redirect()->toRoute('labels');
             }
         }
@@ -57,7 +53,7 @@ class LabelController extends AbstractActionController
         ));
     }
     
-    public function deleteAction($id)
+    public function deleteAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
