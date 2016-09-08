@@ -6,6 +6,7 @@ namespace Application;
 		
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// application wide labels
 <<<<<<< HEAD
 =======
@@ -16,6 +17,8 @@ namespace Application;
 <<<<<<< HEAD
 >>>>>>> Updated translation strings
 =======
+=======
+>>>>>>> Added activity recording service and activity stream in case view
 		// application-wide labels
 <<<<<<< HEAD
 =======
@@ -91,6 +94,9 @@ namespace Application;
 		'job.entity' => 'Case',
 		'job.current-cases' => 'Current Cases',
 =======
+=======
+		// application-wide labels
+>>>>>>> Added activity recording service and activity stream in case view
 		'application.common.create' => 'Create New',
 		'application.common.view' => 'View',
 		'application.common.edit' => 'Edit',
@@ -100,6 +106,7 @@ namespace Application;
 		'application.common.dashboard' => 'Dashboard', 
 		'application.common.reports' => 'Reports', 
 		'application.common.settings' => 'Settings', 
+<<<<<<< HEAD
 
 		'application.activity-stream.created' => '%s created this case', 
 		'application.activity-stream.deleted' => '%s deleted this case', 
@@ -116,11 +123,17 @@ namespace Application;
 		'common.reports' => 'Reports', 
 		'common.settings' => 'settings', 
 >>>>>>> Removed prefix from translation keys
+=======
+		'application.common.empty' => 'empty', 
+>>>>>>> Added activity recording service and activity stream in case view
 		
 		// entity specific labels
 		
 		// case entity
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Added activity recording service and activity stream in case view
 		'application.job.id' => '#', 
 		'application.job.title' => 'Title',
 		'application.job.name' => 'Name', 
@@ -142,11 +155,19 @@ namespace Application;
 		'job.current-jobs' => 'Current Cases',
 
 		// label entity
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
 >>>>>>> Removed prefix from translation keys
 		'label.entity' => 'Label',
 		'label.colour' => 'Colour',
 		'label.current-labels' => 'Current Labels',
+=======
+		'application.label.id' => '#', 
+		'application.label.name' => 'Name', 
+		'application.label.entity' => 'Label',
+		'application.label.colour' => 'Colour',
+		'application.label.current-labels' => 'Current Labels',
+>>>>>>> Added activity recording service and activity stream in case view
 		
 	);
 ?>

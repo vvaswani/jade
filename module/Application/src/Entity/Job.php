@@ -38,16 +38,25 @@ class Job
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.title"})     
 =======
      * @Annotation\Options({"label":"application.job.title"})     
 >>>>>>> Added activity recording service and activity stream in case view
 =======
+=======
+>>>>>>> Added activity recording service and activity stream in case view
      * @Annotation\Options({"label":"application.job.title"})     
 =======
      * @Annotation\Options({"label":"common.title"})     
 >>>>>>> Removed prefix from translation keys
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
+=======
+=======
+     * @Annotation\Options({"label":"application.job.title"})     
+>>>>>>> Added activity recording service and activity stream in case view
+>>>>>>> Added activity recording service and activity stream in case view
      */
     protected $title;
     
@@ -60,16 +69,25 @@ class Job
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.description"})     
 =======
      * @Annotation\Options({"label":"application.job.description"})     
 >>>>>>> Added activity recording service and activity stream in case view
 =======
+=======
+>>>>>>> Added activity recording service and activity stream in case view
      * @Annotation\Options({"label":"application.job.description"})     
 =======
      * @Annotation\Options({"label":"common.description"})     
 >>>>>>> Removed prefix from translation keys
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
+=======
+=======
+     * @Annotation\Options({"label":"application.job.description"})     
+>>>>>>> Added activity recording service and activity stream in case view
+>>>>>>> Added activity recording service and activity stream in case view
      */
     protected $description;
 
@@ -82,16 +100,25 @@ class Job
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.comments"})     
 =======
      * @Annotation\Options({"label":"application.job.comments"})     
 >>>>>>> Added activity recording service and activity stream in case view
 =======
+=======
+>>>>>>> Added activity recording service and activity stream in case view
      * @Annotation\Options({"label":"application.job.comments"})     
 =======
      * @Annotation\Options({"label":"common.comments"})     
 >>>>>>> Removed prefix from translation keys
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
+=======
+=======
+     * @Annotation\Options({"label":"application.job.comments"})     
+>>>>>>> Added activity recording service and activity stream in case view
+>>>>>>> Added activity recording service and activity stream in case view
      */
     protected $comments;
 
@@ -188,9 +215,24 @@ class Job
      */
     public function preUpdate(LifecycleEventArgs $event)
     {
+<<<<<<< HEAD
         $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
         $this->setEntityChangeSet($event->getEntityChangeSet());
     } 
+=======
+        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_UPDATE);
+        $this->setEntityChangeSet($event->getEntityChangeSet());
+    } 
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist(LifecycleEventArgs $event)
+    {
+        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_CREATE);
+        $this->setEntityChangeSet(null);
+    } 
+>>>>>>> Added activity recording service and activity stream in case view
     
     /**
      * @ORM\PrePersist

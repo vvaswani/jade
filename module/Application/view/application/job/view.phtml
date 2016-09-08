@@ -14,6 +14,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 <td><strong><?php echo $this->translate('common.created'); ?></strong></td>
 =======
                                 <td><strong><?php echo $this->translate('application.common.created'); ?></strong></td>
@@ -29,6 +30,8 @@
 =======
 =======
 >>>>>>> Removed prefix from translation keys
+=======
+>>>>>>> Added activity recording service and activity stream in case view
                                 <td><strong><?php echo $this->translate('job.created'); ?></strong></td>
                                 <td><?php echo $this->job->getCreated()->format('d M Y'); ?></td>
                             </tr>
@@ -52,7 +55,21 @@
                             <tr>
                                 <td><strong><?php echo $this->translate('common.comments'); ?></strong></td>
 >>>>>>> Removed prefix from translation keys
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
+=======
+=======
+                                <td><strong><?php echo $this->translate('application.job.created'); ?></strong></td>
+                                <td><?php echo $this->job->getCreated()->format('d M Y'); ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong><?php echo $this->translate('application.job.description'); ?></strong></td>
+                                <td><?php echo ($this->job->getDescription()) ? $this->escapeHtml($this->job->getDescription()) : 'None'; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong><?php echo $this->translate('application.job.comments'); ?></strong></td>
+>>>>>>> Added activity recording service and activity stream in case view
+>>>>>>> Added activity recording service and activity stream in case view
                                 <td><?php echo ($this->job->getComments()) ? $this->escapeHtml($this->job->getComments()) : 'None'; ?></td>
                             </tr>
                             <tr>
@@ -71,6 +88,7 @@
                     </table>
                 </div>
             </div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 
             <div class="panel panel-default">
@@ -125,6 +143,8 @@
             </div>
             
 =======
+=======
+>>>>>>> Added activity recording service and activity stream in case view
             <div class="pull-right">
                 <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                     <span class="glyphicon glyphicon-edit"></span> Edit
@@ -191,4 +211,53 @@
 
             <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
             </div>                    
+<<<<<<< HEAD
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+=======
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        Recent Activity
+                    </span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        </thead>
+                        <tbody>
+                        <?php if (count($this->activities)): ?>
+                            <?php foreach ($this->activities as $activity): ?>
+                                <?php if ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_UPDATE): ?>
+                                    <?php $properties = json_decode($activity->getData(), true); ?>
+                                    <?php foreach ($properties as $propertyName => $propertyValues): ?>
+                            <tr>                               
+                                <td><strong><?php echo 'Unknown User'; // TODO ?></strong> modified the <?php echo strtolower($this->translate('application.job.' . $propertyName)); ?> of this case from <strong><?php echo !empty($propertyValues[0]) ? $this->escapeHtml($propertyValues[0]) : '(' . $this->translate('application.common.empty') . ')'; ?></strong> to <strong><?php echo !empty($propertyValues[1]) ? $this->escapeHtml($propertyValues[1]) : '(' . $this->translate('application.common.empty') . ')'; ?></strong>.</td>
+                                <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
+                            </tr>                                                      
+                                    <?php endforeach; ?>
+                                <?php elseif ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_CREATE): ?>                                    
+                            <tr>                               
+                                <td><strong><?php echo 'Unknown User'; // TODO ?></strong> created this case.</td>
+                                <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
+                            </tr>                          
+                                <?php elseif ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_DELETE): ?>  
+                            <tr>                               
+                                <td><strong><?php echo 'Unknown User'; // TODO ?></strong> deleted this case.</td>
+                                <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
+                            </tr>                          
+                                <?php endif; ?>        
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>                               
+                                <td colspan="2">No recent activity to report.</td>
+                            </tr>                           
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+>>>>>>> Added activity recording service and activity stream in case view
+>>>>>>> Added activity recording service and activity stream in case view

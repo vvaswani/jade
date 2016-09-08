@@ -28,16 +28,25 @@ use Zend\Form\Annotation;
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.name"})     
 =======
      * @Annotation\Options({"label":"application.label.name"})     
 >>>>>>> Added activity recording service and activity stream in case view
 =======
+=======
+>>>>>>> Added activity recording service and activity stream in case view
      * @Annotation\Options({"label":"application.label.name"})     
 =======
      * @Annotation\Options({"label":"common.name"})     
 >>>>>>> Removed prefix from translation keys
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
+=======
+=======
+     * @Annotation\Options({"label":"application.label.name"})     
+>>>>>>> Added activity recording service and activity stream in case view
+>>>>>>> Added activity recording service and activity stream in case view
      */
     protected $name;     
     
