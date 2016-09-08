@@ -5,7 +5,6 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\UnitOfWork;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 <<<<<<< HEAD
 use Application\Service\ActivityStreamLogger;
