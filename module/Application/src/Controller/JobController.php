@@ -6,7 +6,7 @@ use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Application\Service\ActivityRecorder;
+use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
 use Application\Entity\Activity;
 use Application\Form\ConfirmationForm;
@@ -15,10 +15,10 @@ class JobController extends AbstractActionController
 {
     private $em;
     
-    public function __construct(EntityManager $em, ActivityRecorder $ar)
+    public function __construct(EntityManager $em, ActivityStreamLogger $asl)
     {
         $this->em = $em;
-        $this->ar = $ar;
+        $this->asl = $asl;
     }
 
     public function indexAction()
@@ -60,7 +60,7 @@ class JobController extends AbstractActionController
             if ($form->isValid()){  
                 $this->em->persist($job); 
                 $this->em->flush();
-                $this->ar->record(
+                $this->asl->log(
                     $job->getEntityOperationType(), 
                     Activity::ENTITY_TYPE_JOB, 
                     $job->getId(), 
@@ -85,6 +85,7 @@ class JobController extends AbstractActionController
         }
 
         $job = $this->em->getRepository(Job::class)->find($id);
+<<<<<<< HEAD
         if (!$job) {
             return $this->redirect()->toRoute('jobs');
         }
@@ -121,6 +122,17 @@ class JobController extends AbstractActionController
         $viewModel->setTerminal($request->isXmlHttpRequest());
         $viewModel->setTemplate('application/common/confirm.phtml');
         return $viewModel;
+=======
+        $this->em->remove($job);
+        $this->em->flush();
+        $this->asl->log(
+            Activity::ENTITY_OPERATION_TYPE_DELETE, 
+            Activity::ENTITY_TYPE_JOB, 
+            $id, 
+            $id
+        );        
+        return $this->redirect()->toRoute('jobs');
+>>>>>>> Updated service names
     }
     
 }

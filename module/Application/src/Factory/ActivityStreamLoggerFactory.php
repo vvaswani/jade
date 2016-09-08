@@ -5,13 +5,13 @@ use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Doctrine\ORM\EntityManager;
 use Application\Entity\Activity;
-use Application\Service\ActivityRecorder;
+use Application\Service\ActivityStreamLogger;
 
-class ActivityRecorderFactory implements FactoryInterface
+class ActivityStreamLoggerFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new ActivityRecorder(
+        return new ActivityStreamLogger(
             $container->get(EntityManager::class)
         );    
     }
