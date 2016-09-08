@@ -54,11 +54,15 @@ namespace Application;
 		'application.common.reports' => 'Reports', 
 		'application.common.settings' => 'Settings', 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Updated translation strings
 
 		'application.activity-stream.created' => '%s created this case', 
 		'application.activity-stream.deleted' => '%s deleted this case', 
 		'application.activity-stream.updated' => '%s modified the %s from %s to %s', 
 		'application.activity-stream.empty' => 'empty', 
+<<<<<<< HEAD
 =======
 		'common.id' => '#', 
 		'common.title' => 'Title',
@@ -73,6 +77,8 @@ namespace Application;
 =======
 		'application.common.empty' => 'empty', 
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated translation strings
 		
 		// entity specific labels
 		
@@ -89,6 +95,7 @@ namespace Application;
 		'application.job.comments' => 'Comments', 
 		'application.job.entity' => 'Case',
 		'application.job.current-jobs' => 'Current Cases',
+<<<<<<< HEAD
 >>>>>>> Updated translation strings
 
 		// label entity
@@ -97,6 +104,8 @@ namespace Application;
 =======
 		'job.entity' => 'Case',
 		'job.current-jobs' => 'Current Cases',
+=======
+>>>>>>> Updated translation strings
 
 		// label entity
 <<<<<<< HEAD
