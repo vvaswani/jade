@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\UnitOfWork;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
 <<<<<<< HEAD
@@ -16,6 +17,9 @@ use Application\Entity\User;
 =======
 =======
 use Application\Service\ActivityRecorder;
+=======
+use Application\Service\ActivityStreamLogger;
+>>>>>>> Updated service names
 use Application\Entity\Job;
 use Application\Entity\Activity;
 >>>>>>> Added activity recording service and activity stream in case view
@@ -26,6 +30,7 @@ class JobController extends AbstractActionController
 {
     private $em;
     
+<<<<<<< HEAD
 <<<<<<< HEAD
     public function __construct(EntityManager $em, ActivityStreamLogger $asl)
     {
@@ -40,6 +45,12 @@ class JobController extends AbstractActionController
         $this->em = $em;
         $this->ar = $ar;
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+    public function __construct(EntityManager $em, ActivityStreamLogger $asl)
+    {
+        $this->em = $em;
+        $this->asl = $asl;
+>>>>>>> Updated service names
     }
 
     public function indexAction()
@@ -82,6 +93,7 @@ class JobController extends AbstractActionController
                 $this->em->persist($job); 
                 $this->em->flush();
 <<<<<<< HEAD
+<<<<<<< HEAD
                 if ($job->getEntityOperationType() == Job::OPERATION_TYPE_CREATE) {
                     $this->asl->log(
                         Job::OPERATION_TYPE_CREATE, 
@@ -101,6 +113,9 @@ class JobController extends AbstractActionController
 
 =======
                 $this->ar->record(
+=======
+                $this->asl->log(
+>>>>>>> Updated service names
                     $job->getEntityOperationType(), 
                     Activity::ENTITY_TYPE_JOB, 
                     $job->getId(), 
@@ -127,6 +142,7 @@ class JobController extends AbstractActionController
 
         $job = $this->em->getRepository(Job::class)->find($id);
 <<<<<<< HEAD
+<<<<<<< HEAD
         $clone = clone $job;
         $this->em->remove($job);
         $this->em->flush();
@@ -138,6 +154,8 @@ class JobController extends AbstractActionController
         );        
         return $this->redirect()->toRoute('jobs');
 =======
+=======
+>>>>>>> Updated service names
         if (!$job) {
             return $this->redirect()->toRoute('jobs');
         }
@@ -174,7 +192,21 @@ class JobController extends AbstractActionController
         $viewModel->setTerminal($request->isXmlHttpRequest());
         $viewModel->setTemplate('application/common/confirm.phtml');
         return $viewModel;
+<<<<<<< HEAD
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+=======
+        $this->em->remove($job);
+        $this->em->flush();
+        $this->asl->log(
+            Activity::ENTITY_OPERATION_TYPE_DELETE, 
+            Activity::ENTITY_TYPE_JOB, 
+            $id, 
+            $id
+        );        
+        return $this->redirect()->toRoute('jobs');
+>>>>>>> Updated service names
+>>>>>>> Updated service names
     }
     
 }
