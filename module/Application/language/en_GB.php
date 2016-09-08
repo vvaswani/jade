@@ -4,40 +4,42 @@ namespace Application;
 
 	return array(
 		
-		// application wide labels
-		'application.common.create' => 'Create New',
-		'application.common.view' => 'View',
-		'application.common.edit' => 'Edit',
-		'application.common.delete' => 'Remove',
-		'application.common.save' => 'Save', 
-		'application.common.cancel' => 'Cancel', 
-		'application.common.id' => '#', 
-		'application.common.title' => 'Title',
-		'application.common.name' => 'Name', 
-		'application.common.created' => 'Created on',
-		'application.common.description' => 'Description', 
-		'application.common.comments' => 'Comments', 
-		'application.common.dashboard' => 'Dashboard', 
-		'application.common.reports' => 'Reports', 
-		'application.common.settings' => 'settings', 
-
+		// application-wide labels
+		'common.create' => 'Create New',
+		'common.view' => 'View',
+		'common.edit' => 'Edit',
+		'common.delete' => 'Remove',
+		'common.save' => 'Save', 
+		'common.cancel' => 'Cancel', 
+		'common.dashboard' => 'Dashboard', 
+		'common.reports' => 'Reports', 
+		'common.settings' => 'Settings', 
 		'common.confirm-action' => 'Confirm Action', 
 		'common.confirm-proceed' => 'Do you wish to proceed?', 
 		'common.confirm-delete' => 'This operation will delete the %s %s and all related data from the system.',
 		'common.yes' => 'Yes', 
 		'common.no' => 'No',
 		'common.no-undo' => 'This operation cannot be undone.',
+		'common.empty' => 'empty', 
 
 		// entity specific labels
 		
 		// case entity
-		'application.job.entity' => 'Case',
-		'application.job.current-cases' => 'Current Cases',
+		'job.id' => '#', 
+		'job.title' => 'Title',
+		'job.name' => 'Name', 
+		'job.created' => 'Created on',
+		'job.description' => 'Description', 
+		'job.comments' => 'Comments', 
+		'job.entity' => 'Case',
+		'job.current-cases' => 'Current Cases',
 
 		// label entity
-		'application.label.entity' => 'Label',
-		'application.label.colour' => 'Colour',
-		'application.label.current-labels' => 'Current Labels',
+		'label.id' => '#', 
+		'label.name' => 'Name', 
+		'label.entity' => 'Label',
+		'label.colour' => 'Colour',
+		'label.current-labels' => 'Current Labels',
 		
 	);
 ?>

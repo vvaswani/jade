@@ -10,6 +10,15 @@ use Zend\Form\Annotation;
  */
 class Activity
 {
+
+    const ENTITY_OPERATION_TYPE_CREATE = 'CREATE';
+    const ENTITY_OPERATION_TYPE_UPDATE = 'UPDATE';
+    const ENTITY_OPERATION_TYPE_DELETE = 'DELETE';
+
+    const ENTITY_TYPE_JOB = 1;
+    const ENTITY_TYPE_LABEL = 2;
+    const ENTITY_TYPE_FILE = 3;
+    
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")
@@ -28,7 +37,7 @@ class Activity
     protected $operationType;
     
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     protected $entityType;
     
@@ -38,7 +47,7 @@ class Activity
     protected $entityId;
     
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $jobId;
 
