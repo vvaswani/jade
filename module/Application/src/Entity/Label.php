@@ -26,7 +26,11 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":50}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.name"})     
+=======
+     * @Annotation\Options({"label":"application.label.name"})     
+>>>>>>> Added activity recording service and activity stream in case view
      */
     protected $name;     
     
