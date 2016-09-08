@@ -3,14 +3,14 @@ namespace Application\Service;
 
 use Application\Entity\Activity;
 
-class ActivityRecorder
+class ActivityStreamLogger
 {
     public function __construct($em)
     {
         $this->em = $em;
     }    
 
-    public function record($operationType, $entityType, $entityId, $jobId = null, $data = null) 
+    public function log($operationType, $entityType, $entityId, $jobId = null, $data = null) 
     {
         $activity = new Activity();
         $activity->setCreated(new \DateTime("now"));
