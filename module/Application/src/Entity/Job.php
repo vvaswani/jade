@@ -37,10 +37,14 @@ class Job
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.title"})     
 =======
      * @Annotation\Options({"label":"common.title"})     
 >>>>>>> Removed prefix from translation keys
+=======
+     * @Annotation\Options({"label":"application.job.title"})     
+>>>>>>> Added activity recording service and activity stream in case view
      */
     protected $title;
     
@@ -52,10 +56,14 @@ class Job
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.description"})     
 =======
      * @Annotation\Options({"label":"common.description"})     
 >>>>>>> Removed prefix from translation keys
+=======
+     * @Annotation\Options({"label":"application.job.description"})     
+>>>>>>> Added activity recording service and activity stream in case view
      */
     protected $description;
 
@@ -67,10 +75,14 @@ class Job
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.comments"})     
 =======
      * @Annotation\Options({"label":"common.comments"})     
 >>>>>>> Removed prefix from translation keys
+=======
+     * @Annotation\Options({"label":"application.job.comments"})     
+>>>>>>> Added activity recording service and activity stream in case view
      */
     protected $comments;
 
@@ -165,9 +177,24 @@ class Job
      */
     public function preUpdate(LifecycleEventArgs $event)
     {
+<<<<<<< HEAD
         $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
         $this->setEntityChangeSet($event->getEntityChangeSet());
     } 
+=======
+        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_UPDATE);
+        $this->setEntityChangeSet($event->getEntityChangeSet());
+    } 
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist(LifecycleEventArgs $event)
+    {
+        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_CREATE);
+        $this->setEntityChangeSet(null);
+    } 
+>>>>>>> Added activity recording service and activity stream in case view
     
     /**
      * @ORM\PrePersist

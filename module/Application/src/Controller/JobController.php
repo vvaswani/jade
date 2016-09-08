@@ -5,7 +5,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\UnitOfWork;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+<<<<<<< HEAD
 use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
 use Application\Entity\Activity;
@@ -14,11 +16,17 @@ use Application\Form\ConfirmationForm;
 =======
 use Application\Entity\User;
 >>>>>>> Updated service
+=======
+use Application\Service\ActivityRecorder;
+use Application\Entity\Job;
+use Application\Entity\Activity;
+>>>>>>> Added activity recording service and activity stream in case view
 
 class JobController extends AbstractActionController
 {
     private $em;
     
+<<<<<<< HEAD
     public function __construct(EntityManager $em, ActivityStreamLogger $asl)
     {
         $this->em = $em;
@@ -26,6 +34,12 @@ class JobController extends AbstractActionController
         // TODO replace with authenticated user
         $this->user = new User();
         $this->user->setId(1);
+=======
+    public function __construct(EntityManager $em, ActivityRecorder $ar)
+    {
+        $this->em = $em;
+        $this->ar = $ar;
+>>>>>>> Added activity recording service and activity stream in case view
     }
 
     public function indexAction()
@@ -67,6 +81,7 @@ class JobController extends AbstractActionController
             if ($form->isValid()){  
                 $this->em->persist($job); 
                 $this->em->flush();
+<<<<<<< HEAD
                 if ($job->getEntityOperationType() == Job::OPERATION_TYPE_CREATE) {
                     $this->asl->log(
                         Job::OPERATION_TYPE_CREATE, 
@@ -84,6 +99,15 @@ class JobController extends AbstractActionController
                     );                    
                 }
 
+=======
+                $this->ar->record(
+                    $job->getEntityOperationType(), 
+                    Activity::ENTITY_TYPE_JOB, 
+                    $job->getId(), 
+                    $job->getId(),
+                    $job->getEntityChangeSet()
+                );
+>>>>>>> Added activity recording service and activity stream in case view
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -146,11 +170,19 @@ class JobController extends AbstractActionController
 >>>>>>> Updated service
         $this->em->remove($job);
         $this->em->flush();
+<<<<<<< HEAD
         $this->asl->log(
             Job::OPERATION_TYPE_DELETE, 
             $clone,
             $this->user, 
             $clone
+=======
+        $this->ar->record(
+            Activity::ENTITY_OPERATION_TYPE_DELETE, 
+            Activity::ENTITY_TYPE_JOB, 
+            $id, 
+            $id
+>>>>>>> Added activity recording service and activity stream in case view
         );        
         return $this->redirect()->toRoute('jobs');
 >>>>>>> Updated service names

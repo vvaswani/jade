@@ -52,7 +52,11 @@ return [
     'service_manager' => [
         'factories' => [
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+<<<<<<< HEAD
             'Application\Service\ActivityStreamLogger' => 'Application\Factory\ActivityStreamLoggerFactory',            
+=======
+            'Application\Service\ActivityRecorder' => 'Application\Factory\ActivityRecorderFactory',            
+>>>>>>> Added activity recording service and activity stream in case view
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',

@@ -43,8 +43,12 @@ class LabelController extends AbstractActionController
             $form->setData($request->getPost());
             if ($form->isValid()){  
                 $this->em->persist($label); 
+<<<<<<< HEAD
                 $this->em->flush();
                 // TODO add activity stream logging        
+=======
+                $this->em->flush();            
+>>>>>>> Added activity recording service and activity stream in case view
                 return $this->redirect()->toRoute('labels');
             }
         }
