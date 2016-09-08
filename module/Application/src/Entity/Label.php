@@ -26,7 +26,7 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":50}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
-     * @Annotation\Options({"label":"application.common.name"})     
+     * @Annotation\Options({"label":"application.label.name"})     
      */
     protected $name;     
     
