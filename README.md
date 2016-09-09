@@ -20,7 +20,7 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 ### Configuration: Apache
 
-  * Ensure that your Apache server has the `AllowOverride All` directive set for the Web sever document root.
+  * Ensure that your Apache server has the `AllowOverride All` directive set for the Web server document root.
   * Ensure that your Apache server has the `mod_rewrite` module enabled.
 
 ### Configuration: PHP
