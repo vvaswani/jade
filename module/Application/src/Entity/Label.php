@@ -26,7 +26,11 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":50}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.label.name"})     
+=======
+     * @Annotation\Options({"label":"common.name"})     
+>>>>>>> Removed prefix from translation keys
      */
     protected $name;     
     
@@ -37,7 +41,7 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"Regex", "options":{"pattern":"/^#[0-9a-f]{3}([0-9a-f]{3})?$/"}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Color"})
-     * @Annotation\Options({"label":"application.label.colour"})     
+     * @Annotation\Options({"label":"label.colour"})     
      */
     protected $colour;
     

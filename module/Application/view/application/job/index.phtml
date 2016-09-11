@@ -1,10 +1,14 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
+<<<<<<< HEAD
                     <span class="panel-title"> <?php echo $this->translate('application.job.current-jobs'); ?></span>
+=======
+                    <span class="panel-title"> <?php echo $this->translate('job.current-jobs'); ?></span>
+>>>>>>> Removed prefix from translation keys
                     <div class="pull-right">
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save')); ?>">
-                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('application.common.create'); ?>
+                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
                         </a>
                     </div>                    
                 </div>
@@ -12,8 +16,13 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+<<<<<<< HEAD
                                 <th><?php echo $this->translate('application.job.id'); ?></th>
                                 <th><?php echo $this->translate('application.job.title'); ?></th>
+=======
+                                <th><?php echo $this->translate('common.id'); ?></th>
+                                <th><?php echo $this->translate('common.title'); ?></th>
+>>>>>>> Removed prefix from translation keys
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -26,17 +35,22 @@
                                 <td><?php echo $this->escapeHtml($j->getTitle()); ?></td>
                                 <td>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'view', 'id' => $this->escapeHtml($j->getId()))); ?>">
-                                        <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('application.common.view'); ?>
+                                        <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('common.view'); ?>
                                     </a>
                                 </td>                        
                                 <td>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($j->getId()))); ?>">
-                                        <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('application.common.edit'); ?>
+                                        <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
                                     </a>
                                 </td>
                                 <td>
+<<<<<<< HEAD
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('application.common.delete'); ?>
+=======
+                                    <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
+>>>>>>> Removed prefix from translation keys
                                     </a>
                                 </td>
                             </tr>            
