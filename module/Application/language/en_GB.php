@@ -5,32 +5,32 @@ namespace Application;
 	return array(
 		
 		// application wide labels
-		'application.common.create' => 'Create New',
-		'application.common.view' => 'View',
-		'application.common.edit' => 'Edit',
-		'application.common.delete' => 'Remove',
-		'application.common.save' => 'Save', 
-		'application.common.cancel' => 'Cancel', 
-		'application.common.id' => '#', 
-		'application.common.title' => 'Title',
-		'application.common.name' => 'Name', 
-		'application.common.created' => 'Created on',
-		'application.common.description' => 'Description', 
-		'application.common.comments' => 'Comments', 
-		'application.common.dashboard' => 'Dashboard', 
-		'application.common.reports' => 'Reports', 
-		'application.common.settings' => 'settings', 
+		'common.create' => 'Create New',
+		'common.view' => 'View',
+		'common.edit' => 'Edit',
+		'common.delete' => 'Remove',
+		'common.save' => 'Save', 
+		'common.cancel' => 'Cancel', 
+		'common.id' => '#', 
+		'common.title' => 'Title',
+		'common.name' => 'Name', 
+		'common.created' => 'Created on',
+		'common.description' => 'Description', 
+		'common.comments' => 'Comments', 
+		'common.dashboard' => 'Dashboard', 
+		'common.reports' => 'Reports', 
+		'common.settings' => 'settings', 
 		
 		// entity specific labels
 		
 		// case entity
-		'application.job.entity' => 'Case',
-		'application.job.current-cases' => 'Current Cases',
+		'job.entity' => 'Case',
+		'job.current-jobs' => 'Current Cases',
 
 		// label entity
-		'application.label.entity' => 'Label',
-		'application.label.colour' => 'Colour',
-		'application.label.current-labels' => 'Current Labels',
+		'label.entity' => 'Label',
+		'label.colour' => 'Colour',
+		'label.current-labels' => 'Current Labels',
 		
 	);
 ?>
