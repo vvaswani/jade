@@ -2,10 +2,17 @@
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <span class="panel-title"> <?php echo $this->translate('job.current-jobs'); ?></span>
 =======
                     <span class="panel-title"> <?php echo $this->translate('application.job.current-jobs'); ?></span>
 >>>>>>> Updated translation strings
+=======
+                    <span class="panel-title"> <?php echo $this->translate('application.job.current-jobs'); ?></span>
+=======
+                    <span class="panel-title"> <?php echo $this->translate('job.current-jobs'); ?></span>
+>>>>>>> Removed prefix from translation keys
+>>>>>>> Removed prefix from translation keys
                     <div class="pull-right">
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save')); ?>">
                             <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
@@ -17,12 +24,21 @@
                         <thead>
                             <tr>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 <th><?php echo $this->translate('common.id'); ?></th>
                                 <th><?php echo $this->translate('common.title'); ?></th>
 =======
                                 <th><?php echo $this->translate('application.job.id'); ?></th>
                                 <th><?php echo $this->translate('application.job.title'); ?></th>
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+                                <th><?php echo $this->translate('application.job.id'); ?></th>
+                                <th><?php echo $this->translate('application.job.title'); ?></th>
+=======
+                                <th><?php echo $this->translate('common.id'); ?></th>
+                                <th><?php echo $this->translate('common.title'); ?></th>
+>>>>>>> Removed prefix from translation keys
+>>>>>>> Removed prefix from translation keys
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -45,12 +61,21 @@
                                 </td>
                                 <td>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                     <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
 =======
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('application.common.delete'); ?>
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('application.common.delete'); ?>
+=======
+                                    <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
+>>>>>>> Removed prefix from translation keys
+>>>>>>> Removed prefix from translation keys
                                     </a>
                                 </td>
                             </tr>            

@@ -37,10 +37,17 @@ class Job
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.title"})     
 =======
      * @Annotation\Options({"label":"application.job.title"})     
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+     * @Annotation\Options({"label":"application.job.title"})     
+=======
+     * @Annotation\Options({"label":"common.title"})     
+>>>>>>> Removed prefix from translation keys
+>>>>>>> Removed prefix from translation keys
      */
     protected $title;
     
@@ -52,10 +59,17 @@ class Job
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.description"})     
 =======
      * @Annotation\Options({"label":"application.job.description"})     
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+     * @Annotation\Options({"label":"application.job.description"})     
+=======
+     * @Annotation\Options({"label":"common.description"})     
+>>>>>>> Removed prefix from translation keys
+>>>>>>> Removed prefix from translation keys
      */
     protected $description;
 
@@ -67,10 +81,17 @@ class Job
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.comments"})     
 =======
      * @Annotation\Options({"label":"application.job.comments"})     
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+     * @Annotation\Options({"label":"application.job.comments"})     
+=======
+     * @Annotation\Options({"label":"common.comments"})     
+>>>>>>> Removed prefix from translation keys
+>>>>>>> Removed prefix from translation keys
      */
     protected $comments;
 
