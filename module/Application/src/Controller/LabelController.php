@@ -46,20 +46,29 @@ class LabelController extends AbstractActionController
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service
                 $this->em->flush();
                 // TODO add activity stream logging        
 =======
                 $this->em->flush();            
 >>>>>>> Added activity recording service and activity stream in case view
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Updated service
 =======
                 $this->em->flush();
                 // TODO add activity stream logging        
 >>>>>>> Updated service
+<<<<<<< HEAD
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service
                 return $this->redirect()->toRoute('labels');
             }
         }
