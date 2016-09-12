@@ -14,6 +14,14 @@ use Application\Entity\Activity;
  */
 class Job
 {
+
+
+    const OPERATION_TYPE_CREATE = 'CREATE';
+
+    const OPERATION_TYPE_UPDATE = 'UPDATE';
+
+    const OPERATION_TYPE_DELETE = 'DELETE';
+
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")
@@ -145,7 +153,7 @@ class Job
      */
     public function preUpdate(LifecycleEventArgs $event)
     {
-        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_UPDATE);
+        $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
         $this->setEntityChangeSet($event->getEntityChangeSet());
     } 
     
@@ -154,8 +162,8 @@ class Job
      */
     public function prePersist(LifecycleEventArgs $event)
     {
-        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_CREATE);
+        $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
         $this->setEntityChangeSet(null);
     } 
-    
+ 
 }

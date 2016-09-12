@@ -43,7 +43,8 @@ class LabelController extends AbstractActionController
             $form->setData($request->getPost());
             if ($form->isValid()){  
                 $this->em->persist($label); 
-                $this->em->flush();            
+                $this->em->flush();
+                // TODO add activity stream logging        
                 return $this->redirect()->toRoute('labels');
             }
         }
@@ -61,6 +62,7 @@ class LabelController extends AbstractActionController
             return $this->redirect()->toRoute('labels');
         }
         $label = $this->em->getRepository(Label::class)->find($id);
+<<<<<<< HEAD
         if (!$label) {
             return $this->redirect()->toRoute('labels');
         } 
@@ -91,6 +93,12 @@ class LabelController extends AbstractActionController
         $viewModel->setTerminal($request->isXmlHttpRequest());
         $viewModel->setTemplate('application/common/confirm.phtml');
         return $viewModel;
+=======
+        $this->em->remove($label);
+        $this->em->flush();
+        // TODO add activity stream logging        
+        return $this->redirect()->toRoute('labels');
+>>>>>>> Updated service
     }
     
 }
