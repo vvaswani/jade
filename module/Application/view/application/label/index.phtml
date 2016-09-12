@@ -11,18 +11,11 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
-                            <tr>
-                                <th><?php echo $this->translate('application.common.id'); ?></th>
-                                <th><?php echo $this->translate('application.common.name'); ?></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($this->labels as $l): ?>
                             <tr>
-                                <td><?php echo $this->escapeHtml($l->getId()); ?></td>
-                                <td><?php echo $this->escapeHtml($l->getName()); ?></td>
+                                <td><span class="label label-default" style="background-color: <?php echo $this->escapeHtml($l->getColour()); ?>"><?php echo $this->escapeHtml($l->getName()); ?></span></td>
                                 <td>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('labels', array('action' => 'save', 'id' => $this->escapeHtml($l->getId()))); ?>">
                                         <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('application.common.edit'); ?>

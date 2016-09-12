@@ -49,3 +49,7 @@ input, textarea {
 .table > tbody > tr:first-child > td {
     border: none;           
 }
+
+.label {
+    font-size: 100%;
+}
