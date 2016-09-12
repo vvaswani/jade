@@ -22,9 +22,17 @@ use Application\Service\ActivityStreamLogger;
 >>>>>>> Updated service names
 use Application\Entity\Job;
 use Application\Entity\Activity;
+<<<<<<< HEAD
 >>>>>>> Added activity recording service and activity stream in case view
 use Application\Form\ConfirmationForm;
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+<<<<<<< HEAD
+use Application\Form\ConfirmationForm;
+=======
+use Application\Entity\User;
+>>>>>>> Updated service
+>>>>>>> Updated service
 
 class JobController extends AbstractActionController
 {
@@ -50,7 +58,13 @@ class JobController extends AbstractActionController
     {
         $this->em = $em;
         $this->asl = $asl;
+<<<<<<< HEAD
 >>>>>>> Updated service names
+=======
+        // TODO replace with authenticated user
+        $this->user = new User();
+        $this->user->setId(1);
+>>>>>>> Updated service
     }
 
     public function indexAction()
@@ -94,6 +108,9 @@ class JobController extends AbstractActionController
                 $this->em->flush();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Updated service
                 if ($job->getEntityOperationType() == Job::OPERATION_TYPE_CREATE) {
                     $this->asl->log(
                         Job::OPERATION_TYPE_CREATE, 
@@ -111,6 +128,7 @@ class JobController extends AbstractActionController
                     );                    
                 }
 
+<<<<<<< HEAD
 =======
                 $this->ar->record(
 =======
@@ -123,6 +141,8 @@ class JobController extends AbstractActionController
                     $job->getEntityChangeSet()
                 );
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Updated service
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -143,6 +163,7 @@ class JobController extends AbstractActionController
         $job = $this->em->getRepository(Job::class)->find($id);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         $clone = clone $job;
         $this->em->remove($job);
         $this->em->flush();
@@ -156,6 +177,8 @@ class JobController extends AbstractActionController
 =======
 =======
 >>>>>>> Updated service names
+=======
+>>>>>>> Updated service
         if (!$job) {
             return $this->redirect()->toRoute('jobs');
         }
@@ -196,13 +219,16 @@ class JobController extends AbstractActionController
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 =======
 =======
+=======
+        $clone = clone $job;
+>>>>>>> Updated service
         $this->em->remove($job);
         $this->em->flush();
         $this->asl->log(
-            Activity::ENTITY_OPERATION_TYPE_DELETE, 
-            Activity::ENTITY_TYPE_JOB, 
-            $id, 
-            $id
+            Job::OPERATION_TYPE_DELETE, 
+            $clone,
+            $this->user, 
+            $clone
         );        
         return $this->redirect()->toRoute('jobs');
 >>>>>>> Updated service names

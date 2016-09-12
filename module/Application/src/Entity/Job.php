@@ -167,7 +167,7 @@ class Job
      */
     public function preUpdate(LifecycleEventArgs $event)
     {
-        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_UPDATE);
+        $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
         $this->setEntityChangeSet($event->getEntityChangeSet());
     } 
     
@@ -176,9 +176,10 @@ class Job
      */
     public function prePersist(LifecycleEventArgs $event)
     {
-        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_CREATE);
+        $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
         $this->setEntityChangeSet(null);
     } 
+<<<<<<< HEAD
 >>>>>>> Added activity recording service and activity stream in case view
     
     /**
@@ -198,5 +199,7 @@ class Job
         $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
         $this->setEntityChangeSet(null);
     } 
+=======
+>>>>>>> Updated service
  
 }
