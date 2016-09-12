@@ -9,6 +9,7 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
 use Application\Entity\Activity;
+use Application\Entity\User;
 
 class JobController extends AbstractActionController
 {
@@ -18,6 +19,9 @@ class JobController extends AbstractActionController
     {
         $this->em = $em;
         $this->asl = $asl;
+        // TODO replace with authenticated user
+        $this->user = new User();
+        $this->user->setId(1);
     }
 
     public function indexAction()
@@ -59,13 +63,23 @@ class JobController extends AbstractActionController
             if ($form->isValid()){  
                 $this->em->persist($job); 
                 $this->em->flush();
-                $this->asl->log(
-                    $job->getEntityOperationType(), 
-                    Activity::ENTITY_TYPE_JOB, 
-                    $job->getId(), 
-                    $job->getId(),
-                    $job->getEntityChangeSet()
-                );
+                if ($job->getEntityOperationType() == Job::OPERATION_TYPE_CREATE) {
+                    $this->asl->log(
+                        Job::OPERATION_TYPE_CREATE, 
+                        $job,
+                        $this->user, 
+                        $job
+                    );                    
+                } else if ($job->getEntityOperationType() == Job::OPERATION_TYPE_UPDATE) {
+                    $this->asl->log(
+                        Job::OPERATION_TYPE_UPDATE, 
+                        $job,
+                        $this->user, 
+                        $job, 
+                        $job->getEntityChangeSet()
+                    );                    
+                }
+
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -83,13 +97,14 @@ class JobController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
         $job = $this->em->getRepository(Job::class)->find($id);
+        $clone = clone $job;
         $this->em->remove($job);
         $this->em->flush();
         $this->asl->log(
-            Activity::ENTITY_OPERATION_TYPE_DELETE, 
-            Activity::ENTITY_TYPE_JOB, 
-            $id, 
-            $id
+            Job::OPERATION_TYPE_DELETE, 
+            $clone,
+            $this->user, 
+            $clone
         );        
         return $this->redirect()->toRoute('jobs');
     }

@@ -42,7 +42,8 @@ class LabelController extends AbstractActionController
             $form->setData($request->getPost());
             if ($form->isValid()){  
                 $this->em->persist($label); 
-                $this->em->flush();            
+                $this->em->flush();
+                // TODO add activity stream logging        
                 return $this->redirect()->toRoute('labels');
             }
         }
@@ -62,6 +63,7 @@ class LabelController extends AbstractActionController
         $label = $this->em->getRepository(Label::class)->find($id);
         $this->em->remove($label);
         $this->em->flush();
+        // TODO add activity stream logging        
         return $this->redirect()->toRoute('labels');
     }
     
