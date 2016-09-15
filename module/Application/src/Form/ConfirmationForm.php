@@ -10,48 +10,23 @@ class ConfirmationForm
 {
 
     /**
+     * @Annotation\Type("Zend\Form\Element\Hidden")
      * @Annotation\Filter({"name":"Int"})
-     * @Annotation\Attributes({"type":"Zend\Form\Element\Hidden"})
+     * @Annotation\Attributes({"value":"1"})
      */
-    protected $confirmed;
+    protected $confirm;    
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Hidden")
+     * @Annotation\Required(false)
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})     
+     */
+    protected $cancelTo;
 
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
-     * @Annotation\Attributes({"value":"application.common.confirm"})
+     * @Annotation\Attributes({"value":"common.confirm"})
      */
-    public $submit;  
-
-    private $routeName;
-
-    private $actionName;
-
-    /*
-    public function __construct($routeName, $actionName) 
-    {
-    	$this->setRouteName($routeName);
-    	$this->setActionName($actionName);
-    	return $this;
-    }
-    */
-
-    public function setRouteName($routeName)
-    {
-    	$this->routeName = $routeName;
-    }  
-
-    public function getRouteName($routeName)
-    {
-    	return $this->routeName;
-    }  
-
-    public function setActionName($actionName)
-    {
-    	$this->actionName = $actionName;
-    }  
-
-    public function getActionName($actionName)
-    {
-    	return $this->actionName;
-    }     
-
+    public $submit;
 }

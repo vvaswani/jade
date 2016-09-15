@@ -20,7 +20,14 @@ namespace Application;
 		'application.common.dashboard' => 'Dashboard', 
 		'application.common.reports' => 'Reports', 
 		'application.common.settings' => 'settings', 
-		
+
+		'common.confirm-action' => 'Confirm Action', 
+		'common.confirm-proceed' => 'Do you wish to proceed?', 
+		'common.confirm-delete' => 'This operation will delete the %s %s and all related data from the system.',
+		'common.yes' => 'Yes', 
+		'common.no' => 'No',
+		'common.no-undo' => 'This operation cannot be undone.',
+
 		// entity specific labels
 		
 		// case entity

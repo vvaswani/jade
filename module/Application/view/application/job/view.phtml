@@ -12,7 +12,7 @@
                         <tbody>
                             <tr>
                                 <td><strong><?php echo $this->translate('application.common.created'); ?></strong></td>
-                                <td><?php echo $this->job->getCreationTime()->format('d M Y'); ?></td>
+                                <td><?php echo $this->job->getCreated()->format('d M Y'); ?></td>
                             </tr>
                             <tr>
                                 <td><strong><?php echo $this->translate('application.common.description'); ?></strong></td>
@@ -30,8 +30,10 @@
                 <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                     <span class="glyphicon glyphicon-edit"></span> Edit
                 </a>
-                <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
+                <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                     <span class="glyphicon glyphicon-remove"></span> Remove
                 </a>
             </div>
-                    
+            
+            <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
+            </div>                    
