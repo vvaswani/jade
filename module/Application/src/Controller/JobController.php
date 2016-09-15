@@ -8,8 +8,12 @@ use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
+<<<<<<< HEAD
 use Application\Entity\Activity;
 use Application\Entity\User;
+=======
+use Application\Form\ConfirmationForm;
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 
 class JobController extends AbstractActionController
 {
@@ -96,7 +100,9 @@ class JobController extends AbstractActionController
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
         }
+
         $job = $this->em->getRepository(Job::class)->find($id);
+<<<<<<< HEAD
         $clone = clone $job;
         $this->em->remove($job);
         $this->em->flush();
@@ -107,6 +113,38 @@ class JobController extends AbstractActionController
             $clone
         );        
         return $this->redirect()->toRoute('jobs');
+=======
+        if (!$job) {
+            return $this->redirect()->toRoute('jobs');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'delete', 'id' => $id)));
+        $form->get('cancelTo')->setValue($this->url()->fromRoute('jobs'));
+        
+        $request = $this->getRequest();
+        if ($request->isPost()){
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $this->em->remove($job);
+                    $this->em->flush();                    
+                } 
+            }
+            return $this->redirect()->toRoute('jobs');
+        } 
+
+        $viewModel = new ViewModel(array(
+            'form' => $form,
+            'entityType' => 'job',
+            'entityDescriptor' => $job->getTitle(),            
+        ));
+        $viewModel->setTerminal($request->isXmlHttpRequest());
+        $viewModel->setTemplate('application/common/confirm.phtml');
+        return $viewModel;
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
     }
     
 }

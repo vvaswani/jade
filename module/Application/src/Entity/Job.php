@@ -33,7 +33,7 @@ class Job
     /**
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
-     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
      * @Annotation\Options({"label":"common.title"})     

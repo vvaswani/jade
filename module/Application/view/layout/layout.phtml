@@ -10,6 +10,10 @@
         <?php if ($this->home): ?>
         <link href="<?php echo $this->basePath('public/css/app.home.css'); ?>" rel="stylesheet">
         <?php endif; ?>
+        <script src="<?php echo $this->basePath('public/js/jquery.min.js'); ?>"></script>
+        <script src="<?php echo $this->basePath('public/js/bootstrap.min.js'); ?>"></script>
+        <script src="<?php echo $this->basePath('public/js/modernizr.min.js'); ?>"></script>
+        <script src="<?php echo $this->basePath('public/js/app.js'); ?>"></script>        
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -41,18 +45,5 @@
             <?php echo $this->content; ?> 
         </div><!-- /.container -->
 
-        <script src="<?php echo $this->basePath('public/js/jquery.min.js'); ?>"></script>
-        <script src="<?php echo $this->basePath('public/js/bootstrap.min.js'); ?>"></script>
-        <script src="<?php echo $this->basePath('public/js/modernizr.min.js'); ?>"></script>
-        <script>
-        if (!Modernizr.inputtypes.color) { 
-            jQuery.getScript("<?php echo $this->basePath('public/js/polyfill/spectrum.js'); ?>");
-            $('<link>')
-                .appendTo('head')
-                .attr({type : 'text/css', rel : 'stylesheet'})
-                .attr('href', '<?php echo $this->basePath('public/css/polyfill/spectrum.css'); ?>');  
-        }          
-        </script>
-        <script src="<?php echo $this->basePath('public/js/app.js'); ?>"></script>
     </body>
 </html>

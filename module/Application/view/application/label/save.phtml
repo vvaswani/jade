@@ -43,4 +43,14 @@ $form->prepare();
                     <?php echo $this->form()->closeTag($form); ?>
                 </div>
             </div>
+            
+            <script>
+            if (!Modernizr.inputtypes.color) { 
+                jQuery.getScript("<?php echo $this->basePath('public/js/polyfill/spectrum.js'); ?>");
+                $('<link>')
+                    .appendTo('head')
+                    .attr({type : 'text/css', rel : 'stylesheet'})
+                    .attr('href', '<?php echo $this->basePath('public/css/polyfill/spectrum.css'); ?>');  
+            }          
+            </script>
 
