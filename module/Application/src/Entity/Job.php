@@ -40,6 +40,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.title"})     
 =======
      * @Annotation\Options({"label":"application.job.title"})     
@@ -49,6 +50,8 @@ class Job
 >>>>>>> Added activity recording service and activity stream in case view
 =======
 >>>>>>> Fixed merge conflicts
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      * @Annotation\Options({"label":"application.job.title"})     
 =======
      * @Annotation\Options({"label":"common.title"})     
@@ -65,7 +68,13 @@ class Job
 =======
      * @Annotation\Options({"label":"common.title"})     
 >>>>>>> Fixed merge conflicts
+<<<<<<< HEAD
 >>>>>>> Fixed merge conflicts
+=======
+=======
+     * @Annotation\Options({"label":"job.title"})     
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $title;
     
@@ -80,6 +89,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.description"})     
 =======
      * @Annotation\Options({"label":"application.job.description"})     
@@ -89,6 +99,8 @@ class Job
 >>>>>>> Added activity recording service and activity stream in case view
 =======
 >>>>>>> Fixed merge conflicts
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      * @Annotation\Options({"label":"application.job.description"})     
 =======
      * @Annotation\Options({"label":"common.description"})     
@@ -105,7 +117,13 @@ class Job
 =======
      * @Annotation\Options({"label":"common.description"})     
 >>>>>>> Fixed merge conflicts
+<<<<<<< HEAD
 >>>>>>> Fixed merge conflicts
+=======
+=======
+     * @Annotation\Options({"label":"job.description"})     
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $description;
 
@@ -120,6 +138,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.comments"})     
 =======
      * @Annotation\Options({"label":"application.job.comments"})     
@@ -129,6 +148,8 @@ class Job
 >>>>>>> Added activity recording service and activity stream in case view
 =======
 >>>>>>> Fixed merge conflicts
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      * @Annotation\Options({"label":"application.job.comments"})     
 =======
      * @Annotation\Options({"label":"common.comments"})     
@@ -145,7 +166,13 @@ class Job
 =======
      * @Annotation\Options({"label":"common.comments"})     
 >>>>>>> Fixed merge conflicts
+<<<<<<< HEAD
 >>>>>>> Fixed merge conflicts
+=======
+=======
+     * @Annotation\Options({"label":"job.comments"})     
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $comments;
 

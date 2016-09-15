@@ -43,6 +43,7 @@ namespace Application;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		'common.id' => '#', 
 		'common.title' => 'Title',
 		'common.name' => 'Name', 
@@ -75,6 +76,8 @@ namespace Application;
 >>>>>>> Removed prefix from translation keys
 =======
 >>>>>>> Fixed merge conflicts
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'Settings', 
@@ -150,6 +153,23 @@ namespace Application;
 =======
 >>>>>>> Fixed merge conflicts
 		
+=======
+		'common.dashboard' => 'Dashboard', 
+		'common.reports' => 'Reports', 
+		'common.settings' => 'settings', 
+		'common.confirm-action' => 'Confirm Action', 
+		'common.confirm-proceed' => 'Do you wish to proceed?', 
+		'common.confirm-delete' => 'This operation will delete the %s %s and all related data from the system.',
+		'common.yes' => 'Yes', 
+		'common.no' => 'No',
+		'common.no-undo' => 'This operation cannot be undone.',
+
+		'activity-stream.created' => '%s created this case', 
+		'activity-stream.deleted' => '%s deleted this case', 
+		'activity-stream.updated' => '%s modified the %s from %s to %s', 
+		'activity-stream.empty' => 'empty', 
+    
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 		// entity specific labels
 		
 		// case entity
@@ -198,10 +218,16 @@ namespace Application;
 =======
 		'job.entity' => 'Case',
 		'job.current-jobs' => 'Current Cases',
+		'job.id' => '#', 
+		'job.title' => 'Title',
+		'job.created' => 'Created on',
+		'job.description' => 'Description', 
+		'job.comments' => 'Comments', 
 
 		// label entity
 		'label.entity' => 'Label',
 		'label.colour' => 'Colour',
+		'label.name' => 'Name', 
 		'label.current-labels' => 'Current Labels',
 >>>>>>> Fixed merge conflicts
 		

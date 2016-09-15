@@ -11,7 +11,11 @@ $form->prepare();
                             <h4 class="modal-title"><?php echo $this->translate('common.confirm-action'); ?></h4>
                         </div>
                         <div class="modal-body">
+<<<<<<< HEAD
                             <?php echo sprintf($this->translate('common.confirm-delete'), $this->escapeHtml($this->translate('common.' . $this->entityType)), '<strong>' . $this->escapeHtml($this->entityDescriptor) . '</strong>'); ?>
+=======
+                            <?php echo sprintf($this->translate('common.confirm-delete'), $this->escapeHtml(strtolower($this->translate($this->entityType . '.entity'))), '<strong>' . $this->escapeHtml($this->entityDescriptor) . '</strong>'); ?>
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
                          
                             <?php echo $this->translate('common.no-undo'); ?> <?php echo $this->translate('common.confirm-proceed'); ?>                   
                         </div>

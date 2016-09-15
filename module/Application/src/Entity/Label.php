@@ -30,6 +30,7 @@ use Zend\Form\Annotation;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.name"})     
 =======
      * @Annotation\Options({"label":"application.label.name"})     
@@ -39,6 +40,8 @@ use Zend\Form\Annotation;
 >>>>>>> Added activity recording service and activity stream in case view
 =======
 >>>>>>> Fixed merge conflicts
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      * @Annotation\Options({"label":"application.label.name"})     
 =======
      * @Annotation\Options({"label":"common.name"})     
@@ -55,7 +58,13 @@ use Zend\Form\Annotation;
 =======
      * @Annotation\Options({"label":"common.name"})     
 >>>>>>> Fixed merge conflicts
+<<<<<<< HEAD
 >>>>>>> Fixed merge conflicts
+=======
+=======
+     * @Annotation\Options({"label":"label.name"})     
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $name;     
     

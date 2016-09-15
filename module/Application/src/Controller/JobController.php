@@ -26,6 +26,7 @@ use Application\Service\ActivityRecorder;
 use Application\Service\ActivityStreamLogger;
 >>>>>>> Updated service names
 use Application\Entity\Job;
+<<<<<<< HEAD
 use Application\Entity\Activity;
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -57,7 +58,15 @@ use Application\Entity\Activity;
 =======
 use Application\Entity\User;
 >>>>>>> Updated service
+<<<<<<< HEAD
 >>>>>>> Updated service
+=======
+=======
+use Application\Entity\User;
+use Application\Entity\Activity;
+use Application\Form\ConfirmationForm;
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 
 class JobController extends AbstractActionController
 {
@@ -239,6 +248,7 @@ class JobController extends AbstractActionController
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         $clone = clone $job;
         $this->em->remove($job);
         $this->em->flush();
@@ -256,6 +266,10 @@ class JobController extends AbstractActionController
 >>>>>>> Updated service
 =======
 >>>>>>> Updated service
+=======
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
         if (!$job) {
             return $this->redirect()->toRoute('jobs');
         }
@@ -272,6 +286,7 @@ class JobController extends AbstractActionController
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
                     $this->em->remove($job);
+<<<<<<< HEAD
                     $this->em->flush(); 
                     $this->ar->record(
                         Activity::ENTITY_OPERATION_TYPE_DELETE, 
@@ -279,6 +294,9 @@ class JobController extends AbstractActionController
                         $id, 
                         $id
                     );                       
+=======
+                    $this->em->flush();                    
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
                 } 
             }
             return $this->redirect()->toRoute('jobs');
@@ -293,8 +311,11 @@ class JobController extends AbstractActionController
         $viewModel->setTemplate('application/common/confirm.phtml');
         return $viewModel;
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 =======
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 =======
 =======
         $clone = clone $job;
@@ -331,7 +352,12 @@ class JobController extends AbstractActionController
         );        
         return $this->redirect()->toRoute('jobs');
 >>>>>>> Updated service names
+<<<<<<< HEAD
 >>>>>>> Updated service names
+=======
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
     }
     
 }
