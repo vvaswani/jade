@@ -72,6 +72,9 @@ class LabelController extends AbstractActionController
         }
         $label = $this->em->getRepository(Label::class)->find($id);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
         if (!$label) {
             return $this->redirect()->toRoute('labels');
         } 
@@ -102,12 +105,15 @@ class LabelController extends AbstractActionController
         $viewModel->setTerminal($request->isXmlHttpRequest());
         $viewModel->setTemplate('application/common/confirm.phtml');
         return $viewModel;
+<<<<<<< HEAD
 =======
         $this->em->remove($label);
         $this->em->flush();
         // TODO add activity stream logging        
         return $this->redirect()->toRoute('labels');
 >>>>>>> Updated service
+=======
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
     }
     
 }

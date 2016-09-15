@@ -39,6 +39,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.title"})     
 =======
      * @Annotation\Options({"label":"common.title"})     
@@ -49,6 +50,9 @@ class Job
 =======
      * @Annotation\Options({"label":"common.title"})     
 >>>>>>> Fixed merge conflicts
+=======
+     * @Annotation\Options({"label":"job.title"})     
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $title;
     
@@ -62,6 +66,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.description"})     
 =======
      * @Annotation\Options({"label":"common.description"})     
@@ -72,6 +77,9 @@ class Job
 =======
      * @Annotation\Options({"label":"common.description"})     
 >>>>>>> Fixed merge conflicts
+=======
+     * @Annotation\Options({"label":"job.description"})     
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $description;
 
@@ -85,6 +93,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.comments"})     
 =======
      * @Annotation\Options({"label":"common.comments"})     
@@ -95,6 +104,9 @@ class Job
 =======
      * @Annotation\Options({"label":"common.comments"})     
 >>>>>>> Fixed merge conflicts
+=======
+     * @Annotation\Options({"label":"job.comments"})     
+>>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $comments;
 
