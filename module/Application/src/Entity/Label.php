@@ -29,6 +29,7 @@ use Zend\Form\Annotation;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.name"})     
 =======
      * @Annotation\Options({"label":"application.label.name"})     
@@ -36,6 +37,8 @@ use Zend\Form\Annotation;
 =======
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Fixed merge conflicts
      * @Annotation\Options({"label":"application.label.name"})     
 =======
      * @Annotation\Options({"label":"common.name"})     
@@ -46,7 +49,13 @@ use Zend\Form\Annotation;
 =======
      * @Annotation\Options({"label":"application.label.name"})     
 >>>>>>> Added activity recording service and activity stream in case view
+<<<<<<< HEAD
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+=======
+     * @Annotation\Options({"label":"common.name"})     
+>>>>>>> Fixed merge conflicts
+>>>>>>> Fixed merge conflicts
      */
     protected $name;     
     

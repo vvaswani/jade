@@ -7,6 +7,7 @@ namespace Application;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// application wide labels
 <<<<<<< HEAD
 =======
@@ -19,18 +20,27 @@ namespace Application;
 =======
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Fixed merge conflicts
 		// application-wide labels
 <<<<<<< HEAD
 =======
 		// application wide labels
 >>>>>>> Removed prefix from translation keys
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
+=======
+=======
+		// application wide labels
+>>>>>>> Fixed merge conflicts
+>>>>>>> Fixed merge conflicts
 		'common.create' => 'Create New',
 		'common.view' => 'View',
 		'common.edit' => 'Edit',
 		'common.delete' => 'Remove',
 		'common.save' => 'Save', 
 		'common.cancel' => 'Cancel', 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 		'common.id' => '#', 
@@ -63,6 +73,8 @@ namespace Application;
 =======
 =======
 >>>>>>> Removed prefix from translation keys
+=======
+>>>>>>> Fixed merge conflicts
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'Settings', 
@@ -117,6 +129,8 @@ namespace Application;
 		'application.activity-stream.empty' => 'empty', 
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> Fixed merge conflicts
 		'common.id' => '#', 
 		'common.title' => 'Title',
 		'common.name' => 'Name', 
@@ -126,16 +140,20 @@ namespace Application;
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'settings', 
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
 =======
 		'application.common.empty' => 'empty', 
 >>>>>>> Added activity recording service and activity stream in case view
 =======
 >>>>>>> Updated translation strings
+=======
+>>>>>>> Fixed merge conflicts
 		
 		// entity specific labels
 		
 		// case entity
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -177,6 +195,15 @@ namespace Application;
 		'application.label.colour' => 'Colour',
 		'application.label.current-labels' => 'Current Labels',
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+		'job.entity' => 'Case',
+		'job.current-jobs' => 'Current Cases',
+
+		// label entity
+		'label.entity' => 'Label',
+		'label.colour' => 'Colour',
+		'label.current-labels' => 'Current Labels',
+>>>>>>> Fixed merge conflicts
 		
 	);
 ?>

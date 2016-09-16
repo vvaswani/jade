@@ -39,6 +39,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.title"})     
 =======
      * @Annotation\Options({"label":"application.job.title"})     
@@ -46,6 +47,8 @@ class Job
 =======
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Fixed merge conflicts
      * @Annotation\Options({"label":"application.job.title"})     
 =======
      * @Annotation\Options({"label":"common.title"})     
@@ -56,7 +59,13 @@ class Job
 =======
      * @Annotation\Options({"label":"application.job.title"})     
 >>>>>>> Added activity recording service and activity stream in case view
+<<<<<<< HEAD
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+=======
+     * @Annotation\Options({"label":"common.title"})     
+>>>>>>> Fixed merge conflicts
+>>>>>>> Fixed merge conflicts
      */
     protected $title;
     
@@ -70,6 +79,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.description"})     
 =======
      * @Annotation\Options({"label":"application.job.description"})     
@@ -77,6 +87,8 @@ class Job
 =======
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Fixed merge conflicts
      * @Annotation\Options({"label":"application.job.description"})     
 =======
      * @Annotation\Options({"label":"common.description"})     
@@ -87,7 +99,13 @@ class Job
 =======
      * @Annotation\Options({"label":"application.job.description"})     
 >>>>>>> Added activity recording service and activity stream in case view
+<<<<<<< HEAD
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+=======
+     * @Annotation\Options({"label":"common.description"})     
+>>>>>>> Fixed merge conflicts
+>>>>>>> Fixed merge conflicts
      */
     protected $description;
 
@@ -101,6 +119,7 @@ class Job
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.comments"})     
 =======
      * @Annotation\Options({"label":"application.job.comments"})     
@@ -108,6 +127,8 @@ class Job
 =======
 =======
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+>>>>>>> Fixed merge conflicts
      * @Annotation\Options({"label":"application.job.comments"})     
 =======
      * @Annotation\Options({"label":"common.comments"})     
@@ -118,7 +139,13 @@ class Job
 =======
      * @Annotation\Options({"label":"application.job.comments"})     
 >>>>>>> Added activity recording service and activity stream in case view
+<<<<<<< HEAD
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+=======
+     * @Annotation\Options({"label":"common.comments"})     
+>>>>>>> Fixed merge conflicts
+>>>>>>> Fixed merge conflicts
      */
     protected $comments;
 
