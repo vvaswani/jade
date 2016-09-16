@@ -95,7 +95,6 @@ namespace Application;
 		'common.yes' => 'Yes', 
 		'common.no' => 'No',
 		'common.no-undo' => 'This operation cannot be undone.',
-		'common.empty' => 'empty', 
 
 <<<<<<< HEAD
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
