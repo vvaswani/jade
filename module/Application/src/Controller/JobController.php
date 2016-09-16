@@ -6,20 +6,27 @@ use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
+use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
+use Application\Entity\Activity;
+use Application\Entity\User;
 
 class JobController extends AbstractActionController
 {
     private $em;
     
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, ActivityStreamLogger $asl)
     {
         $this->em = $em;
+        $this->asl = $asl;
+        // TODO replace with authenticated user
+        $this->user = new User();
+        $this->user->setId(1);
     }
 
     public function indexAction()
     {
-        $jobs = $this->em->getRepository(Job::class)->findAll();
+        $jobs = $this->em->getRepository(Job::class)->findBy(array(), array('created' => 'DESC'));
         return new ViewModel(array('jobs' => $jobs));
     }
     
@@ -30,22 +37,21 @@ class JobController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
         $job = $this->em->getRepository(Job::class)->find($id);
-        return new ViewModel(array('job' => $job));
+        $activities = $this->em->getRepository(Activity::class)->findBy(
+            array('jobId' => $job->getId()),
+            array('created' => 'DESC')
+        );
+        return new ViewModel(array('job' => $job, 'activities' => $activities));
     }    
     
     public function saveAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
-        if ($id) {
-            $job = $this->em->getRepository(Job::class)->find($id);        
-            if (!$job) {
-                return $this->redirect()->toRoute('jobs');
-            }
-        } else {
+        $job = $this->em->getRepository(Job::class)->find($id);        
+        if (!$job) {
             $job = new Job();
             $job->setCreated(new \DateTime("now"));
         }
-        
         $builder = new AnnotationBuilder();
         $hydrator = new DoctrineHydrator($this->em);
         $form = $builder->createForm($job);
@@ -57,6 +63,23 @@ class JobController extends AbstractActionController
             if ($form->isValid()){  
                 $this->em->persist($job); 
                 $this->em->flush();
+                if ($job->getEntityOperationType() == Job::OPERATION_TYPE_CREATE) {
+                    $this->asl->log(
+                        Job::OPERATION_TYPE_CREATE, 
+                        $job,
+                        $this->user, 
+                        $job
+                    );                    
+                } else if ($job->getEntityOperationType() == Job::OPERATION_TYPE_UPDATE) {
+                    $this->asl->log(
+                        Job::OPERATION_TYPE_UPDATE, 
+                        $job,
+                        $this->user, 
+                        $job, 
+                        $job->getEntityChangeSet()
+                    );                    
+                }
+
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -67,15 +90,22 @@ class JobController extends AbstractActionController
         ));
     }
     
-    public function deleteAction($id)
+    public function deleteAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
         }
         $job = $this->em->getRepository(Job::class)->find($id);
+        $clone = clone $job;
         $this->em->remove($job);
         $this->em->flush();
+        $this->asl->log(
+            Job::OPERATION_TYPE_DELETE, 
+            $clone,
+            $this->user, 
+            $clone
+        );        
         return $this->redirect()->toRoute('jobs');
     }
     
