@@ -13,7 +13,7 @@ $form->prepare();
                     </span>
                     <div class="pull-right">
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('labels'); ?>">
-                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
+                            <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.cancel'); ?>
                         </a>
                     </div>                    
                 </div>
@@ -43,4 +43,14 @@ $form->prepare();
                     <?php echo $this->form()->closeTag($form); ?>
                 </div>
             </div>
+            
+            <script>
+            if (!Modernizr.inputtypes.color) { 
+                jQuery.getScript("<?php echo $this->basePath('public/js/polyfill/spectrum.js'); ?>");
+                $('<link>')
+                    .appendTo('head')
+                    .attr({type : 'text/css', rel : 'stylesheet'})
+                    .attr('href', '<?php echo $this->basePath('public/css/polyfill/spectrum.css'); ?>');  
+            }          
+            </script>
 

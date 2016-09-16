@@ -10,6 +10,7 @@ use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
 use Application\Entity\Activity;
 use Application\Entity\User;
+use Application\Form\ConfirmationForm;
 
 class JobController extends AbstractActionController
 {
@@ -79,7 +80,6 @@ class JobController extends AbstractActionController
                         $job->getEntityChangeSet()
                     );                    
                 }
-
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -96,17 +96,45 @@ class JobController extends AbstractActionController
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
         }
+
         $job = $this->em->getRepository(Job::class)->find($id);
-        $clone = clone $job;
-        $this->em->remove($job);
-        $this->em->flush();
-        $this->asl->log(
-            Job::OPERATION_TYPE_DELETE, 
-            $clone,
-            $this->user, 
-            $clone
-        );        
-        return $this->redirect()->toRoute('jobs');
+        if (!$job) {
+            return $this->redirect()->toRoute('jobs');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'delete', 'id' => $id)));
+        $form->get('cancelTo')->setValue($this->url()->fromRoute('jobs'));
+        
+        $request = $this->getRequest();
+        if ($request->isPost()){
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $clone = clone $job;
+                    $this->em->remove($job);
+                    $this->em->flush(); 
+                    $this->asl->log(
+                        Job::OPERATION_TYPE_DELETE, 
+                        $clone,
+                        $this->user, 
+                        $clone
+                    );                        
+                } 
+            }
+            return $this->redirect()->toRoute('jobs');
+        } 
+
+        $viewModel = new ViewModel(array(
+            'form' => $form,
+            'entityType' => 'job',
+            'entityDescriptor' => $job->getTitle(),            
+        ));
+        $viewModel->setTerminal($request->isXmlHttpRequest());
+        $viewModel->setTemplate('application/common/confirm.phtml');
+        return $viewModel;
     }
     
 }

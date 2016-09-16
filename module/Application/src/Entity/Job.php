@@ -33,10 +33,10 @@ class Job
     /**
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
-     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
-     * @Annotation\Options({"label":"common.title"})     
+     * @Annotation\Options({"label":"job.title"})     
      */
     protected $title;
     
@@ -47,7 +47,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
-     * @Annotation\Options({"label":"common.description"})     
+     * @Annotation\Options({"label":"job.description"})     
      */
     protected $description;
 
@@ -58,7 +58,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
-     * @Annotation\Options({"label":"common.comments"})     
+     * @Annotation\Options({"label":"job.comments"})     
      */
     protected $comments;
 
@@ -70,7 +70,7 @@ class Job
     
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
-     * @Annotation\Attributes({"value":"Submit"})
+     * @Annotation\Attributes({"value":"common.save"})
      */
     public $submit;
     
@@ -165,5 +165,4 @@ class Job
         $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
         $this->setEntityChangeSet(null);
     } 
- 
 }

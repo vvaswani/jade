@@ -11,15 +11,15 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong><?php echo $this->translate('common.created'); ?></strong></td>
+                                <td><strong><?php echo $this->translate('job.created'); ?></strong></td>
                                 <td><?php echo $this->job->getCreated()->format('d M Y'); ?></td>
                             </tr>
                             <tr>
-                                <td><strong><?php echo $this->translate('common.description'); ?></strong></td>
+                                <td><strong><?php echo $this->translate('job.description'); ?></strong></td>
                                 <td><?php echo ($this->job->getDescription()) ? $this->escapeHtml($this->job->getDescription()) : 'None'; ?></td>
                             </tr>
                             <tr>
-                                <td><strong><?php echo $this->translate('common.comments'); ?></strong></td>
+                                <td><strong><?php echo $this->translate('job.comments'); ?></strong></td>
                                 <td><?php echo ($this->job->getComments()) ? $this->escapeHtml($this->job->getComments()) : 'None'; ?></td>
                             </tr>
                             <tr>
@@ -28,17 +28,17 @@
                                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                                             <span class="glyphicon glyphicon-edit"></span> Edit
                                         </a>
-                                        <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
+                                        <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                                             <span class="glyphicon glyphicon-remove"></span> Remove
-                                        </a>
-                                    </div>
+                                        </a>  
+                                    </div>                                    
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
+            
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
@@ -58,11 +58,11 @@
                             <tr>                               
                                 <td>
                                 <?php echo sprintf(
-                                    $this->translate('application.activity-stream.updated'), 
+                                    $this->translate('activity-stream.updated'), 
                                     '<strong>Unknown User</strong>', 
-                                    strtolower($this->translate('application.job.' . $propertyName)), 
-                                    !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('application.activity-stream.empty') . ')</strong>', 
-                                    !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('application.activity-stream.empty') . ')</strong>' 
+                                    strtolower($this->translate('job.' . $propertyName)), 
+                                    !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>', 
+                                    !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>' 
                                 ); ?>.
                                 </td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
@@ -70,12 +70,12 @@
                                     <?php endforeach; ?>
                                 <?php elseif ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_CREATE): ?>                                    
                             <tr>                               
-                                <td><?php echo sprintf($this->translate('application.activity-stream.created'), '<strong>Unknown User</strong>'); ?>.</td>
+                                <td><?php echo sprintf($this->translate('activity-stream.created'), '<strong>Unknown User</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                          
                                 <?php elseif ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_DELETE): ?>  
                             <tr>                               
-                                <td><?php echo sprintf($this->translate('application.activity-stream.deleted'), '<strong>Unknown User</strong>'); ?>.</td>
+                                <td><?php echo sprintf($this->translate('activity-stream.deleted'), '<strong>Unknown User</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                          
                                 <?php endif; ?>        
@@ -90,3 +90,5 @@
                 </div>
             </div>
             
+            <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
+            </div>

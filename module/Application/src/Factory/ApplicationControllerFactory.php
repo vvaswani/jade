@@ -11,7 +11,7 @@ class ApplicationControllerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $em = $container->get(EntityManager::class);
-        $ar = $container->get(ActivityStreamLogger::class);
-        return new $requestedName($em, $ar);
+        $asl = $container->get(ActivityStreamLogger::class);
+        return new $requestedName($em, $asl);
     }
 }

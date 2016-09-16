@@ -10,8 +10,6 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped">
-                        <thead>
-                        </thead>
                         <tbody>
                             <?php foreach ($this->labels as $l): ?>
                             <tr>
@@ -22,7 +20,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('labels', array('action' => 'delete', 'id' => $this->escapeHtml($l->getId()))); ?>">
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('labels', array('action' => 'delete', 'id' => $this->escapeHtml($l->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
                                     </a>
                                 </td>
@@ -31,4 +29,7 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
             
+            <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
+            </div>
