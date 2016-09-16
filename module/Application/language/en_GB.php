@@ -6,17 +6,22 @@ namespace Application;
 		
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// application-wide labels
 <<<<<<< HEAD
 =======
 		// application wide labels
 >>>>>>> Removed prefix from translation keys
+=======
+		// application wide labels
+>>>>>>> Fixed merge conflicts
 		'common.create' => 'Create New',
 		'common.view' => 'View',
 		'common.edit' => 'Edit',
 		'common.delete' => 'Remove',
 		'common.save' => 'Save', 
 		'common.cancel' => 'Cancel', 
+<<<<<<< HEAD
 <<<<<<< HEAD
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
@@ -64,6 +69,8 @@ namespace Application;
 		'application.activity-stream.empty' => 'empty', 
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> Fixed merge conflicts
 		'common.id' => '#', 
 		'common.title' => 'Title',
 		'common.name' => 'Name', 
@@ -73,16 +80,20 @@ namespace Application;
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'settings', 
+<<<<<<< HEAD
 >>>>>>> Removed prefix from translation keys
 =======
 		'application.common.empty' => 'empty', 
 >>>>>>> Added activity recording service and activity stream in case view
 =======
 >>>>>>> Updated translation strings
+=======
+>>>>>>> Fixed merge conflicts
 		
 		// entity specific labels
 		
 		// case entity
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -120,6 +131,15 @@ namespace Application;
 		'application.label.colour' => 'Colour',
 		'application.label.current-labels' => 'Current Labels',
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+		'job.entity' => 'Case',
+		'job.current-jobs' => 'Current Cases',
+
+		// label entity
+		'label.entity' => 'Label',
+		'label.colour' => 'Colour',
+		'label.current-labels' => 'Current Labels',
+>>>>>>> Fixed merge conflicts
 		
 	);
 ?>

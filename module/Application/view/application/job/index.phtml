@@ -3,6 +3,7 @@
                 <div class="panel-heading clearfix">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                     <span class="panel-title"> <?php echo $this->translate('application.job.current-jobs'); ?></span>
 =======
                     <span class="panel-title"> <?php echo $this->translate('job.current-jobs'); ?></span>
@@ -10,6 +11,9 @@
 =======
                     <span class="panel-title"> <?php echo $this->translate('application.job.current-jobs'); ?></span>
 >>>>>>> Updated translation strings
+=======
+                    <span class="panel-title"> <?php echo $this->translate('job.current-jobs'); ?></span>
+>>>>>>> Fixed merge conflicts
                     <div class="pull-right">
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save')); ?>">
                             <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
@@ -22,6 +26,7 @@
                             <tr>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 <th><?php echo $this->translate('application.job.id'); ?></th>
                                 <th><?php echo $this->translate('application.job.title'); ?></th>
 =======
@@ -32,6 +37,10 @@
                                 <th><?php echo $this->translate('application.job.id'); ?></th>
                                 <th><?php echo $this->translate('application.job.title'); ?></th>
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+                                <th><?php echo $this->translate('common.id'); ?></th>
+                                <th><?php echo $this->translate('common.title'); ?></th>
+>>>>>>> Fixed merge conflicts
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -54,12 +63,17 @@
                                 </td>
                                 <td>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('application.common.delete'); ?>
 =======
                                     <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
 >>>>>>> Removed prefix from translation keys
+=======
+                                    <a role="button" class="btn btn-danger btn-sm" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
+>>>>>>> Fixed merge conflicts
                                     </a>
                                 </td>
                             </tr>            

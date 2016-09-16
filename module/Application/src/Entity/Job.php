@@ -38,6 +38,7 @@ class Job
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.title"})     
 =======
      * @Annotation\Options({"label":"common.title"})     
@@ -45,6 +46,9 @@ class Job
 =======
      * @Annotation\Options({"label":"application.job.title"})     
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+     * @Annotation\Options({"label":"common.title"})     
+>>>>>>> Fixed merge conflicts
      */
     protected $title;
     
@@ -57,6 +61,7 @@ class Job
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.description"})     
 =======
      * @Annotation\Options({"label":"common.description"})     
@@ -64,6 +69,9 @@ class Job
 =======
      * @Annotation\Options({"label":"application.job.description"})     
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+     * @Annotation\Options({"label":"common.description"})     
+>>>>>>> Fixed merge conflicts
      */
     protected $description;
 
@@ -76,6 +84,7 @@ class Job
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"application.job.comments"})     
 =======
      * @Annotation\Options({"label":"common.comments"})     
@@ -83,6 +92,9 @@ class Job
 =======
      * @Annotation\Options({"label":"application.job.comments"})     
 >>>>>>> Added activity recording service and activity stream in case view
+=======
+     * @Annotation\Options({"label":"common.comments"})     
+>>>>>>> Fixed merge conflicts
      */
     protected $comments;
 
