@@ -10,10 +10,13 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Fixed merge conflicts
 use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
-<<<<<<< HEAD
 use Application\Entity\Activity;
+<<<<<<< HEAD
 use Application\Entity\User;
 =======
 =======
@@ -62,11 +65,15 @@ use Application\Entity\User;
 >>>>>>> Updated service
 =======
 =======
+=======
+>>>>>>> Fixed merge conflicts
 use Application\Entity\User;
-use Application\Entity\Activity;
 use Application\Form\ConfirmationForm;
+<<<<<<< HEAD
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+>>>>>>> Fixed merge conflicts
 
 class JobController extends AbstractActionController
 {
@@ -76,10 +83,13 @@ class JobController extends AbstractActionController
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Added activity recording service and activity stream in case view
 =======
 >>>>>>> Updated service names
+=======
+>>>>>>> Fixed merge conflicts
     public function __construct(EntityManager $em, ActivityStreamLogger $asl)
     {
         $this->em = $em;
@@ -87,6 +97,7 @@ class JobController extends AbstractActionController
         // TODO replace with authenticated user
         $this->user = new User();
         $this->user->setId(1);
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     public function __construct(EntityManager $em, ActivityRecorder $ar)
@@ -118,6 +129,8 @@ class JobController extends AbstractActionController
 >>>>>>> Updated service names
 =======
 >>>>>>> Updated service
+=======
+>>>>>>> Fixed merge conflicts
     }
 
     public function indexAction()
@@ -165,6 +178,7 @@ class JobController extends AbstractActionController
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Updated service
 =======
@@ -175,6 +189,8 @@ class JobController extends AbstractActionController
 =======
 >>>>>>> Updated service
 >>>>>>> Updated service
+=======
+>>>>>>> Fixed merge conflicts
                 if ($job->getEntityOperationType() == Job::OPERATION_TYPE_CREATE) {
                     $this->asl->log(
                         Job::OPERATION_TYPE_CREATE, 
@@ -191,6 +207,7 @@ class JobController extends AbstractActionController
                         $job->getEntityChangeSet()
                     );                    
                 }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -226,6 +243,8 @@ class JobController extends AbstractActionController
 =======
 >>>>>>> Updated service
 >>>>>>> Updated service
+=======
+>>>>>>> Fixed merge conflicts
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -244,6 +263,7 @@ class JobController extends AbstractActionController
         }
 
         $job = $this->em->getRepository(Job::class)->find($id);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -270,6 +290,8 @@ class JobController extends AbstractActionController
 =======
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+>>>>>>> Fixed merge conflicts
         if (!$job) {
             return $this->redirect()->toRoute('jobs');
         }
@@ -285,18 +307,15 @@ class JobController extends AbstractActionController
             if ($form->isValid()) { 
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
+                    $clone = clone $job;
                     $this->em->remove($job);
-<<<<<<< HEAD
                     $this->em->flush(); 
-                    $this->ar->record(
-                        Activity::ENTITY_OPERATION_TYPE_DELETE, 
-                        Activity::ENTITY_TYPE_JOB, 
-                        $id, 
-                        $id
-                    );                       
-=======
-                    $this->em->flush();                    
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+                    $this->asl->log(
+                        Job::OPERATION_TYPE_DELETE, 
+                        $clone,
+                        $this->user, 
+                        $clone
+                    );                        
                 } 
             }
             return $this->redirect()->toRoute('jobs');
@@ -310,6 +329,7 @@ class JobController extends AbstractActionController
         $viewModel->setTerminal($request->isXmlHttpRequest());
         $viewModel->setTemplate('application/common/confirm.phtml');
         return $viewModel;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
@@ -358,6 +378,8 @@ class JobController extends AbstractActionController
 =======
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+>>>>>>> Fixed merge conflicts
     }
     
 }

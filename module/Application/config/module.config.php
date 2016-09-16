@@ -56,6 +56,7 @@ return [
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Added activity recording service and activity stream in case view
 =======
@@ -76,6 +77,9 @@ return [
             'Application\Service\ActivityStreamLogger' => 'Application\Factory\ActivityStreamLoggerFactory',            
 >>>>>>> Updated service names
 >>>>>>> Updated service names
+=======
+            'Application\Service\ActivityStreamLogger' => 'Application\Factory\ActivityStreamLoggerFactory',
+>>>>>>> Fixed merge conflicts
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',

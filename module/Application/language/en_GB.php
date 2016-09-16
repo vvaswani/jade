@@ -8,6 +8,7 @@ namespace Application;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// application wide labels
 <<<<<<< HEAD
 =======
@@ -34,12 +35,16 @@ namespace Application;
 		// application wide labels
 >>>>>>> Fixed merge conflicts
 >>>>>>> Fixed merge conflicts
+=======
+		// application-wide labels
+>>>>>>> Fixed merge conflicts
 		'common.create' => 'Create New',
 		'common.view' => 'View',
 		'common.edit' => 'Edit',
 		'common.delete' => 'Remove',
 		'common.save' => 'Save', 
 		'common.cancel' => 'Cancel', 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -78,6 +83,8 @@ namespace Application;
 >>>>>>> Fixed merge conflicts
 =======
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+>>>>>>> Fixed merge conflicts
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'Settings', 
@@ -90,6 +97,7 @@ namespace Application;
 		'common.no-undo' => 'This operation cannot be undone.',
 		'common.empty' => 'empty', 
 
+<<<<<<< HEAD
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 		// entity specific labels
 		
@@ -164,15 +172,15 @@ namespace Application;
 		'common.no' => 'No',
 		'common.no-undo' => 'This operation cannot be undone.',
 
+=======
+>>>>>>> Fixed merge conflicts
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 
 		'activity-stream.updated' => '%s modified the %s from %s to %s', 
 		'activity-stream.empty' => 'empty', 
     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-		// entity specific labels
-		
 		// case entity
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -216,6 +224,8 @@ namespace Application;
 		'application.label.current-labels' => 'Current Labels',
 >>>>>>> Added activity recording service and activity stream in case view
 =======
+=======
+>>>>>>> Fixed merge conflicts
 		'job.entity' => 'Case',
 		'job.current-jobs' => 'Current Cases',
 		'job.id' => '#', 
@@ -226,10 +236,10 @@ namespace Application;
 
 		// label entity
 		'label.entity' => 'Label',
+		'label.id' => '#', 
 		'label.colour' => 'Colour',
 		'label.name' => 'Name', 
 		'label.current-labels' => 'Current Labels',
->>>>>>> Fixed merge conflicts
 		
 	);
 ?>

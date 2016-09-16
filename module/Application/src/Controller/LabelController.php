@@ -7,15 +7,17 @@ use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Entity\Label;
+use Application\Service\ActivityStreamLogger;
 use Application\Form\ConfirmationForm;
 
 class LabelController extends AbstractActionController
 {
     private $em;
     
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, ActivityStreamLogger $asl)
     {
         $this->em = $em;
+        $this->asl = $asl;
     }
 
     public function indexAction()
@@ -47,6 +49,7 @@ class LabelController extends AbstractActionController
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Added activity recording service and activity stream in case view
 =======
@@ -69,6 +72,9 @@ class LabelController extends AbstractActionController
 >>>>>>> Added activity recording service and activity stream in case view
 =======
 >>>>>>> Updated service
+=======
+                $this->em->flush();                    
+>>>>>>> Fixed merge conflicts
                 return $this->redirect()->toRoute('labels');
             }
         }
@@ -89,6 +95,7 @@ class LabelController extends AbstractActionController
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         $this->em->remove($label);
         $this->em->flush();
         // TODO add activity stream logging        
@@ -100,6 +107,8 @@ class LabelController extends AbstractActionController
 =======
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+>>>>>>> Fixed merge conflicts
         if (!$label) {
             return $this->redirect()->toRoute('labels');
         } 
@@ -132,6 +141,7 @@ class LabelController extends AbstractActionController
         return $viewModel;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 =======
 =======
@@ -148,6 +158,8 @@ class LabelController extends AbstractActionController
 =======
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+>>>>>>> Fixed merge conflicts
     }
     
 }

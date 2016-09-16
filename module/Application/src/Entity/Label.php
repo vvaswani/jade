@@ -31,6 +31,7 @@ use Zend\Form\Annotation;
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @Annotation\Options({"label":"common.name"})     
 =======
      * @Annotation\Options({"label":"application.label.name"})     
@@ -65,6 +66,9 @@ use Zend\Form\Annotation;
      * @Annotation\Options({"label":"label.name"})     
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
 >>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
+=======
+     * @Annotation\Options({"label":"label.name"})     
+>>>>>>> Fixed merge conflicts
      */
     protected $name;     
     
@@ -87,7 +91,7 @@ use Zend\Form\Annotation;
     
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
-     * @Annotation\Attributes({"value":"common.submit"})
+     * @Annotation\Attributes({"value":"common.save"})
      */
     public $submit;    
 
