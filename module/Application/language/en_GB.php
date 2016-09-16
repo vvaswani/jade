@@ -20,7 +20,6 @@ namespace Application;
 		'common.yes' => 'Yes', 
 		'common.no' => 'No',
 		'common.no-undo' => 'This operation cannot be undone.',
-		'common.empty' => 'empty', 
 
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 
