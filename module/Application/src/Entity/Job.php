@@ -118,7 +118,7 @@ class Job
     
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
-     * @Annotation\Attributes({"value":"Submit"})
+     * @Annotation\Attributes({"value":"common.submit"})
      */
     public $submit;
     
