@@ -15,6 +15,4 @@ class ActivityStreamLoggerFactory implements FactoryInterface
             $container->get(EntityManager::class)
         );    
     }
-
-
 }
