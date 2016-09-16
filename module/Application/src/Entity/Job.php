@@ -36,23 +36,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @Annotation\Options({"label":"application.job.title"})     
-=======
-     * @Annotation\Options({"label":"common.title"})     
->>>>>>> Removed prefix from translation keys
-=======
-     * @Annotation\Options({"label":"application.job.title"})     
->>>>>>> Added activity recording service and activity stream in case view
-=======
-     * @Annotation\Options({"label":"common.title"})     
->>>>>>> Fixed merge conflicts
-=======
      * @Annotation\Options({"label":"job.title"})     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $title;
     
@@ -63,23 +47,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @Annotation\Options({"label":"application.job.description"})     
-=======
-     * @Annotation\Options({"label":"common.description"})     
->>>>>>> Removed prefix from translation keys
-=======
-     * @Annotation\Options({"label":"application.job.description"})     
->>>>>>> Added activity recording service and activity stream in case view
-=======
-     * @Annotation\Options({"label":"common.description"})     
->>>>>>> Fixed merge conflicts
-=======
      * @Annotation\Options({"label":"job.description"})     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $description;
 
@@ -90,23 +58,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @Annotation\Options({"label":"application.job.comments"})     
-=======
-     * @Annotation\Options({"label":"common.comments"})     
->>>>>>> Removed prefix from translation keys
-=======
-     * @Annotation\Options({"label":"application.job.comments"})     
->>>>>>> Added activity recording service and activity stream in case view
-=======
-     * @Annotation\Options({"label":"common.comments"})     
->>>>>>> Fixed merge conflicts
-=======
      * @Annotation\Options({"label":"job.comments"})     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $comments;
 
@@ -118,7 +70,7 @@ class Job
     
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
-     * @Annotation\Attributes({"value":"common.submit"})
+     * @Annotation\Attributes({"value":"common.save"})
      */
     public $submit;
     
@@ -201,16 +153,7 @@ class Job
      */
     public function preUpdate(LifecycleEventArgs $event)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
         $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
-        $this->setEntityChangeSet($event->getEntityChangeSet());
-    } 
-=======
-        $this->setEntityOperationType(Activity::ENTITY_OPERATION_TYPE_UPDATE);
-=======
-        $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
->>>>>>> Updated service
         $this->setEntityChangeSet($event->getEntityChangeSet());
     } 
     
@@ -222,18 +165,4 @@ class Job
         $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
         $this->setEntityChangeSet(null);
     } 
-<<<<<<< HEAD
->>>>>>> Added activity recording service and activity stream in case view
-    
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist(LifecycleEventArgs $event)
-    {
-        $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
-        $this->setEntityChangeSet(null);
-    } 
-=======
->>>>>>> Updated service
- 
 }

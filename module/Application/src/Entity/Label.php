@@ -26,23 +26,7 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":50}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @Annotation\Options({"label":"application.label.name"})     
-=======
-     * @Annotation\Options({"label":"common.name"})     
->>>>>>> Removed prefix from translation keys
-=======
-     * @Annotation\Options({"label":"application.label.name"})     
->>>>>>> Added activity recording service and activity stream in case view
-=======
-     * @Annotation\Options({"label":"common.name"})     
->>>>>>> Fixed merge conflicts
-=======
      * @Annotation\Options({"label":"label.name"})     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
      */
     protected $name;     
     
@@ -65,7 +49,7 @@ use Zend\Form\Annotation;
     
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
-     * @Annotation\Attributes({"value":"common.submit"})
+     * @Annotation\Attributes({"value":"common.save"})
      */
     public $submit;    
 
