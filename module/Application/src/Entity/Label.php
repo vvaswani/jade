@@ -26,49 +26,7 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":50}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @Annotation\Options({"label":"common.name"})     
-=======
-     * @Annotation\Options({"label":"application.label.name"})     
->>>>>>> Added activity recording service and activity stream in case view
-=======
-=======
->>>>>>> Added activity recording service and activity stream in case view
-=======
->>>>>>> Fixed merge conflicts
-=======
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-     * @Annotation\Options({"label":"application.label.name"})     
-=======
-     * @Annotation\Options({"label":"common.name"})     
->>>>>>> Removed prefix from translation keys
-<<<<<<< HEAD
->>>>>>> Removed prefix from translation keys
-=======
-=======
-     * @Annotation\Options({"label":"application.label.name"})     
->>>>>>> Added activity recording service and activity stream in case view
-<<<<<<< HEAD
->>>>>>> Added activity recording service and activity stream in case view
-=======
-=======
-     * @Annotation\Options({"label":"common.name"})     
->>>>>>> Fixed merge conflicts
-<<<<<<< HEAD
->>>>>>> Fixed merge conflicts
-=======
-=======
      * @Annotation\Options({"label":"label.name"})     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-=======
-     * @Annotation\Options({"label":"label.name"})     
->>>>>>> Fixed merge conflicts
      */
     protected $name;     
     

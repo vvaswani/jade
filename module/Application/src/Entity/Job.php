@@ -36,49 +36,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @Annotation\Options({"label":"common.title"})     
-=======
-     * @Annotation\Options({"label":"application.job.title"})     
->>>>>>> Added activity recording service and activity stream in case view
-=======
-=======
->>>>>>> Added activity recording service and activity stream in case view
-=======
->>>>>>> Fixed merge conflicts
-=======
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-     * @Annotation\Options({"label":"application.job.title"})     
-=======
-     * @Annotation\Options({"label":"common.title"})     
->>>>>>> Removed prefix from translation keys
-<<<<<<< HEAD
->>>>>>> Removed prefix from translation keys
-=======
-=======
-     * @Annotation\Options({"label":"application.job.title"})     
->>>>>>> Added activity recording service and activity stream in case view
-<<<<<<< HEAD
->>>>>>> Added activity recording service and activity stream in case view
-=======
-=======
-     * @Annotation\Options({"label":"common.title"})     
->>>>>>> Fixed merge conflicts
-<<<<<<< HEAD
->>>>>>> Fixed merge conflicts
-=======
-=======
      * @Annotation\Options({"label":"job.title"})     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-=======
-     * @Annotation\Options({"label":"job.title"})     
->>>>>>> Fixed merge conflicts
      */
     protected $title;
     
@@ -89,49 +47,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @Annotation\Options({"label":"common.description"})     
-=======
-     * @Annotation\Options({"label":"application.job.description"})     
->>>>>>> Added activity recording service and activity stream in case view
-=======
-=======
->>>>>>> Added activity recording service and activity stream in case view
-=======
->>>>>>> Fixed merge conflicts
-=======
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-     * @Annotation\Options({"label":"application.job.description"})     
-=======
-     * @Annotation\Options({"label":"common.description"})     
->>>>>>> Removed prefix from translation keys
-<<<<<<< HEAD
->>>>>>> Removed prefix from translation keys
-=======
-=======
-     * @Annotation\Options({"label":"application.job.description"})     
->>>>>>> Added activity recording service and activity stream in case view
-<<<<<<< HEAD
->>>>>>> Added activity recording service and activity stream in case view
-=======
-=======
-     * @Annotation\Options({"label":"common.description"})     
->>>>>>> Fixed merge conflicts
-<<<<<<< HEAD
->>>>>>> Fixed merge conflicts
-=======
-=======
      * @Annotation\Options({"label":"job.description"})     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-=======
-     * @Annotation\Options({"label":"job.description"})     
->>>>>>> Fixed merge conflicts
      */
     protected $description;
 
@@ -142,49 +58,7 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @Annotation\Options({"label":"common.comments"})     
-=======
-     * @Annotation\Options({"label":"application.job.comments"})     
->>>>>>> Added activity recording service and activity stream in case view
-=======
-=======
->>>>>>> Added activity recording service and activity stream in case view
-=======
->>>>>>> Fixed merge conflicts
-=======
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-     * @Annotation\Options({"label":"application.job.comments"})     
-=======
-     * @Annotation\Options({"label":"common.comments"})     
->>>>>>> Removed prefix from translation keys
-<<<<<<< HEAD
->>>>>>> Removed prefix from translation keys
-=======
-=======
-     * @Annotation\Options({"label":"application.job.comments"})     
->>>>>>> Added activity recording service and activity stream in case view
-<<<<<<< HEAD
->>>>>>> Added activity recording service and activity stream in case view
-=======
-=======
-     * @Annotation\Options({"label":"common.comments"})     
->>>>>>> Fixed merge conflicts
-<<<<<<< HEAD
->>>>>>> Fixed merge conflicts
-=======
-=======
      * @Annotation\Options({"label":"job.comments"})     
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-=======
-     * @Annotation\Options({"label":"job.comments"})     
->>>>>>> Fixed merge conflicts
      */
     protected $comments;
 
@@ -273,8 +147,6 @@ class Job
     {
         return $this->entityChangeSet;
     }
-<<<<<<< HEAD
-=======
     
     /**
      * @ORM\PreUpdate
@@ -293,44 +165,4 @@ class Job
         $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
         $this->setEntityChangeSet(null);
     } 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Added activity recording service and activity stream in case view
-    
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist(LifecycleEventArgs $event)
-    {
-        $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
-        $this->setEntityChangeSet(null);
-    } 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Added activity recording service and activity stream in case view
-    
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate(LifecycleEventArgs $event)
-    {
-        $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
-        $this->setEntityChangeSet($event->getEntityChangeSet());
-    } 
-    
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist(LifecycleEventArgs $event)
-    {
-        $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
-        $this->setEntityChangeSet(null);
-    } 
-=======
->>>>>>> Updated service
-=======
->>>>>>> Updated service
- 
-=======
->>>>>>> Fixed merge conflicts
 }

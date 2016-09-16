@@ -45,36 +45,7 @@ class LabelController extends AbstractActionController
             $form->setData($request->getPost());
             if ($form->isValid()){  
                 $this->em->persist($label); 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Added activity recording service and activity stream in case view
-=======
->>>>>>> Updated service
-                $this->em->flush();
-                // TODO add activity stream logging        
-=======
-                $this->em->flush();            
->>>>>>> Added activity recording service and activity stream in case view
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Updated service
-=======
-                $this->em->flush();
-                // TODO add activity stream logging        
->>>>>>> Updated service
-<<<<<<< HEAD
-=======
->>>>>>> Added activity recording service and activity stream in case view
-=======
->>>>>>> Updated service
-=======
                 $this->em->flush();                    
->>>>>>> Fixed merge conflicts
                 return $this->redirect()->toRoute('labels');
             }
         }
@@ -92,23 +63,6 @@ class LabelController extends AbstractActionController
             return $this->redirect()->toRoute('labels');
         }
         $label = $this->em->getRepository(Label::class)->find($id);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->em->remove($label);
-        $this->em->flush();
-        // TODO add activity stream logging        
-        return $this->redirect()->toRoute('labels');
-=======
-=======
->>>>>>> Updated service
-=======
-=======
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-=======
->>>>>>> Fixed merge conflicts
         if (!$label) {
             return $this->redirect()->toRoute('labels');
         } 
@@ -139,27 +93,6 @@ class LabelController extends AbstractActionController
         $viewModel->setTerminal($request->isXmlHttpRequest());
         $viewModel->setTemplate('application/common/confirm.phtml');
         return $viewModel;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-=======
-=======
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-=======
-        $this->em->remove($label);
-        $this->em->flush();
-        // TODO add activity stream logging        
-        return $this->redirect()->toRoute('labels');
->>>>>>> Updated service
-<<<<<<< HEAD
->>>>>>> Updated service
-=======
-=======
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
->>>>>>> Redefined confirmation form as modal invoked via AJAX. Updated across controllers. Closes #51.
-=======
->>>>>>> Fixed merge conflicts
     }
     
 }
