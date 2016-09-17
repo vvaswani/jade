@@ -10,6 +10,7 @@ use Application\Service\ActivityStreamLogger;
 use Application\Entity\Job;
 use Application\Entity\Activity;
 use Application\Entity\User;
+use Application\Entity\Label;
 use Application\Form\ConfirmationForm;
 
 class JobController extends AbstractActionController
@@ -56,8 +57,27 @@ class JobController extends AbstractActionController
         $builder = new AnnotationBuilder();
         $hydrator = new DoctrineHydrator($this->em);
         $form = $builder->createForm($job);
+
         $form->setHydrator($hydrator);
+        $form->get('labels')->setOptions(
+            array('object_manager' => $this->em, 'target_class' => 'Application\Entity\Label')
+        );
         $form->bind($job);
+
+        // set options for label selector 
+        // include the colour as an attribute
+        // for further processing in the view script
+        $labelOptions = array();
+        $labels = $this->em->getRepository(Label::class)->findBy(array(), array('name' => 'ASC'));
+        foreach ($labels as $l) {
+            $labelOptions[] = array(
+                'value' => $l->getId(), 
+                'label' => $l->getName(), 
+                'attributes' => array('data-colour' => $l->getColour())
+            );
+        }
+        $form->get('labels')->setValueOptions($labelOptions);            
+
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());

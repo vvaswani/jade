@@ -3,6 +3,7 @@ namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Form\Annotation;
 use Application\Entity\Activity;
 
@@ -14,7 +15,6 @@ use Application\Entity\Activity;
  */
 class Job
 {
-
 
     const OPERATION_TYPE_CREATE = 'CREATE';
 
@@ -35,7 +35,7 @@ class Job
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
-     * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
+     * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"job.title"})     
      */
     protected $title;
@@ -46,7 +46,7 @@ class Job
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
-     * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
+     * @Annotation\Type("Zend\Form\Element\Textarea")
      * @Annotation\Options({"label":"job.description"})     
      */
     protected $description;
@@ -57,7 +57,7 @@ class Job
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
-     * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
+     * @Annotation\Type("Zend\Form\Element\Textarea")
      * @Annotation\Options({"label":"job.comments"})     
      */
     protected $comments;
@@ -67,16 +67,32 @@ class Job
      * @Annotation\Exclude()
      */
     protected $created;
-    
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Label")
+     * @ORM\JoinTable(name="job_label")
+     * @Annotation\Required(false)
+     * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
+     * @Annotation\Attributes({"multiple":"multiple"})
+     * @Annotation\Options({"label":"job.labels"})          
+     */
+    public $labels;
+
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.save"})
      */
     public $submit;
     
+    /* internal, for activity stream logger */
     private $entityOperationType;
 
+    /* internal, for activity stream logger */
     private $entityChangeSet;
+
+    public function __construct() {
+        $this->labels = new ArrayCollection();
+    }    
     
     public function setId($id)
     {
@@ -126,6 +142,30 @@ class Job
     public function setCreated($created)
     {
         $this->created = $created;
+    }
+
+    public function getLabels()
+    {
+        return $this->labels;
+    }
+
+    public function setLabels($labels)
+    {
+        $this->labels = $labels;
+    }
+
+    public function addLabels(ArrayCollection $labels)
+    {
+        foreach ($labels as $label) {
+            $this->labels->add($label);
+        }
+    }
+
+    public function removeLabels(ArrayCollection $labels)
+    {
+        foreach ($labels as $label) {
+            $this->labels->removeElement($label);
+        }
     }
 
     public function setEntityOperationType($entityOperationType)

@@ -34,6 +34,7 @@ namespace Application;
 		'job.created' => 'Created on',
 		'job.description' => 'Description', 
 		'job.comments' => 'Comments', 
+		'job.labels' => 'Labels', 
 
 		// label entity
 		'label.entity' => 'Label',
