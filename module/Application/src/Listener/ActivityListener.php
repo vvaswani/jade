@@ -24,9 +24,7 @@ class ActivityListener
 	}
 
     /**
-    * logs an activity
-    *
-    * @see
+    * @see http://stackoverflow.com/questions/15311083/whats-the-proper-use-of-unitofwork-getscheduledcollectiondeletions-in-doctr
     */
     public function onFlush(OnFlushEventArgs $event)
     {
@@ -37,7 +35,7 @@ class ActivityListener
             if ($entity instanceof Job || $entity instanceof Label) {
                     $this->queue[] = array(
                         $this->user, 
-                        Activity::OPERATION_TYPE_CREATE, 
+                        Activity::OPERATION_CREATE, 
                         new \DateTime("now"),
                         $entity,
                         null, 
@@ -52,7 +50,7 @@ class ActivityListener
                 if (!empty($diff)) {
                     $this->queue[] = array(
                         $this->user, 
-    	                Activity::OPERATION_TYPE_UPDATE, 
+    	                Activity::OPERATION_UPDATE, 
                         new \DateTime("now"),
     	                $entity,
     	                null, 
@@ -68,7 +66,7 @@ class ActivityListener
                 $clone = clone $entity;
                 $this->queue[] = array(
                     $this->user, 
-	                Activity::OPERATION_TYPE_DELETE, 
+	                Activity::OPERATION_DELETE, 
                     new \DateTime("now"),
 	                $clone,
 	                null, 
@@ -93,7 +91,7 @@ class ActivityListener
                         );                  
                         $this->queue[] = array(
                             $this->user, 
-                            Activity::OPERATION_TYPE_ASSOCIATE, 
+                            Activity::OPERATION_ASSOCIATE, 
                             new \DateTime("now"),
                             $entity,
                             $associatedEntity, 
@@ -111,7 +109,7 @@ class ActivityListener
                         );  
                         $this->queue[] = array(
                             $this->user, 
-                            Activity::OPERATION_TYPE_DISSOCIATE, 
+                            Activity::OPERATION_DISSOCIATE, 
                             new \DateTime("now"),
                             $entity,
                             $associatedEntity, 

@@ -55,7 +55,7 @@
                         <tbody>
                         <?php if (count($this->activities)): ?>
                             <?php foreach ($this->activities as $activity): ?>
-                                <?php if ($activity->getOperation() == $activity::OPERATION_TYPE_UPDATE): ?>
+                                <?php if ($activity->getOperation() == $activity::OPERATION_UPDATE): ?>
                                     <?php $properties = json_decode($activity->getData(), true); ?>
                                     <?php foreach ($properties as $propertyName => $propertyValues): ?>
                             <tr> 
@@ -71,17 +71,17 @@
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                                                      
                                     <?php endforeach; ?>
-                                <?php elseif ($activity->getOperation() == $activity::OPERATION_TYPE_CREATE): ?>                                    
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_CREATE): ?>                                    
                             <tr>                               
                                 <td><?php echo sprintf($this->translate('activity-stream.created'), '<strong>Unknown User</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>
-                                <?php elseif ($activity->getOperation() == $activity::OPERATION_TYPE_DELETE): ?>  
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_DELETE): ?>  
                             <tr>                               
                                 <td><?php echo sprintf($this->translate('activity-stream.deleted'), '<strong>Unknown User</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                          
-                                <?php elseif ($activity->getOperation() == $activity::OPERATION_TYPE_ASSOCIATE): ?>  
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_ASSOCIATE): ?>  
                                     <?php switch ($activity->getAssociatedEntityType()): 
                                          case 'LABEL': ?>
                                         <?php $properties = json_decode($activity->getData(), true); ?>
@@ -98,7 +98,7 @@
                             </tr>  
                                         <?php break; ?>
                                     <?php endswitch; ?>    
-                                <?php elseif ($activity->getOperation() == $activity::OPERATION_TYPE_DISSOCIATE): ?>  
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_DISSOCIATE): ?>  
                                     <?php switch ($activity->getAssociatedEntityType()): 
                                         case 'LABEL': ?>
                                         <?php $properties = json_decode($activity->getData(), true); ?>
