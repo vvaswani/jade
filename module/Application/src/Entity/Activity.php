@@ -11,13 +11,15 @@ use Zend\Form\Annotation;
 class Activity
 {
 
-    const ENTITY_OPERATION_TYPE_CREATE = 'CREATE';
-    const ENTITY_OPERATION_TYPE_UPDATE = 'UPDATE';
-    const ENTITY_OPERATION_TYPE_DELETE = 'DELETE';
+    const OPERATION_TYPE_CREATE = 'CREATE';
+    const OPERATION_TYPE_UPDATE = 'UPDATE';
+    const OPERATION_TYPE_DELETE = 'DELETE';
+    const OPERATION_TYPE_ASSOCIATE = 'ASSOCIATE';
+    const OPERATION_TYPE_DISSOCIATE = 'DISSOCIATE';
 
-    const ENTITY_TYPE_JOB = 1;
-    const ENTITY_TYPE_LABEL = 2;
-    const ENTITY_TYPE_FILE = 3;
+    const ENTITY_TYPE_JOB = 'JOB';
+    const ENTITY_TYPE_LABEL = 'LABEL';
+    const ENTITY_TYPE_FILE = 'FILE';
     
     /**
      * @ORM\Id 
@@ -34,10 +36,10 @@ class Activity
     /**
      * @ORM\Column(type="string")
      */
-    protected $operationType;
+    protected $operation;
     
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     protected $entityType;
     
@@ -47,9 +49,14 @@ class Activity
     protected $entityId;
     
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $associatedEntityType;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $jobId;
+    protected $associatedEntityId;
 
     /**
      * @ORM\Column(type="integer")
@@ -81,14 +88,14 @@ class Activity
         $this->created = $created;
     }    
 
-    public function getOperationType()
+    public function getOperation()
     {
-        return $this->operationType;
+        return $this->operation;
     }
 
-    public function setOperationType($operationType)
+    public function setOperation($operation)
     {
-        $this->operationType = $operationType;
+        $this->operation = $operation;
     }
     
     public function getEntityType()
@@ -111,16 +118,26 @@ class Activity
         $this->entityId = $entityId;
     }
     
-    public function getJobId()
+    public function getAssociatedEntityId()
     {
-        return $this->jobId;
+        return $this->associatedEntityId;
     }
 
-    public function setJobId($jobId)
+    public function setAssociatedEntityId($associatedEntityId)
     {
-        $this->jobId = $jobId;
+        $this->associatedEntityId = $associatedEntityId;
     }
-    
+
+    public function getAssociatedEntityType()
+    {
+        return $this->associatedEntityType;
+    }
+
+    public function setAssociatedEntityType($associatedEntityType)
+    {
+        $this->associatedEntityType = $associatedEntityType;
+    }
+
     public function getUserId()
     {
         return $this->userId;

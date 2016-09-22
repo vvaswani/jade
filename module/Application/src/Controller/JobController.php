@@ -5,8 +5,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Application\Service\ActivityStreamLogger;
+use Application\Listener\ActivityListener;
+use Application\Service\ActivityManager;
 use Application\Entity\Job;
 use Application\Entity\Activity;
 use Application\Entity\User;
@@ -16,14 +18,20 @@ use Application\Form\ConfirmationForm;
 class JobController extends AbstractActionController
 {
     private $em;
-    
-    public function __construct(EntityManager $em, ActivityStreamLogger $asl)
+
+    private $al;
+
+    private $am;
+
+    public function __construct(EntityManager $em, ActivityManager $am, ActivityListener $al)
     {
         $this->em = $em;
-        $this->asl = $asl;
-        // TODO replace with authenticated user
-        $this->user = new User();
-        $this->user->setId(1);
+        $this->al = $al;
+        $this->am = $am;
+        $this->em->getEventManager()->addEventListener(
+            array(Events::onFlush),
+            $this->al
+        );
     }
 
     public function indexAction()
@@ -40,8 +48,8 @@ class JobController extends AbstractActionController
         }
         $job = $this->em->getRepository(Job::class)->find($id);
         $activities = $this->em->getRepository(Activity::class)->findBy(
-            array('jobId' => $job->getId()),
-            array('created' => 'DESC')
+            array('entityId' => $job->getId(), 'entityType' => Activity::ENTITY_TYPE_JOB),
+            array('id' => 'DESC')
         );
         return new ViewModel(array('job' => $job, 'activities' => $activities));
     }    
@@ -76,7 +84,7 @@ class JobController extends AbstractActionController
                 'attributes' => array('data-colour' => $l->getColour())
             );
         }
-        $form->get('labels')->setValueOptions($labelOptions);            
+        $form->get('labels')->setValueOptions($labelOptions);  
 
         $request = $this->getRequest();
         if ($request->isPost()){
@@ -84,22 +92,7 @@ class JobController extends AbstractActionController
             if ($form->isValid()){  
                 $this->em->persist($job); 
                 $this->em->flush();
-                if ($job->getEntityOperationType() == Job::OPERATION_TYPE_CREATE) {
-                    $this->asl->log(
-                        Job::OPERATION_TYPE_CREATE, 
-                        $job,
-                        $this->user, 
-                        $job
-                    );                    
-                } else if ($job->getEntityOperationType() == Job::OPERATION_TYPE_UPDATE) {
-                    $this->asl->log(
-                        Job::OPERATION_TYPE_UPDATE, 
-                        $job,
-                        $this->user, 
-                        $job, 
-                        $job->getEntityChangeSet()
-                    );                    
-                }
+                $this->am->flush($this->al->getQueue());
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -133,15 +126,9 @@ class JobController extends AbstractActionController
             if ($form->isValid()) { 
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
-                    $clone = clone $job;
                     $this->em->remove($job);
                     $this->em->flush(); 
-                    $this->asl->log(
-                        Job::OPERATION_TYPE_DELETE, 
-                        $clone,
-                        $this->user, 
-                        $clone
-                    );                        
+                    $this->am->flush($this->al->getQueue());
                 } 
             }
             return $this->redirect()->toRoute('jobs');

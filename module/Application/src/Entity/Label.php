@@ -11,7 +11,7 @@ use Zend\Form\Annotation;
  */
  class Label
  {
-     
+
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")

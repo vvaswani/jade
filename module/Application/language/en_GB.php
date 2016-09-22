@@ -24,6 +24,8 @@ namespace Application;
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 
 		'activity-stream.updated' => '%s modified the %s from %s to %s', 
+		'activity-stream.associated' => '%s added the %s %s to this case', 
+		'activity-stream.dissociated' => '%s removed the %s %s from this case', 
 		'activity-stream.empty' => 'empty', 
     
 		// case entity

@@ -10,17 +10,10 @@ use Application\Entity\Activity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="job")
- * @ORM\HasLifecycleCallbacks 
  * @Annotation\Name("job")
  */
 class Job
 {
-
-    const OPERATION_TYPE_CREATE = 'CREATE';
-
-    const OPERATION_TYPE_UPDATE = 'UPDATE';
-
-    const OPERATION_TYPE_DELETE = 'DELETE';
 
     /**
      * @ORM\Id 
@@ -74,7 +67,7 @@ class Job
      * @Annotation\Required(false)
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Attributes({"multiple":"multiple"})
-     * @Annotation\Options({"label":"job.labels"})          
+     * @Annotation\Options({"label":"job.labels", "use_hidden_element":"true"})          
      */
     public $labels;
 
@@ -83,12 +76,6 @@ class Job
      * @Annotation\Attributes({"value":"common.save"})
      */
     public $submit;
-    
-    /* internal, for activity stream logger */
-    private $entityOperationType;
-
-    /* internal, for activity stream logger */
-    private $entityChangeSet;
 
     public function __construct() {
         $this->labels = new ArrayCollection();
@@ -167,42 +154,5 @@ class Job
             $this->labels->removeElement($label);
         }
     }
-
-    public function setEntityOperationType($entityOperationType)
-    {
-        $this->entityOperationType = $entityOperationType;
-    }
-
-    public function getEntityOperationType()
-    {
-        return $this->entityOperationType;
-    }
-
-    public function setEntityChangeSet($entityChangeSet)
-    {
-        $this->entityChangeSet = $entityChangeSet;
-    }
-
-    public function getEntityChangeSet()
-    {
-        return $this->entityChangeSet;
-    }
     
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate(LifecycleEventArgs $event)
-    {
-        $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
-        $this->setEntityChangeSet($event->getEntityChangeSet());
-    } 
-    
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist(LifecycleEventArgs $event)
-    {
-        $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
-        $this->setEntityChangeSet(null);
-    } 
 }

@@ -52,7 +52,8 @@ return [
     'service_manager' => [
         'factories' => [
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-            'Application\Service\ActivityStreamLogger' => 'Application\Factory\ActivityStreamLoggerFactory',
+            'Application\Service\ActivityManager' => 'Application\Factory\ActivityManagerFactory',
+            'Application\Listener\ActivityListener' => 'Application\Factory\ActivityListenerFactory',
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
