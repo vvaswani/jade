@@ -67,7 +67,8 @@ class Job
      * @Annotation\Required(false)
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Attributes({"multiple":"multiple"})
-     * @Annotation\Options({"label":"job.labels", "use_hidden_element":"true"})          
+     * @Annotation\Options({"label":"job.labels", "use_hidden_element":"true"})   
+     * @see https://github.com/zendframework/zendframework/issues/7298       
      */
     public $labels;
 

@@ -23,6 +23,11 @@ class ActivityListener
         $this->user->setId(1);
 	}
 
+    /**
+    * logs an activity
+    *
+    * @see
+    */
     public function onFlush(OnFlushEventArgs $event)
     {
         $em = $event->getEntityManager();

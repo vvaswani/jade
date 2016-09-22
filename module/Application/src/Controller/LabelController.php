@@ -20,11 +20,11 @@ class LabelController extends AbstractActionController
 
     private $am;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, ActivityManager $am, ActivityListener $al)
     {
         $this->em = $em;
-        $this->al = new ActivityListener();
-        $this->am = new ActivityManager($this->em);
+        $this->al = $al;
+        $this->am = $am;
         $this->em->getEventManager()->addEventListener(
             array(Events::onFlush),
             $this->al

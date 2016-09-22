@@ -22,6 +22,17 @@ class ActivityManager
         }
     }
 
+    /**
+    * logs an activity
+    *
+    * @param  User      $user               the user initiating the operation
+    * @param  string    $operation          a constant indicating the operation type
+    * @param  string    $ts                 the operation timestamp
+    * @param  Entity    $entity             the entity on which the operation is being performed
+    * @param  Entity    $associatedEntity   the associated entity (for operations involving associations only)
+    * @param  array     $data               operation-related data (changes performed for updates, limited entity-specific data for associations)
+    * @access private
+    */
     private function log($user, $operation, $ts, $entity, $associatedEntity = null, $data = null) 
     {
         $activity = new Activity();
