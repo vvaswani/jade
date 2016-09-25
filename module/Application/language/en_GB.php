@@ -11,6 +11,7 @@ namespace Application;
 		'common.delete' => 'Remove',
 		'common.save' => 'Save', 
 		'common.cancel' => 'Cancel', 
+
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'Settings', 
@@ -30,13 +31,16 @@ namespace Application;
     
 		// case entity
 		'job.entity' => 'Case',
-		'job.current-jobs' => 'Current Cases',
+		'job.open-jobs' => 'Open Cases',
 		'job.id' => '#', 
 		'job.title' => 'Title',
 		'job.created' => 'Created on',
 		'job.description' => 'Description', 
 		'job.comments' => 'Comments', 
 		'job.labels' => 'Labels', 
+		'job.close' => 'Close', 
+		'job.confirm-close' => 'This operation will close the %s %s and hide all related data in the system.',
+		'job.confirm-open' => 'This operation will open the %s %s and make all related data visible in the system.',
 
 		// label entity
 		'label.entity' => 'Label',

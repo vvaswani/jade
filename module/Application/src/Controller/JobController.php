@@ -36,7 +36,7 @@ class JobController extends AbstractActionController
 
     public function indexAction()
     {
-        $jobs = $this->em->getRepository(Job::class)->findBy(array(), array('created' => 'DESC'));
+        $jobs = $this->em->getRepository(Job::class)->findBy(array('status' => Job::STATUS_OPEN), array('created' => 'DESC'));
         return new ViewModel(array('jobs' => $jobs));
     }
     
@@ -90,6 +90,7 @@ class JobController extends AbstractActionController
         if ($request->isPost()){
             $form->setData($request->getPost());
             if ($form->isValid()){  
+                $job->setStatus(Job::STATUS_OPEN);
                 $this->em->persist($job); 
                 $this->em->flush();
                 $this->am->flush($this->al->getQueue());
@@ -137,11 +138,98 @@ class JobController extends AbstractActionController
         $viewModel = new ViewModel(array(
             'form' => $form,
             'entityType' => 'job',
-            'entityDescriptor' => $job->getTitle(),            
+            'entityDescriptor' => $job->getTitle(),
+            'confirmationMessage' => 'common.confirm-delete', 
         ));
         $viewModel->setTerminal($request->isXmlHttpRequest());
         $viewModel->setTemplate('application/common/confirm.phtml');
         return $viewModel;
     }
-    
+
+    public function closeAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('jobs');
+        }
+
+        $job = $this->em->getRepository(Job::class)->find($id);
+        if (!$job) {
+            return $this->redirect()->toRoute('jobs');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'close', 'id' => $id)));
+        $form->get('cancelTo')->setValue($this->url()->fromRoute('jobs'));
+        
+        $request = $this->getRequest();
+        if ($request->isPost()){
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $job->setStatus(Job::STATUS_CLOSED);
+                    $this->em->persist($job); 
+                    $this->em->flush(); 
+                    $this->am->flush($this->al->getQueue());
+                } 
+            }
+            return $this->redirect()->toRoute('jobs');
+        } 
+
+        $viewModel = new ViewModel(array(
+            'form' => $form,
+            'entityType' => 'job',
+            'entityDescriptor' => $job->getTitle(),
+            'confirmationMessage' => 'job.confirm-close',            
+        ));
+        $viewModel->setTerminal($request->isXmlHttpRequest());
+        $viewModel->setTemplate('application/common/confirm.phtml');
+        return $viewModel;
+    }    
+
+    public function openAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('jobs');
+        }
+
+        $job = $this->em->getRepository(Job::class)->find($id);
+        if (!$job) {
+            return $this->redirect()->toRoute('jobs');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'open', 'id' => $id)));
+        $form->get('cancelTo')->setValue($this->url()->fromRoute('jobs'));
+        
+        $request = $this->getRequest();
+        if ($request->isPost()){
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $job->setStatus(Job::STATUS_OPEN);
+                    $this->em->persist($job); 
+                    $this->em->flush(); 
+                    $this->am->flush($this->al->getQueue());
+                } 
+            }
+            return $this->redirect()->toRoute('jobs');
+        } 
+
+        $viewModel = new ViewModel(array(
+            'form' => $form,
+            'entityType' => 'job',
+            'entityDescriptor' => $job->getTitle(),
+            'confirmationMessage' => 'job.confirm-open', 
+        ));
+        $viewModel->setTerminal($request->isXmlHttpRequest());
+        $viewModel->setTemplate('application/common/confirm.phtml');
+        return $viewModel;
+    }    
+
 }

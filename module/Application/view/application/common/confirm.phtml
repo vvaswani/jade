@@ -11,8 +11,11 @@ $form->prepare();
                             <h4 class="modal-title"><?php echo $this->translate('common.confirm-action'); ?></h4>
                         </div>
                         <div class="modal-body">
-                            <?php echo sprintf($this->translate('common.confirm-delete'), $this->escapeHtml(strtolower($this->translate($this->entityType . '.entity'))), '<strong>' . $this->escapeHtml($this->entityDescriptor) . '</strong>'); ?>
-                            <?php echo $this->translate('common.no-undo'); ?> <?php echo $this->translate('common.confirm-proceed'); ?>                   
+                            <?php echo sprintf($this->translate($this->confirmationMessage), $this->escapeHtml(strtolower($this->translate($this->entityType . '.entity'))), '<strong>' . $this->escapeHtml($this->entityDescriptor) . '</strong>'); ?>
+                            <?php if ($this->confirmationMessage == 'common.confirm-delete'): ?> 
+                              <?php echo $this->translate('common.no-undo'); ?> 
+                            <?php endif; ?>
+                            <?php echo $this->translate('common.confirm-proceed'); ?>                   
                         </div>
                         <div class="modal-footer">
                             <?php echo $this->form()->openTag($form); ?>

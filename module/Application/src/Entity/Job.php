@@ -15,6 +15,9 @@ use Application\Entity\Activity;
 class Job
 {
 
+    const STATUS_OPEN = 1;
+    const STATUS_CLOSED = 0;
+
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")
@@ -60,6 +63,12 @@ class Job
      * @Annotation\Exclude()
      */
     protected $created;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Annotation\Exclude()
+     */
+    public $status;
 
     /**
      * @ORM\ManyToMany(targetEntity="Label")
@@ -130,6 +139,16 @@ class Job
     public function setCreated($created)
     {
         $this->created = $created;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 
     public function getLabels()
