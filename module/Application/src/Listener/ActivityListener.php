@@ -21,6 +21,7 @@ class ActivityListener
         // TODO replace with authenticated user
         $this->user = new User();
         $this->user->setId(1);
+        $this->user->setName('Unknown User');
 	}
 
     /**
@@ -125,5 +126,10 @@ class ActivityListener
     {
         return $this->queue;
     }
-       
+      
+    // TODO replace with authenticated user or remove
+    public function getUser()
+    {
+        return $this->user;
+    } 
 }

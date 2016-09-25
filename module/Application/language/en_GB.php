@@ -28,6 +28,8 @@ namespace Application;
 		'activity-stream.associated' => '%s added the %s %s to this case', 
 		'activity-stream.dissociated' => '%s removed the %s %s from this case', 
 		'activity-stream.empty' => 'empty', 
+		'activity-stream.opened' => '%s opened this case', 
+		'activity-stream.closed' => '%s closed this case', 
     
 		// case entity
 		'job.entity' => 'Case',

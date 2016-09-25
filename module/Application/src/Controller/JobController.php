@@ -51,7 +51,11 @@ class JobController extends AbstractActionController
             array('entityId' => $job->getId(), 'entityType' => Activity::ENTITY_TYPE_JOB),
             array('id' => 'DESC')
         );
-        return new ViewModel(array('job' => $job, 'activities' => $activities));
+        return new ViewModel(array(
+            'job' => $job, 
+            'activities' => $activities,
+            'user' => $this->al->getUser()
+        ));
     }    
     
     public function saveAction()
