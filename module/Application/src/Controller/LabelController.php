@@ -5,19 +5,30 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Entity\Label;
-use Application\Service\ActivityStreamLogger;
+use Application\Listener\ActivityListener;
+use Application\Service\ActivityManager;
 use Application\Form\ConfirmationForm;
 
 class LabelController extends AbstractActionController
 {
     private $em;
     
-    public function __construct(EntityManager $em, ActivityStreamLogger $asl)
+    private $al;
+
+    private $am;
+
+    public function __construct(EntityManager $em, ActivityManager $am, ActivityListener $al)
     {
         $this->em = $em;
-        $this->asl = $asl;
+        $this->al = $al;
+        $this->am = $am;
+        $this->em->getEventManager()->addEventListener(
+            array(Events::onFlush),
+            $this->al
+        );
     }
 
     public function indexAction()
@@ -46,6 +57,7 @@ class LabelController extends AbstractActionController
             if ($form->isValid()){  
                 $this->em->persist($label); 
                 $this->em->flush();                    
+                $this->am->flush($this->al->getQueue());
                 return $this->redirect()->toRoute('labels');
             }
         }
@@ -80,6 +92,7 @@ class LabelController extends AbstractActionController
                 if ($data['confirm'] == 1) {
                     $this->em->remove($label);
                     $this->em->flush();                    
+                    $this->am->flush($this->al->getQueue());
                 } 
             }
             return $this->redirect()->toRoute('labels');

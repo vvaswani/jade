@@ -26,6 +26,11 @@ class User
      */
     protected $password;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $name;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -55,5 +60,14 @@ class User
     {
         $this->password = $password;
     }
-    
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }    
 }

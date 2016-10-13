@@ -3,24 +3,20 @@ namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Form\Annotation;
 use Application\Entity\Activity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="job")
- * @ORM\HasLifecycleCallbacks 
  * @Annotation\Name("job")
  */
 class Job
 {
 
-
-    const OPERATION_TYPE_CREATE = 'CREATE';
-
-    const OPERATION_TYPE_UPDATE = 'UPDATE';
-
-    const OPERATION_TYPE_DELETE = 'DELETE';
+    const STATUS_OPEN = 1;
+    const STATUS_CLOSED = 0;
 
     /**
      * @ORM\Id 
@@ -35,7 +31,7 @@ class Job
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
-     * @Annotation\Attributes({"type":"Zend\Form\Element\Text"})
+     * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"job.title"})     
      */
     protected $title;
@@ -46,7 +42,7 @@ class Job
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
-     * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
+     * @Annotation\Type("Zend\Form\Element\Textarea")
      * @Annotation\Options({"label":"job.description"})     
      */
     protected $description;
@@ -57,7 +53,7 @@ class Job
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})     
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
-     * @Annotation\Attributes({"type":"Zend\Form\Element\Textarea"})
+     * @Annotation\Type("Zend\Form\Element\Textarea")
      * @Annotation\Options({"label":"job.comments"})     
      */
     protected $comments;
@@ -67,16 +63,33 @@ class Job
      * @Annotation\Exclude()
      */
     protected $created;
-    
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Annotation\Exclude()
+     */
+    public $status;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Label")
+     * @ORM\JoinTable(name="job_label")
+     * @Annotation\Required(false)
+     * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
+     * @Annotation\Attributes({"multiple":"multiple"})
+     * @Annotation\Options({"label":"job.labels", "use_hidden_element":"true"})   
+     * @see https://github.com/zendframework/zendframework/issues/7298       
+     */
+    public $labels;
+
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.save"})
      */
     public $submit;
-    
-    private $entityOperationType;
 
-    private $entityChangeSet;
+    public function __construct() {
+        $this->labels = new ArrayCollection();
+    }    
     
     public function setId($id)
     {
@@ -128,41 +141,38 @@ class Job
         $this->created = $created;
     }
 
-    public function setEntityOperationType($entityOperationType)
+    public function getStatus()
     {
-        $this->entityOperationType = $entityOperationType;
+        return $this->status;
     }
 
-    public function getEntityOperationType()
+    public function setStatus($status)
     {
-        return $this->entityOperationType;
+        $this->status = $status;
     }
 
-    public function setEntityChangeSet($entityChangeSet)
+    public function getLabels()
     {
-        $this->entityChangeSet = $entityChangeSet;
+        return $this->labels;
     }
 
-    public function getEntityChangeSet()
+    public function setLabels($labels)
     {
-        return $this->entityChangeSet;
+        $this->labels = $labels;
+    }
+
+    public function addLabels(ArrayCollection $labels)
+    {
+        foreach ($labels as $label) {
+            $this->labels->add($label);
+        }
+    }
+
+    public function removeLabels(ArrayCollection $labels)
+    {
+        foreach ($labels as $label) {
+            $this->labels->removeElement($label);
+        }
     }
     
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate(LifecycleEventArgs $event)
-    {
-        $this->setEntityOperationType(Job::OPERATION_TYPE_UPDATE);
-        $this->setEntityChangeSet($event->getEntityChangeSet());
-    } 
-    
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist(LifecycleEventArgs $event)
-    {
-        $this->setEntityOperationType(Job::OPERATION_TYPE_CREATE);
-        $this->setEntityChangeSet(null);
-    } 
 }

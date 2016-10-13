@@ -42,7 +42,23 @@ $form->prepare();
                                 <?php echo $this->formElementErrors($form->get('comments')) ?>
                             </span>
                         </div>
-                        
+
+                        <div class="form-group"> 
+                            <?php
+                            // process the 'data-colour' attribute
+                            $options = $form->get('labels')->getValueOptions(); 
+                            foreach ($options as &$option) {
+                                $option['attributes']['data-content'] = "<span class='label label-default' style='background-color:" . $option['attributes']['data-colour'] . "'>" . $option['label'] . "</span>";
+                            }
+                            $form->get('labels')->setValueOptions($options);
+                            ?>
+                            <?php echo $this->formLabel($form->get('labels')) ?>
+                            <?php echo $this->formSelect($form->get('labels')->setAttributes(array('class' => 'selectpicker'))) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('labels')) ?>
+                            </span>
+                        </div>
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>

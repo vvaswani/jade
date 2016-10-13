@@ -11,6 +11,7 @@ namespace Application;
 		'common.delete' => 'Remove',
 		'common.save' => 'Save', 
 		'common.cancel' => 'Cancel', 
+
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'Settings', 
@@ -24,16 +25,24 @@ namespace Application;
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 
 		'activity-stream.updated' => '%s modified the %s from %s to %s', 
+		'activity-stream.associated' => '%s added the %s %s to this case', 
+		'activity-stream.dissociated' => '%s removed the %s %s from this case', 
 		'activity-stream.empty' => 'empty', 
+		'activity-stream.opened' => '%s opened this case', 
+		'activity-stream.closed' => '%s closed this case', 
     
 		// case entity
 		'job.entity' => 'Case',
-		'job.current-jobs' => 'Current Cases',
+		'job.open-jobs' => 'Open Cases',
 		'job.id' => '#', 
 		'job.title' => 'Title',
 		'job.created' => 'Created on',
 		'job.description' => 'Description', 
 		'job.comments' => 'Comments', 
+		'job.labels' => 'Labels', 
+		'job.close' => 'Close', 
+		'job.confirm-close' => 'This operation will close the %s %s and hide all related data in the system.',
+		'job.confirm-open' => 'This operation will open the %s %s and make all related data visible in the system.',
 
 		// label entity
 		'label.entity' => 'Label',

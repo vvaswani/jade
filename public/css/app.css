@@ -46,10 +46,33 @@ input, textarea {
     border-radius: 24px;    
 }
 
+.bootstrap-select > .dropdown-toggle {
+    border-radius: 4px;    
+}
+
 .table > tbody > tr:first-child > td {
     border: none;           
 }
 
 .label {
-    font-size: 100%;
+    font-size: 90%;
+}
+
+.panel-title .label {
+    margin: .2em;
+}
+
+.activity-stream .label, .job-list .label  {
+    margin: .2em;
+    font-size: 80%;
+}
+
+.bootstrap-select > .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+    background-color: #dcdcdc;
+    background-image: none;
+    background-repeat: none;
+}
+
+.bootstrap-select > div.dropdown-menu > ul.dropdown-menu > li > a > span.text {
+    font-weight: bold;
 }

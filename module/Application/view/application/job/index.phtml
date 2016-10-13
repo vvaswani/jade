@@ -1,7 +1,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
-                    <span class="panel-title"> <?php echo $this->translate('job.current-jobs'); ?></span>
+                    <span class="panel-title"> <?php echo $this->translate('job.open-jobs'); ?></span>
                     <div class="pull-right">
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save')); ?>">
                             <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
@@ -9,11 +9,12 @@
                     </div>                    
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table class="table table-striped job-list">
                         <thead>
                             <tr>
                                 <th><?php echo $this->translate('job.id'); ?></th>
                                 <th><?php echo $this->translate('job.title'); ?></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -23,7 +24,20 @@
                             <?php foreach ($this->jobs as $j): ?>
                             <tr>
                                 <td><?php echo $this->escapeHtml($j->getId()); ?></td>
-                                <td><?php echo $this->escapeHtml($j->getTitle()); ?></td>
+                                <td>
+                                    <?php echo $this->escapeHtml($j->getTitle()); ?>
+                                    <?php $labels = $j->getLabels(); ?>
+                                    <?php if (count($labels) >= 1): ?>
+                                        <span class="label label-default" style="background-color: <?php echo $this->escapeHtml($labels[0]->getColour()); ?>">
+                                            <?php echo $this->escapeHtml($labels[0]->getName()); ?>
+                                        </span>                                        
+                                    <?php endif; ?>
+                                    <?php if (count($labels) > 1): ?>
+                                        <a href="<?php echo $this->url('jobs', array('action' => 'view', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                            <span class="label label-default">...</span>
+                                        </a>
+                                    <?php endif; ?>                                
+                                </td>
                                 <td>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'view', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('common.view'); ?>
@@ -34,6 +48,11 @@
                                         <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
                                     </a>
                                 </td>
+                                <td>
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'close', 'id' => $this->escapeHtml($j->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-eye-close"></span> <?php echo $this->translate('job.close'); ?>
+                                    </a>
+                                </td>                                
                                 <td>
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>

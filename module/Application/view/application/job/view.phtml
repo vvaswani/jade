@@ -3,6 +3,9 @@
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
                         Case #<?php echo $this->escapeHtml($this->job->getId()); ?>: <?php echo $this->escapeHtml($this->job->getTitle()); ?>
+                        <?php foreach ($this->job->getLabels() as $label): ?>
+                            <span class="label label-default pull-right" style="background-color: <?php echo $this->escapeHtml($label->getColour()); ?>"><?php echo $this->escapeHtml($label->getName()); ?></span> 
+                        <?php endforeach; ?>
                     </span>
                 </div>
                 <div class="table-responsive">
@@ -26,10 +29,10 @@
                                 <td colspan="2">
                                     <div class="pull-right">
                                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
-                                            <span class="glyphicon glyphicon-edit"></span> Edit
+                                            <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
                                         </a>
-                                        <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
-                                            <span class="glyphicon glyphicon-remove"></span> Remove
+                                        <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'close', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
+                                            <span class="glyphicon glyphicon-eye-close"></span> <?php echo $this->translate('job.close'); ?>
                                         </a>  
                                     </div>                                    
                                 </td>
@@ -45,39 +48,89 @@
                         Recent Activity
                     </span>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive activity-stream">
                     <table class="table">
                         <thead>
                         </thead>
                         <tbody>
                         <?php if (count($this->activities)): ?>
                             <?php foreach ($this->activities as $activity): ?>
-                                <?php if ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_UPDATE): ?>
+                                <?php if ($activity->getOperation() == $activity::OPERATION_UPDATE): ?>
                                     <?php $properties = json_decode($activity->getData(), true); ?>
                                     <?php foreach ($properties as $propertyName => $propertyValues): ?>
-                            <tr>                               
+                            <tr> 
                                 <td>
-                                <?php echo sprintf(
-                                    $this->translate('activity-stream.updated'), 
-                                    '<strong>Unknown User</strong>', 
-                                    strtolower($this->translate('job.' . $propertyName)), 
-                                    !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>', 
-                                    !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>' 
-                                ); ?>.
+                                <?php if ($propertyName == 'status'): ?>
+                                    <?php if ($propertyValues[1] == 0): ?>
+                                        <?php echo sprintf(
+                                            $this->translate('activity-stream.closed'), 
+                                            '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                            strtolower($this->translate('job.' . $propertyName)) 
+                                        ); ?>.                                        
+                                    <?php elseif ($propertyValues[1] == 1): ?>
+                                        <?php echo sprintf(
+                                            $this->translate('activity-stream.opened'), 
+                                            '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                            strtolower($this->translate('job.' . $propertyName)) 
+                                        ); ?>.  
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <?php echo sprintf(
+                                        $this->translate('activity-stream.updated'), 
+                                        '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                        strtolower($this->translate('job.' . $propertyName)), 
+                                        !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>', 
+                                        !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>' 
+                                    ); ?>.
+                                <?php endif; ?>
                                 </td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                                                      
                                     <?php endforeach; ?>
-                                <?php elseif ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_CREATE): ?>                                    
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_CREATE): ?>                                    
                             <tr>                               
-                                <td><?php echo sprintf($this->translate('activity-stream.created'), '<strong>Unknown User</strong>'); ?>.</td>
+                                <td><?php echo sprintf($this->translate('activity-stream.created'), '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>'); ?>.</td>
+                                <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
+                            </tr>
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_DELETE): ?>  
+                            <tr>                               
+                                <td><?php echo sprintf($this->translate('activity-stream.deleted'), '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                          
-                                <?php elseif ($activity->getOperationType() == $activity::ENTITY_OPERATION_TYPE_DELETE): ?>  
-                            <tr>                               
-                                <td><?php echo sprintf($this->translate('activity-stream.deleted'), '<strong>Unknown User</strong>'); ?>.</td>
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_ASSOCIATE): ?>  
+                                    <?php switch ($activity->getAssociatedEntityType()): 
+                                         case 'LABEL': ?>
+                                        <?php $properties = json_decode($activity->getData(), true); ?>
+                            <tr> 
+                                <td>
+                                <?php echo sprintf(
+                                    $this->translate('activity-stream.associated'), 
+                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<span class="label label-default" style="background-color: ' . $properties['colour'] . '">' .  $properties['name']. '</span>',
+                                    strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
+                                ); ?>.
+                                </td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
-                            </tr>                          
+                            </tr>  
+                                        <?php break; ?>
+                                    <?php endswitch; ?>    
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_DISSOCIATE): ?>  
+                                    <?php switch ($activity->getAssociatedEntityType()): 
+                                        case 'LABEL': ?>
+                                        <?php $properties = json_decode($activity->getData(), true); ?>
+                            <tr> 
+                                <td>
+                                <?php echo sprintf(
+                                    $this->translate('activity-stream.dissociated'), 
+                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<span class="label label-default" style="background-color: ' . $properties['colour'] . '">' .  $properties['name']. '</span>',
+                                    strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
+                                ); ?>.
+                                </td>
+                                <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
+                            </tr>  
+                                        <?php break; ?>
+                                    <?php endswitch; ?>
                                 <?php endif; ?>        
                             <?php endforeach; ?>
                         <?php else: ?>
