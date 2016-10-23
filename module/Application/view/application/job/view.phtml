@@ -1,4 +1,12 @@
-            
+<?php        
+$form = $this->form;
+$form->setAttribute('action', $this->url('files', array('action' => 'save', 'jid' => $this->escapeHtml($this->job->getId()))));
+$form->setAttribute('method', 'POST');
+$form->setAttribute('enctype', 'multipart/form-data');
+$form->setAttribute('novalidate', 'true');
+$form->prepare();
+?>
+
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
@@ -8,14 +16,14 @@
                         <?php endforeach; ?>
                     </span>
                 </div>
-                <div class="table-responsive">
+                <div class="panel-body table-responsive">
                     <table class="table">
                         <thead>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong><?php echo $this->translate('job.created'); ?></strong></td>
-                                <td><?php echo $this->job->getCreated()->format('d M Y'); ?></td>
+                                <td><?php echo $this->job->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>
                             <tr>
                                 <td><strong><?php echo $this->translate('job.description'); ?></strong></td>
@@ -41,19 +49,69 @@
                     </table>
                 </div>
             </div>
-            
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title"> 
+                        <?php echo $this->translate('file.current-files'); ?>    
+                    </span>
+                    <div class="pull-right">
+                        <a role="button" class="btn btn-primary btn-sm btn-file-add" href="<?php echo $this->url('files', array('action' => 'save', 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
+                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('file.add'); ?>
+                        </a>
+                        <div class="form-file-add">
+                            <?php echo $this->form()->openTag($form); ?>
+                                <?php echo $this->formFile($form->get('file')); ?>
+                            <?php echo $this->form()->closeTag($form); ?>
+                        </div>                        
+                    </div>  
+                </div>
+                <div class="panel-body table-responsive activity-stream">
+                    <?php if ($this->job->getFiles()->count()): ?>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><?php echo $this->translate('file.name'); ?></th>
+                                <th><?php echo $this->translate('file.created'); ?></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($this->job->getFiles() as $file): ?>
+                            <tr> 
+                                <td><?php echo $this->escapeHtml($file->getName()); ?></td>
+                                <td><?php echo $file->getCreated()->format('d M Y h:i T'); ?></td>
+                                <td>
+                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('files', array('action' => 'download', 'id' => $this->escapeHtml($file->getId()), 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-download"></span> <?php echo $this->translate('common.download'); ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('files', array('action' => 'delete', 'id' => $this->escapeHtml($file->getId()), 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?php endif; ?>
+                </div>
+            </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
-                        Recent Activity
+                        <?php echo $this->translate('activity-stream.recent-activity'); ?>
                     </span>
                 </div>
-                <div class="table-responsive activity-stream">
+                <div class="panel-body table-responsive activity-stream">
+                    <?php if (count($this->activities)): ?>
                     <table class="table">
                         <thead>
                         </thead>
                         <tbody>
-                        <?php if (count($this->activities)): ?>
                             <?php foreach ($this->activities as $activity): ?>
                                 <?php if ($activity->getOperation() == $activity::OPERATION_UPDATE): ?>
                                     <?php $properties = json_decode($activity->getData(), true); ?>
@@ -136,12 +194,33 @@
                         <?php else: ?>
                             <tr>                               
                                 <td colspan="2">No recent activity to report.</td>
-                            </tr>                           
-                        <?php endif; ?>
+                            </tr>
                         </tbody>
                     </table>
+                    <?php endif; ?>
                 </div>
             </div>
             
             <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
             </div>
+
+            <script>
+            $( document ).ready(function() {
+
+                // trigger the file selector 
+                // in the hidden file upload form
+                // when the 'add' button is clicked
+                // @see http://stackoverflow.com/questions/793014/jquery-trigger-file-input
+                $('.btn-file-add').click(function(){
+                    $('input[name=file]').click();
+                    return false;
+                });  
+
+                // automatically submit the file upload form
+                // when a file is selected
+                $('input[name=file]').change(function() {
+                  $('#file').submit();
+                });
+
+            });
+            </script>                        
