@@ -4,5 +4,5 @@ $( document ).ready(function() {
         var link = $(e.relatedTarget);
         $(this).load(link.attr("href"));
     });
-    
+
 });

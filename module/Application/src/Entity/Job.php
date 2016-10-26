@@ -82,6 +82,14 @@ class Job
     public $labels;
 
     /**
+     * @ORM\OneToMany(targetEntity="File", mappedBy="job", cascade={"remove"})
+     * @ORM\OrderBy({"created" = "DESC"})
+     * @Annotation\Required(false)
+     * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
+     */
+    public $files;
+
+    /**
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.save"})
      */
@@ -89,6 +97,7 @@ class Job
 
     public function __construct() {
         $this->labels = new ArrayCollection();
+        $this->files = new ArrayCollection();
     }    
     
     public function setId($id)
@@ -174,5 +183,25 @@ class Job
             $this->labels->removeElement($label);
         }
     }
-    
+
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    public function setFiles($files)
+    {
+        $this->files = $files;
+    }
+
+    public function addFile(File $file)
+    {
+        $this->files->add($file);
+    }
+
+    public function removeFile(File $file)
+    {
+        $this->files->removeElement($file);
+    } 
+
 }

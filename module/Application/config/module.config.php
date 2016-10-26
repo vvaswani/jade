@@ -47,6 +47,21 @@ return [
                     ],
                 ],
             ],
+            'files' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/jobs/:jid/files[/:action][/:id]',
+                    'defaults' => [
+                        'controller' => Controller\FileController::class,
+                        'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                        'jid'     => '[0-9]*',
+                    ],
+                ],
+            ],
         ],
     ],
     'service_manager' => [
@@ -74,6 +89,7 @@ return [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\JobController::class   => ApplicationControllerFactory::class,
             Controller\LabelController::class => ApplicationControllerFactory::class,
+            Controller\FileController::class => ApplicationControllerFactory::class,
         ]
     ],
     'view_manager' => [

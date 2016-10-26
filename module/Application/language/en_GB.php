@@ -10,6 +10,7 @@ namespace Application;
 		'common.edit' => 'Edit',
 		'common.delete' => 'Remove',
 		'common.save' => 'Save', 
+		'common.download' => 'Download', 
 		'common.cancel' => 'Cancel', 
 
 		'common.dashboard' => 'Dashboard', 
@@ -27,10 +28,12 @@ namespace Application;
 		'activity-stream.updated' => '%s modified the %s from %s to %s', 
 		'activity-stream.associated' => '%s added the %s %s to this case', 
 		'activity-stream.dissociated' => '%s removed the %s %s from this case', 
+		'activity-stream.requested' => '%s requested the %s %s', 
 		'activity-stream.empty' => 'empty', 
 		'activity-stream.opened' => '%s opened this case', 
 		'activity-stream.closed' => '%s closed this case', 
-    
+		'activity-stream.recent-activity' => 'Recent Activity', 
+
 		// case entity
 		'job.entity' => 'Case',
 		'job.open-jobs' => 'Open Cases',
@@ -50,6 +53,12 @@ namespace Application;
 		'label.colour' => 'Colour',
 		'label.name' => 'Name', 
 		'label.current-labels' => 'Current Labels',
-		
+
+		// file entity
+		'file.entity' => 'File',
+		'file.current-files' => 'Current Files',
+		'file.name' => 'Name',
+		'file.created' => 'Date',
+		'file.add' => 'Add'
 	);
 ?>

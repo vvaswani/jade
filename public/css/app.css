@@ -76,3 +76,10 @@ input, textarea {
 .bootstrap-select > div.dropdown-menu > ul.dropdown-menu > li > a > span.text {
     font-weight: bold;
 }
+
+.form-file-add {
+    width: 0px;
+    height: 0px;
+    visibility: hidden;
+    overflow: hidden;
+}
