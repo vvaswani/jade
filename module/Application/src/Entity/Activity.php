@@ -16,6 +16,7 @@ class Activity
     const OPERATION_DELETE = 'DELETE';
     const OPERATION_ASSOCIATE = 'ASSOCIATE';
     const OPERATION_DISSOCIATE = 'DISSOCIATE';
+    const OPERATION_REQUEST = 'REQUEST';
 
     const ENTITY_TYPE_JOB = 'JOB';
     const ENTITY_TYPE_LABEL = 'LABEL';

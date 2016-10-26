@@ -26,5 +26,11 @@ return [
                 ],
             ],
         ],
+        'configuration' => [
+            'orm_default' => [
+                'generate_proxies' => true,
+                'proxy_dir' => 'data/tmp/DoctrineORMModule/Proxy',
+            ],
+        ]
     ],
 ];

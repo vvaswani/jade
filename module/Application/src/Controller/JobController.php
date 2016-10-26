@@ -13,6 +13,7 @@ use Application\Entity\Job;
 use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Label;
+use Application\Entity\File;
 use Application\Form\ConfirmationForm;
 
 class JobController extends AbstractActionController
@@ -46,13 +47,24 @@ class JobController extends AbstractActionController
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
         }
+
         $job = $this->em->getRepository(Job::class)->find($id);
+        if (!$job) {
+            return $this->redirect()->toRoute('jobs');
+        }
+        
         $activities = $this->em->getRepository(Activity::class)->findBy(
             array('entityId' => $job->getId(), 'entityType' => Activity::ENTITY_TYPE_JOB),
             array('id' => 'DESC')
         );
+
+        $file = new File();
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm($file);
+
         return new ViewModel(array(
             'job' => $job, 
+            'form' => $form, 
             'activities' => $activities,
             'user' => $this->al->getUser()
         ));
@@ -97,6 +109,9 @@ class JobController extends AbstractActionController
                 $job->setStatus(Job::STATUS_OPEN);
                 $this->em->persist($job); 
                 $this->em->flush();
+                if (!file_exists(File::UPLOAD_PATH . '/' . (int)$job->getId())) {
+                    mkdir (File::UPLOAD_PATH . '/' . (int)$job->getId());
+                }
                 $this->am->flush($this->al->getQueue());
                 return $this->redirect()->toRoute('jobs');
             }
@@ -133,6 +148,12 @@ class JobController extends AbstractActionController
                 if ($data['confirm'] == 1) {
                     $this->em->remove($job);
                     $this->em->flush(); 
+                    if (file_exists(File::UPLOAD_PATH . '/' . (int)$id)) {
+                        foreach(glob(File::UPLOAD_PATH . '/' . (int)$id . '/*') as $file) {
+                            unlink($file);
+                        }
+                        rmdir (File::UPLOAD_PATH . '/' . (int)$id);
+                    }
                     $this->am->flush($this->al->getQueue());
                 } 
             }
