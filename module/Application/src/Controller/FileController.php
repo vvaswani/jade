@@ -13,6 +13,7 @@ use Application\Listener\ActivityListener;
 use Application\Service\ActivityManager;
 use Application\Entity\File;
 use Application\Entity\Job;
+use Application\Entity\Activity;
 use Application\Form\ConfirmationForm;
 
 class FileController extends AbstractActionController
@@ -56,6 +57,9 @@ class FileController extends AbstractActionController
                 $request->getPost()->toArray(),
                 $request->getFiles()->toArray()
             );
+            if (!file_exists(File::UPLOAD_PATH . '/' . (int)$job->getId())) {
+                mkdir (File::UPLOAD_PATH . '/' . (int)$job->getId());
+            }            
             $filter = $form->getInputFilter()->get('file')->getFilterChain()->getFilters()->extract('FileRenameUpload');
             $filter->setTarget(File::UPLOAD_PATH . '/' . $job->getId());
             $form->setInputFilter($form->getInputFilter()); 
@@ -139,6 +143,17 @@ class FileController extends AbstractActionController
 
         $fileObject = File::UPLOAD_PATH . '/' . $file->getJob()->getId() . '/' . $file->getName();
         if (file_exists($fileObject)) {
+            $queue[] = array(
+                // TODO replace with authenticated user
+                $this->al->getUser(), 
+                Activity::OPERATION_REQUEST, 
+                new \DateTime("now"),
+                $file->getJob(),
+                $file, 
+                array('name' => $file->getName())
+            );
+            $this->al->setQueue($queue); 
+            $this->am->flush($this->al->getQueue());
             $response = new Stream();
             $response->setStream(fopen($fileObject, 'r'));
             $response->setStatusCode(200);

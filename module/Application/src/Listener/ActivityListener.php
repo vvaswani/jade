@@ -6,6 +6,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\EntityManager;
 use Application\Entity\Job;
 use Application\Entity\Label;
+use Application\Entity\File;
 use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Service\ActivityManager;
@@ -34,15 +35,25 @@ class ActivityListener
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
             if ($entity instanceof Job || $entity instanceof Label) {
-                    $this->queue[] = array(
-                        $this->user, 
-                        Activity::OPERATION_CREATE, 
-                        new \DateTime("now"),
-                        $entity,
-                        null, 
-                        null
-                    ); 
+                $this->queue[] = array(
+                    $this->user, 
+                    Activity::OPERATION_CREATE, 
+                    new \DateTime("now"),
+                    $entity,
+                    null, 
+                    null
+                ); 
             }
+            if ($entity instanceof File) {
+                $this->queue[] = array(
+                    $this->user, 
+                    Activity::OPERATION_CREATE, 
+                    new \DateTime("now"),
+                    $entity->getJob(),
+                    $entity, 
+                    array('name' => $entity->getName())
+                ); 
+            }            
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
@@ -74,6 +85,17 @@ class ActivityListener
 	                null
 	            );
 	        }
+            if ($entity instanceof File) {
+                $clone = clone $entity;
+                $this->queue[] = array(
+                    $this->user, 
+                    Activity::OPERATION_DELETE, 
+                    new \DateTime("now"),
+                    $clone->getJob(),
+                    $clone, 
+                    array('name' => $clone->getName())
+                ); 
+            }              
         }
 
         foreach ($uow->getScheduledCollectionDeletions() as $col) {
@@ -126,7 +148,12 @@ class ActivityListener
     {
         return $this->queue;
     }
-      
+
+    public function setQueue($queue)
+    {
+        $this->queue = $queue;
+    }
+
     // TODO replace with authenticated user or remove
     public function getUser()
     {

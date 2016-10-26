@@ -28,6 +28,7 @@ namespace Application;
 		'activity-stream.updated' => '%s modified the %s from %s to %s', 
 		'activity-stream.associated' => '%s added the %s %s to this case', 
 		'activity-stream.dissociated' => '%s removed the %s %s from this case', 
+		'activity-stream.requested' => '%s requested the %s %s', 
 		'activity-stream.empty' => 'empty', 
 		'activity-stream.opened' => '%s opened this case', 
 		'activity-stream.closed' => '%s closed this case', 

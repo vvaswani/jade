@@ -66,7 +66,7 @@ $form->prepare();
                         </div>                        
                     </div>  
                 </div>
-                <div class="panel-body table-responsive activity-stream">
+                <div class="panel-body table-responsive">
                     <?php if ($this->job->getFiles()->count()): ?>
                     <table class="table">
                         <thead>
@@ -145,16 +145,50 @@ $form->prepare();
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                                                      
                                     <?php endforeach; ?>
-                                <?php elseif ($activity->getOperation() == $activity::OPERATION_CREATE): ?>                                    
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_CREATE): ?>  
+                                    <?php switch ($activity->getAssociatedEntityType()): 
+                                         case 'FILE': ?>
+                                                <?php $properties = json_decode($activity->getData(), true); ?>
+                            <tr> 
+                                <td>
+                                <?php echo sprintf(
+                                    $this->translate('activity-stream.associated'), 
+                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<strong>' . $properties['name'] . '</strong>',
+                                    strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
+                                ); ?>.
+                                </td>
+                                <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
+                            </tr>  
+                                                <?php break; ?>
+                                        <?php default: ?>
                             <tr>                               
                                 <td><?php echo sprintf($this->translate('activity-stream.created'), '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>
+                                    <?php endswitch; ?> 
                                 <?php elseif ($activity->getOperation() == $activity::OPERATION_DELETE): ?>  
+                                    <?php switch ($activity->getAssociatedEntityType()): 
+                                         case 'FILE': ?>
+                                                <?php $properties = json_decode($activity->getData(), true); ?>
+                            <tr> 
+                                <td>
+                                <?php echo sprintf(
+                                    $this->translate('activity-stream.dissociated'), 
+                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<strong>' . $properties['name'] . '</strong>',
+                                    strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
+                                ); ?>.
+                                </td>
+                                <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
+                            </tr>                                                 
+                                                <?php break; ?>
+                                        <?php default: ?>
                             <tr>                               
                                 <td><?php echo sprintf($this->translate('activity-stream.deleted'), '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                          
+                                    <?php endswitch; ?> 
                                 <?php elseif ($activity->getOperation() == $activity::OPERATION_ASSOCIATE): ?>  
                                     <?php switch ($activity->getAssociatedEntityType()): 
                                          case 'LABEL': ?>
@@ -182,6 +216,23 @@ $form->prepare();
                                     $this->translate('activity-stream.dissociated'), 
                                     '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
                                     '<span class="label label-default" style="background-color: ' . $properties['colour'] . '">' .  $properties['name']. '</span>',
+                                    strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
+                                ); ?>.
+                                </td>
+                                <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
+                            </tr>  
+                                        <?php break; ?>
+                                    <?php endswitch; ?>
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_REQUEST): ?>
+                                    <?php switch ($activity->getAssociatedEntityType()): 
+                                        case 'FILE': ?>
+                                        <?php $properties = json_decode($activity->getData(), true); ?>
+                            <tr> 
+                                <td>
+                                <?php echo sprintf(
+                                    $this->translate('activity-stream.requested'), 
+                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<strong>' .  $properties['name']. '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
                                 </td>
