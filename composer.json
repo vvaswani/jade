@@ -3,11 +3,11 @@
     "prefer-stable": true,
     "require": {
         "php": "^5.6 || ^7.0",
-        "zendframework/zend-mvc": "^3.0.2",
+        "zendframework/zend-mvc": "^3.0",
         "zendframework/zend-mvc-form": "^1.0.0",
         "zendframework/zend-mvc-i18n": "^1.0.0",
-        "doctrine/doctrine-orm-module": "dev-master",
-        "doctrine/doctrine-module": "dev-master"
+        "doctrine/doctrine-orm-module": "^1.0",
+        "doctrine/doctrine-module": "^1.0"
     },
     "autoload": {
         "psr-4": {
