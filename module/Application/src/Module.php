@@ -7,6 +7,9 @@
 
 namespace Application;
 
+use Zend\Mvc\Controller\AbstractActionController;
+use Application\Controller\UserController;
+
 class Module
 {
     const VERSION = '3.0.2dev';
@@ -14,5 +17,35 @@ class Module
     public function getConfig()
     {
         return include __DIR__ . '/../config/module.config.php';
+    }  
+
+    public function onBootstrap($event)
+    {
+        $eventManager = $event->getApplication()->getEventManager();
+        $sharedEventManager = $eventManager->getSharedManager();
+        $sharedEventManager->attach(AbstractActionController::class, 
+            $event::EVENT_DISPATCH, [$this, 'onDispatch'], 100);
     }
+    
+    public function onDispatch($event)
+    {
+        $controller = $event->getTarget();
+        $controllerName = $event->getRouteMatch()->getParam('controller', null);
+        $actionName = $event->getRouteMatch()->getParam('action', null);
+        
+        $actionName = str_replace('-', '', lcfirst(ucwords($actionName, '-')));
+        $as = $event->getApplication()->getServiceManager()
+        			->get('doctrine.authenticationservice.orm_default');
+
+		if ($controllerName != UserController::class && !$as->hasIdentity()) {
+            $uri = $event->getApplication()->getRequest()->getUri();
+            $uri->setScheme(null)
+                ->setHost(null)
+                ->setPort(null)
+                ->setUserInfo(null);
+            $redirectUri = $uri->toString();
+            return $controller->redirect()->toRoute('login', [], 
+                    ['query' => ['url' => $redirectUri]]);
+        }
+    }    
 }

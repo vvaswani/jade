@@ -4,7 +4,7 @@ namespace Application\Service;
 use Doctrine\ORM\EntityManager;
 use Application\Entity\Activity;
 
-class ActivityManager
+class ActivityManagerService
 {
     private $em;
 

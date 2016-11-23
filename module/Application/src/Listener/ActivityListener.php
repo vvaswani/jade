@@ -9,7 +9,7 @@ use Application\Entity\Label;
 use Application\Entity\File;
 use Application\Entity\Activity;
 use Application\Entity\User;
-use Application\Service\ActivityManager;
+use Application\Service\ActivityManagerService;
 
 class ActivityListener 
 {

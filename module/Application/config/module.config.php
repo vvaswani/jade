@@ -4,7 +4,8 @@ namespace Application;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
-use Application\Factory\ApplicationControllerFactory;
+use Application\Factory\Controller\ApplicationControllerFactory;
+use Application\Factory\Controller\UserControllerFactory;
 
 return [
     'router' => [
@@ -62,13 +63,34 @@ return [
                     ],
                 ],
             ],
+            'login' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/login',
+                    'defaults' => [
+                        'controller' => Controller\UserController::class,
+                        'action'     => 'login',
+                    ],
+                ],
+            ],            
+            'logout' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/logout',
+                    'defaults' => [
+                        'controller' => Controller\UserController::class,
+                        'action'     => 'logout',
+                    ],
+                ],
+            ],            
         ],
     ],
     'service_manager' => [
         'factories' => [
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-            'Application\Service\ActivityManager' => 'Application\Factory\ActivityManagerFactory',
-            'Application\Listener\ActivityListener' => 'Application\Factory\ActivityListenerFactory',
+            'Application\Service\ActivityManagerService' => 'Application\Factory\Service\ActivityManagerServiceFactory',
+            'Application\Listener\ActivityListener' => 'Application\Factory\Listener\ActivityListenerFactory',
+            'Application\Service\AccessControlService' => 'Application\Factory\Service\AccessControlServiceFactory',
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
@@ -87,9 +109,10 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-            Controller\JobController::class   => ApplicationControllerFactory::class,
+            Controller\JobController::class  => ApplicationControllerFactory::class,
             Controller\LabelController::class => ApplicationControllerFactory::class,
             Controller\FileController::class => ApplicationControllerFactory::class,
+            Controller\UserController::class => ApplicationControllerFactory::class,
         ]
     ],
     'view_manager' => [

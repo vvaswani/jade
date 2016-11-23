@@ -12,6 +12,8 @@ namespace Application;
 		'common.save' => 'Save', 
 		'common.download' => 'Download', 
 		'common.cancel' => 'Cancel', 
+		'common.login' => 'Sign In', 
+		'common.logout' => 'Sign Out', 
 
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
@@ -59,6 +61,11 @@ namespace Application;
 		'file.current-files' => 'Current Files',
 		'file.name' => 'Name',
 		'file.created' => 'Date',
-		'file.add' => 'Add'
+		'file.add' => 'Add',
+    
+    // user entity
+		'user.username' => 'Email address',
+		'user.password' => 'Password',
+    
 	);
 ?>
