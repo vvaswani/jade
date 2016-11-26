@@ -13,6 +13,7 @@ use Application\Service\ActivityManagerService;
 use Application\Entity\User;
 use Application\Entity\Activity;
 use Application\Form\LoginForm;
+use Application\Form\ConfirmationForm;
 
 class UserController extends AbstractActionController
 {
@@ -31,6 +32,8 @@ class UserController extends AbstractActionController
         $this->ams = $ams;
         $this->al = $al;
         $this->as = $as;
+        $this->em->getEventManager()->addEventListener(
+            array(Events::onFlush), $this->al);        
     }
 
     public function loginAction()
@@ -44,15 +47,34 @@ class UserController extends AbstractActionController
 
         if ($request->isPost()) {
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 $adapter = $this->as->getAdapter();
                 $adapter->setIdentity($data['username']);
                 $adapter->setCredential($data['password']);
                 $result = $this->as->authenticate();
+
                 if (!$result->isValid()) {
+                    $user = new User();
+                    $user->setId(0);
                     $form->get('password')->setMessages($result->getMessages());
                 } else {
+                    $user = $this->as->getIdentity();
+                }
+
+                $queue = $this->al->getQueue();
+                $source = $request->getServer('REMOTE_ADDR');
+                $queue[] = array(
+                    Activity::OPERATION_LOGIN, 
+                    new \DateTime("now"),
+                    $user,
+                    null, 
+                    array('source' => $source, 'result' => (string)$result->getCode())
+                );
+                $this->al->setQueue($queue);
+                $this->ams->flush($this->al->getQueue());
+
+                if ($this->as->hasIdentity()) {
                     if(empty($data['url'])) {
                         return $this->redirect()->toRoute('jobs');
                     } else {
@@ -69,13 +91,205 @@ class UserController extends AbstractActionController
 
     public function logoutAction()
     {
-        $this->as->clearIdentity();
+        if ($this->as->hasIdentity()) {
+            $clone = clone $this->as->getIdentity();
+            $this->as->clearIdentity();
+            $request = $this->getRequest();
+            $queue[] = array(
+                Activity::OPERATION_LOGOUT, 
+                new \DateTime("now"),
+                $clone,
+                null, 
+                array('source' => $request->getServer('REMOTE_ADDR'))
+            );
+            $this->al->setQueue($queue);
+            $this->ams->flush($this->al->getQueue());            
+        }
         return $this->redirect()->toRoute('login');
+    }
+
+    public function indexAction()
+    {
+        $users = $this->em->getRepository(User::class)->findBy(array(), 
+            array('created' => 'DESC'));
+        return new ViewModel(array('users' => $users));
+    }
+
+    public function saveAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        $user = $this->em->getRepository(User::class)->find($id);        
+        if (!$user) {
+            $user = new User();
+            $user->setCreated(new \DateTime("now"));
+            $passwordRequired = true;  // new user creation
+        } else {
+            $passwordHash = $user->getPassword();
+            $passwordRequired = false;  // existing user modification
+        }
+        $builder = new AnnotationBuilder();
+        $hydrator = new DoctrineHydrator($this->em);
+        $form = $builder->createForm($user);
+        $form->setHydrator($hydrator);
+        $form->getInputFilter()->get('password')->setRequired($passwordRequired);
+        $form->bind($user);
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            if ($form->isValid()) {
+                if (!empty($user->getPassword())) {
+                    $passwordHash = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+                }
+                $user->setPassword($passwordHash);
+                $user->setStatus(User::STATUS_ACTIVE);
+                $this->em->persist($user); 
+                $this->em->flush();
+                $this->ams->flush($this->al->getQueue());
+                return $this->redirect()->toRoute('users');
+            }
+        }
+         
+        return new ViewModel(array(
+            'form' => $form,
+            'id' => $user->getId(),
+        ));
+    }
+
+    public function deleteAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('users');
+        }
+
+        $user = $this->em->getRepository(User::class)->find($id);
+        if (!$user) {
+            return $this->redirect()->toRoute('users');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'delete', 'id' => $id)));
+        $form->get('cancelTo')->setValue($this->url()->fromRoute('users'));
+        
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $this->em->remove($user);
+                    $this->em->flush(); 
+                    $this->ams->flush($this->al->getQueue());
+                } 
+            }
+            return $this->redirect()->toRoute('users');
+        } 
+
+        $viewModel = new ViewModel(array(
+            'form' => $form,
+            'entityType' => 'user',
+            'entityDescriptor' => $user->getUsername(),
+            'confirmationMessage' => 'common.confirm-delete', 
+        ));
+        $viewModel->setTerminal($request->isXmlHttpRequest());
+        $viewModel->setTemplate('application/common/confirm.phtml');
+        return $viewModel;
+    }
+
+    public function deactivateAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('users');
+        }
+
+        $user = $this->em->getRepository(User::class)->find($id);
+        if (!$user) {
+            return $this->redirect()->toRoute('users');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'deactivate', 'id' => $id)));
+        $form->get('cancelTo')->setValue($this->url()->fromRoute('users'));
+        
+        $request = $this->getRequest();
+        if ($request->isPost()){
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $user->setStatus(User::STATUS_INACTIVE);
+                    $this->em->persist($user); 
+                    $this->em->flush(); 
+                    $this->ams->flush($this->al->getQueue());
+                } 
+            }
+            return $this->redirect()->toRoute('users');
+        } 
+
+        $viewModel = new ViewModel(array(
+            'form' => $form,
+            'entityType' => 'user',
+            'entityDescriptor' => $user->getUsername(),
+            'confirmationMessage' => 'user.confirm-deactivate',            
+        ));
+        $viewModel->setTerminal($request->isXmlHttpRequest());
+        $viewModel->setTemplate('application/common/confirm.phtml');
+        return $viewModel;
+    }    
+
+    public function activateAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('users');
+        }
+
+        $user = $this->em->getRepository(User::class)->find($id);
+        if (!$user) {
+            return $this->redirect()->toRoute('users');
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'activate', 'id' => $id)));
+        $form->get('cancelTo')->setValue($this->url()->fromRoute('users'));
+        
+        $request = $this->getRequest();
+        if ($request->isPost()){
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $user->setStatus(User::STATUS_ACTIVE);
+                    $this->em->persist($user); 
+                    $this->em->flush(); 
+                    $this->ams->flush($this->al->getQueue());
+                } 
+            }
+            return $this->redirect()->toRoute('users');
+        } 
+
+        $viewModel = new ViewModel(array(
+            'form' => $form,
+            'entityType' => 'user',
+            'entityDescriptor' => $user->getUsername(),
+            'confirmationMessage' => 'user.confirm-activate', 
+        ));
+        $viewModel->setTerminal($request->isXmlHttpRequest());
+        $viewModel->setTemplate('application/common/confirm.phtml');
+        return $viewModel;
     }
 
     public static function verifyCredential(User $user, $inputPassword) 
     {
-        return password_verify($inputPassword, $user->getPassword());
+        if ($user->getStatus() == User::STATUS_ACTIVE) {
+            return password_verify($inputPassword, $user->getPassword());
+        }
+        return false;
     }
 
 }

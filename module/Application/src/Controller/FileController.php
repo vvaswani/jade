@@ -148,8 +148,6 @@ class FileController extends AbstractActionController
         $fileObject = File::UPLOAD_PATH . '/' . $file->getJob()->getId() . '/' . $file->getName();
         if (file_exists($fileObject)) {
             $queue[] = array(
-                // TODO replace with authenticated user
-                $this->al->getUser(), 
                 Activity::OPERATION_REQUEST, 
                 new \DateTime("now"),
                 $file->getJob(),

@@ -37,7 +37,7 @@ class Module
         $as = $event->getApplication()->getServiceManager()
         			->get('doctrine.authenticationservice.orm_default');
 
-		if ($controllerName != UserController::class && !$as->hasIdentity()) {
+        if (!(($controllerName == 'Application\Controller\UserController' && $actionName == 'login') || ($controllerName == 'Application\Controller\IndexController')) && !$as->hasIdentity()) {
             $uri = $event->getApplication()->getRequest()->getUri();
             $uri->setScheme(null)
                 ->setHost(null)
@@ -47,5 +47,26 @@ class Module
             return $controller->redirect()->toRoute('login', [], 
                     ['query' => ['url' => $redirectUri]]);
         }
-    }    
+    }  
+
+    public function getServiceConfig()
+    {
+        return [
+            'factories' => [
+                'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
+                    return $serviceManager->get('doctrine.authenticationservice.orm_default');
+                },
+                /*
+                'DoctrineModule\Validator\UniqueObject' => function ($serviceManager) {
+                    $uniqueObject = new DoctrineModule\Validator\UniqueObject(array(
+                        'fields' => 'username',
+                        'object_repository' => $serviceManager->get('Doctrine\ORM\EntityManager')->getRepository('Application\Entity\User'),
+                        'object_manager' => $serviceManager->get('Doctrine\ORM\EntityManager'),
+                    ));
+                    return $uniqueObject;
+                },
+                */          
+            ],
+        ];
+    }      
 }

@@ -67,8 +67,7 @@ class JobController extends AbstractActionController
         return new ViewModel(array(
             'job' => $job, 
             'form' => $form, 
-            'activities' => $activities,
-            'user' => $this->al->getUser()
+            'activities' => $activities
         ));
     }    
     

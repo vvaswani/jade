@@ -58,7 +58,7 @@ class LabelController extends AbstractActionController
             $form->setData($request->getPost());
             if ($form->isValid()){  
                 $this->em->persist($label); 
-                $this->em->flush();                    
+                $this->em->flush(); 
                 $this->ams->flush($this->al->getQueue());
                 return $this->redirect()->toRoute('labels');
             }

@@ -17,10 +17,13 @@ class Activity
     const OPERATION_ASSOCIATE = 'ASSOCIATE';
     const OPERATION_DISSOCIATE = 'DISSOCIATE';
     const OPERATION_REQUEST = 'REQUEST';
+    const OPERATION_LOGIN = 'LOGIN';
+    const OPERATION_LOGOUT = 'LOGOUT';
 
     const ENTITY_TYPE_JOB = 'JOB';
     const ENTITY_TYPE_LABEL = 'LABEL';
     const ENTITY_TYPE_FILE = 'FILE';
+    const ENTITY_TYPE_USER = 'USER';
     
     /**
      * @ORM\Id 

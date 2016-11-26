@@ -19,10 +19,6 @@ class ActivityListener
 	public function __construct()
 	{
         $this->queue = array();
-        // TODO replace with authenticated user
-        $this->user = new User();
-        $this->user->setId(1);
-        $this->user->setName('Unknown User');
 	}
 
     /**
@@ -34,9 +30,8 @@ class ActivityListener
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if ($entity instanceof Job || $entity instanceof Label) {
+            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User) {
                 $this->queue[] = array(
-                    $this->user, 
                     Activity::OPERATION_CREATE, 
                     new \DateTime("now"),
                     $entity,
@@ -46,7 +41,6 @@ class ActivityListener
             }
             if ($entity instanceof File) {
                 $this->queue[] = array(
-                    $this->user, 
                     Activity::OPERATION_CREATE, 
                     new \DateTime("now"),
                     $entity->getJob(),
@@ -57,11 +51,10 @@ class ActivityListener
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-        	if ($entity instanceof Job || $entity instanceof Label) {
+        	if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User) {
 	    		$diff = $uow->getEntityChangeSet($entity);
                 if (!empty($diff)) {
                     $this->queue[] = array(
-                        $this->user, 
     	                Activity::OPERATION_UPDATE, 
                         new \DateTime("now"),
     	                $entity,
@@ -72,12 +65,10 @@ class ActivityListener
 		    }
         }
 
-
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-	    	if ($entity instanceof Job || $entity instanceof Label) {
+	    	if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User) {
                 $clone = clone $entity;
                 $this->queue[] = array(
-                    $this->user, 
 	                Activity::OPERATION_DELETE, 
                     new \DateTime("now"),
 	                $clone,
@@ -88,7 +79,6 @@ class ActivityListener
             if ($entity instanceof File) {
                 $clone = clone $entity;
                 $this->queue[] = array(
-                    $this->user, 
                     Activity::OPERATION_DELETE, 
                     new \DateTime("now"),
                     $clone->getJob(),
@@ -113,7 +103,6 @@ class ActivityListener
                             'colour' => $associatedEntity->getColour(),
                         );                  
                         $this->queue[] = array(
-                            $this->user, 
                             Activity::OPERATION_ASSOCIATE, 
                             new \DateTime("now"),
                             $entity,
@@ -131,7 +120,6 @@ class ActivityListener
                             'colour' => $associatedEntity->getColour(),
                         );  
                         $this->queue[] = array(
-                            $this->user, 
                             Activity::OPERATION_DISSOCIATE, 
                             new \DateTime("now"),
                             $entity,
@@ -154,9 +142,4 @@ class ActivityListener
         $this->queue = $queue;
     }
 
-    // TODO replace with authenticated user or remove
-    public function getUser()
-    {
-        return $this->user;
-    } 
 }

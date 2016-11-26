@@ -12,12 +12,13 @@ namespace Application;
 		'common.save' => 'Save', 
 		'common.download' => 'Download', 
 		'common.cancel' => 'Cancel', 
-		'common.login' => 'Sign In', 
-		'common.logout' => 'Sign Out', 
 
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'Settings', 
+		'common.login' => 'Sign In', 
+		'common.logout' => 'Sign Out', 
+		'common.home' => 'Home',
 		'common.confirm-action' => 'Confirm Action', 
 		'common.confirm-proceed' => 'Do you wish to proceed?', 
 		'common.confirm-delete' => 'This operation will delete the %s %s and all related data from the system.',
@@ -63,9 +64,18 @@ namespace Application;
 		'file.created' => 'Date',
 		'file.add' => 'Add',
     
-    // user entity
+    	// user entity
+		'user.entity' => 'User',
+		'user.current-users' => 'Current Users',
+		'user.id' => '#', 
+		'user.name' => 'Name', 
 		'user.username' => 'Email address',
 		'user.password' => 'Password',
+		'user.status' => 'Status',
+		'user.activate' => 'Activate', 
+		'user.deactivate' => 'Deactivate', 
+		'user.confirm-deactivate' => 'This operation will deactivate the %s %s.',
+		'user.confirm-activate' => 'This operation will activate the %s %s.',
     
 	);
 ?>

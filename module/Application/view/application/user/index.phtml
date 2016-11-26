@@ -1,0 +1,60 @@
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title"> <?php echo $this->translate('user.current-users'); ?></span>
+                    <div class="pull-right">
+                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('users', array('action' => 'save')); ?>">
+                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
+                        </a>
+                    </div>                    
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped user-list">
+                        <thead>
+                            <tr>
+                                <th><?php echo $this->translate('user.id'); ?></th>
+                                <th><?php echo $this->translate('user.name'); ?></th>
+                                <th><?php echo $this->translate('user.username'); ?></th>
+                                <th><?php echo $this->translate('user.status'); ?></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($this->users as $u): ?>
+                            <tr>
+                                <td><?php echo $this->escapeHtml($u->getId()); ?></td>        
+                                <td><?php echo $this->escapeHtml($u->getName()); ?></td>
+                                <td><?php echo $this->escapeHtml($u->getUsername()); ?></td>
+                                <td><?php echo ($u->getStatus() == $u::STATUS_ACTIVE) ? 'Active' : 'Inactive'; ?></td>
+                                <td>
+                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('users', array('action' => 'save', 'id' => $this->escapeHtml($u->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <?php if ($u->getStatus() == $u::STATUS_ACTIVE): ?>
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('users', array('action' => 'deactivate', 'id' => $this->escapeHtml($u->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-eye-close"></span> <?php echo $this->translate('user.deactivate'); ?>
+                                    </a>
+                                    <?php else: ?>
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('users', array('action' => 'activate', 'id' => $this->escapeHtml($u->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('user.activate'); ?>
+                                    </a>
+                                    <?php endif; ?>
+                                </td> 
+                                <td>
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('users', array('action' => 'delete', 'id' => $this->escapeHtml($u->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
+                                    </a>
+                                </td>
+                            </tr>            
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
+            </div>

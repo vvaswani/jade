@@ -63,6 +63,20 @@ return [
                     ],
                 ],
             ],
+            'users' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/users[/:action][/:id]',
+                    'defaults' => [
+                        'controller' => Controller\UserController::class,
+                        'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                    ],
+                ],
+            ],            
             'login' => [
                 'type'    => Segment::class,
                 'options' => [

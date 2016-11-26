@@ -2,22 +2,24 @@
 namespace Application\Service;
 
 use Doctrine\ORM\EntityManager;
+use Zend\Authentication\AuthenticationService;
 use Application\Entity\Activity;
 
 class ActivityManagerService
 {
     private $em;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, AuthenticationService $as)
     {
         $this->em = $em;
+        $this->as = $as;
     } 
 
     public function flush($queue) 
     {
         if (count($queue)) {
             foreach ($queue as $item) {
-                $this->log($item[0], $item[1], $item[2], $item[3], $item[4],  $item[5]);
+                $this->log($item[0], $item[1], $item[2], $item[3], $item[4]);
             }
         }
     }
@@ -25,7 +27,6 @@ class ActivityManagerService
     /**
     * logs an activity
     *
-    * @param  User      $user               the user initiating the operation
     * @param  string    $operation          a constant indicating the operation type
     * @param  string    $ts                 the operation timestamp
     * @param  Entity    $entity             the entity on which the operation is being performed
@@ -33,14 +34,24 @@ class ActivityManagerService
     * @param  array     $data               operation-related data (changes performed for updates, limited entity-specific data for associations)
     * @access private
     */
-    private function log($user, $operation, $ts, $entity, $associatedEntity = null, $data = null) 
+    private function log($operation, $ts, $entity, $associatedEntity = null, $data = null) 
     {
         $activity = new Activity();
+        $user = $this->as->getIdentity();
         $activity->setCreated($ts);
-        $activity->setUserId($user->getId());
         $activity->setOperation($operation);
-        $activity->setEntityId($entity->getId());
-        $entityClass = array_pop(explode('\\', get_class($entity)));
+        if (is_null($user) && $operation == Activity::OPERATION_LOGIN) {
+            $activity->setUserId(0);
+            $activity->setEntityId(0);
+        } else if ($operation == Activity::OPERATION_LOGOUT) {
+            $activity->setUserId($entity->getId());
+            $activity->setEntityId($entity->getId());
+        } else {
+            $activity->setUserId($user->getId());            
+            $activity->setEntityId($entity->getId());
+        }
+        $entityClassSegments = explode('\\', get_class($entity));     
+        $entityClass = array_pop($entityClassSegments);
         $activity->setEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($entityClass)));
         if (!is_null($associatedEntity)) {
             $activity->setAssociatedEntityId($associatedEntity->getId());
