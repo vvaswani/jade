@@ -57,6 +57,7 @@ class Module
                     return $serviceManager->get('doctrine.authenticationservice.orm_default');
                 },
                 /*
+                // TODO instantiate validator
                 'DoctrineModule\Validator\UniqueObject' => function ($serviceManager) {
                     $uniqueObject = new DoctrineModule\Validator\UniqueObject(array(
                         'fields' => 'username',
@@ -65,8 +66,9 @@ class Module
                     ));
                     return $uniqueObject;
                 },
-                */          
+                */
             ],
         ];
-    }      
+    }
+
 }
