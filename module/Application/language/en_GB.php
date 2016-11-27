@@ -24,7 +24,9 @@ namespace Application;
 		'common.confirm-delete' => 'This operation will delete the %s %s and all related data from the system.',
 		'common.yes' => 'Yes', 
 		'common.no' => 'No',
+		'common.close' => 'Close',
 		'common.no-undo' => 'This operation cannot be undone.',
+		'common.alert-action' => 'Alert', 
 
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 
@@ -76,6 +78,7 @@ namespace Application;
 		'user.deactivate' => 'Deactivate', 
 		'user.confirm-deactivate' => 'This operation will deactivate the %s %s.',
 		'user.confirm-activate' => 'This operation will activate the %s %s.',
+		'user.alert-min-threshold' => 'This application requires a minimum of 1 %s.'
     
 	);
 ?>

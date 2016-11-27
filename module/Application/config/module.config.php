@@ -151,5 +151,8 @@ return [
                 'naming_strategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy'
             ],
         ],
+        'fixture' => [
+            'Application' => __DIR__ . '/../src/Fixture',
+        ]
     ],    
 ];

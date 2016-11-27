@@ -168,12 +168,25 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('users');
         }
 
+        $request = $this->getRequest();
+
+        $users = $this->em->getRepository(User::class)->findAll();
+        if (count($users) == 1) {
+            $viewModel = new ViewModel(array(
+                'entityType' => 'user',
+                'alertMessage' => 'user.alert-min-threshold', 
+                'cancelTo' => $this->url()->fromRoute('users')
+            ));
+            $viewModel->setTerminal($request->isXmlHttpRequest());
+            $viewModel->setTemplate('application/common/alert.phtml');
+            return $viewModel;            
+        }
+
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'delete', 'id' => $id)));
         $form->get('cancelTo')->setValue($this->url()->fromRoute('users'));
         
-        $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) { 
