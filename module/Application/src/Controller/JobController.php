@@ -4,11 +4,12 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Form\Annotation\AnnotationBuilder;
+use Zend\Authentication\AuthenticationService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Listener\ActivityListener;
-use Application\Service\ActivityManager;
+use Application\Service\ActivityManagerService;
 use Application\Entity\Job;
 use Application\Entity\Activity;
 use Application\Entity\User;
@@ -22,17 +23,18 @@ class JobController extends AbstractActionController
 
     private $al;
 
-    private $am;
+    private $ams;
 
-    public function __construct(EntityManager $em, ActivityManager $am, ActivityListener $al)
+    private $as;
+
+    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as)
     {
         $this->em = $em;
+        $this->ams = $ams;
         $this->al = $al;
-        $this->am = $am;
+        $this->as = $as;
         $this->em->getEventManager()->addEventListener(
-            array(Events::onFlush),
-            $this->al
-        );
+            array(Events::onFlush), $this->al);
     }
 
     public function indexAction()
@@ -65,8 +67,7 @@ class JobController extends AbstractActionController
         return new ViewModel(array(
             'job' => $job, 
             'form' => $form, 
-            'activities' => $activities,
-            'user' => $this->al->getUser()
+            'activities' => $activities
         ));
     }    
     
@@ -112,7 +113,7 @@ class JobController extends AbstractActionController
                 if (!file_exists(File::UPLOAD_PATH . '/' . (int)$job->getId())) {
                     mkdir (File::UPLOAD_PATH . '/' . (int)$job->getId());
                 }
-                $this->am->flush($this->al->getQueue());
+                $this->ams->flush($this->al->getQueue());
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -154,7 +155,7 @@ class JobController extends AbstractActionController
                         }
                         rmdir (File::UPLOAD_PATH . '/' . (int)$id);
                     }
-                    $this->am->flush($this->al->getQueue());
+                    $this->ams->flush($this->al->getQueue());
                 } 
             }
             return $this->redirect()->toRoute('jobs');
@@ -197,7 +198,7 @@ class JobController extends AbstractActionController
                     $job->setStatus(Job::STATUS_CLOSED);
                     $this->em->persist($job); 
                     $this->em->flush(); 
-                    $this->am->flush($this->al->getQueue());
+                    $this->ams->flush($this->al->getQueue());
                 } 
             }
             return $this->redirect()->toRoute('jobs');
@@ -240,7 +241,7 @@ class JobController extends AbstractActionController
                     $job->setStatus(Job::STATUS_OPEN);
                     $this->em->persist($job); 
                     $this->em->flush(); 
-                    $this->am->flush($this->al->getQueue());
+                    $this->ams->flush($this->al->getQueue());
                 } 
             }
             return $this->redirect()->toRoute('jobs');

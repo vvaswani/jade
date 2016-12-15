@@ -1,0 +1,53 @@
+<?php        
+$form = $this->form;
+$form->setAttribute('action', $this->url('users', array('action' => 'save', 'id' => $this->id)));
+$form->setAttribute('method', 'POST');
+$form->setAttribute('novalidate', 'true');
+$form->prepare();
+?>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo (!$this->id) ? $this->translate('common.create') : $this->translate('common.edit'); ?> <?php echo $this->translate('user.entity'); ?>
+                    </span>
+                    <div class="pull-right">
+                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('users'); ?>">
+                            <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.cancel'); ?>
+                        </a>
+                    </div>                    
+                </div>
+                <div class="panel-body">
+                    <?php echo $this->form()->openTag($form); ?>
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('name')) ?>
+                            <?php echo $this->formInput($form->get('name')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('name')) ?>
+                            </span>
+                        </div> 
+
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('username')) ?>
+                            <?php echo $this->formInput($form->get('username')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('username')) ?>
+                            </span>
+                        </div> 
+
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('password')) ?>
+                            <?php echo $this->formPassword($form->get('password')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('password')) ?>
+                            </span>
+                        </div> 
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>
+                            </button> 
+                        </div>	 
+                    <?php echo $this->form()->closeTag($form); ?>
+                </div>
+            </div>

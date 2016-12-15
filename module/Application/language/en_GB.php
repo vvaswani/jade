@@ -16,12 +16,17 @@ namespace Application;
 		'common.dashboard' => 'Dashboard', 
 		'common.reports' => 'Reports', 
 		'common.settings' => 'Settings', 
+		'common.login' => 'Sign In', 
+		'common.logout' => 'Sign Out', 
+		'common.home' => 'Home',
 		'common.confirm-action' => 'Confirm Action', 
 		'common.confirm-proceed' => 'Do you wish to proceed?', 
 		'common.confirm-delete' => 'This operation will delete the %s %s and all related data from the system.',
 		'common.yes' => 'Yes', 
 		'common.no' => 'No',
+		'common.close' => 'Close',
 		'common.no-undo' => 'This operation cannot be undone.',
+		'common.alert-action' => 'Alert', 
 
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 
@@ -59,6 +64,21 @@ namespace Application;
 		'file.current-files' => 'Current Files',
 		'file.name' => 'Name',
 		'file.created' => 'Date',
-		'file.add' => 'Add'
+		'file.add' => 'Add',
+    
+    	// user entity
+		'user.entity' => 'User',
+		'user.current-users' => 'Current Users',
+		'user.id' => '#', 
+		'user.name' => 'Name', 
+		'user.username' => 'Email address',
+		'user.password' => 'Password',
+		'user.status' => 'Status',
+		'user.activate' => 'Activate', 
+		'user.deactivate' => 'Deactivate', 
+		'user.confirm-deactivate' => 'This operation will deactivate the %s %s.',
+		'user.confirm-activate' => 'This operation will activate the %s %s.',
+		'user.alert-min-threshold' => 'This application requires a minimum of 1 %s.'
+    
 	);
 ?>

@@ -62,7 +62,7 @@ input, textarea {
     margin: .2em;
 }
 
-.activity-stream .label, .job-list .label  {
+.activity-stream .label, .job-list .label, .user-list label  {
     margin: .2em;
     font-size: 80%;
 }

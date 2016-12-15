@@ -19,5 +19,6 @@ return [
     'Zend\Mvc\I18n',
     'DoctrineModule',
     'DoctrineORMModule',
+    'DoctrineDataFixtureModule',
     'Application',
 ];

@@ -31,6 +31,15 @@ return [
                 'generate_proxies' => true,
                 'proxy_dir' => 'data/tmp/DoctrineORMModule/Proxy',
             ],
+        ],
+        'authentication' => [
+            'orm_default' => [
+                'object_manager' => 'Doctrine\ORM\EntityManager',
+                'identity_class' => 'Application\Entity\User',
+                'identity_property' => 'username',
+                'credential_property' => 'password',
+                'credential_callable' => 'Application\Controller\UserController::verifyCredential'
+            ],
         ]
     ],
 ];

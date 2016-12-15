@@ -2,10 +2,8 @@
 namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Form\Annotation;
-use Application\Entity\Activity;
 
 /**
  * @ORM\Entity

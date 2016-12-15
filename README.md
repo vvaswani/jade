@@ -43,6 +43,7 @@ If administrator access to the `php.ini` file is not available, set these values
   * Update `$APP_DIR/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection.
   * (For development environments, optional) Copy `$APP_DIR/config/development.config.php.dist` to `$APP_DIR/config/development.config.php`. This enables detailed exception listings and the Zend Developer Tools (ZDT) toolbar. This is not recommended for production environments.
   * Create the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:create` from the `$APP_DIR` directory.
+  * Seed the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load` from the `$APP_DIR` directory.
 
 Sample commands:
 
@@ -57,12 +58,14 @@ Sample commands:
       $ cp config/autoload/local.php.dist config/autoload/local.php
       $ cp config/autoload/development.config.php.dist config/autoload/development.config.php
       $ ./vendor/bin/doctrine-module orm:schema-tool:create
+      $ ./vendor/bin/doctrine-module orm:fixtures:load
 
 ### Upgrade
 
   * Pull the [latest application code from Github](https://github.com/vvaswani/jade/). 
   * Update dependencies by executing `composer install`.  
   * Update the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:update --force` from the `$APP_DIR` directory.
+  * Update the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load --append` from the `$APP_DIR` directory.
 
 Sample commands:
 
@@ -70,6 +73,7 @@ Sample commands:
       $ git pull
       $ composer install
       $ ./vendor/bin/doctrine-module orm:schema-tool:update --force
+      $ ./vendor/bin/doctrine-module orm:fixtures:load --append
         
 ## Roadmap
 If you are interested in the future direction of this project, please contribute using the [issues log](https://github.com/vvaswani/jade/issues). Your feedback is appreciated.
