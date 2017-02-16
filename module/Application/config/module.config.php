@@ -154,13 +154,5 @@ return [
         'fixture' => [
             'Application' => __DIR__ . '/../src/Fixture',
         ]
-    ],   
-    'validators' => [
-        'factories' => [
-            Validator\UniqueObject::class => Factory\Validator\UniqueObjectFactory::class,
-        ],
-        'aliases' => [
-            'UniqueObject' => Validator\UniqueObject::class,
-        ],
-    ]    
+    ],
 ];
