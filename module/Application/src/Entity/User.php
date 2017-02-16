@@ -24,8 +24,6 @@ class User
     /**
      * @ORM\Column(type="string", unique=true)
      * @Annotation\Validator({"name":"EmailAddress"})
-     * // TODO check for uniqueness of field 
-     * // Annotation\Validator({"name":"DoctrineModule\Validator\UniqueObject", "options": {"fields": "username"}})
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Options({"label":"user.username"})     

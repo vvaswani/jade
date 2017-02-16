@@ -108,7 +108,7 @@ return [
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
-        ],
+        ],        
     ],
     'translator' => [
         'locale' => 'en_GB',
@@ -154,5 +154,5 @@ return [
         'fixture' => [
             'Application' => __DIR__ . '/../src/Fixture',
         ]
-    ],    
+    ],
 ];
