@@ -108,7 +108,7 @@ return [
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
-        ],
+        ],        
     ],
     'translator' => [
         'locale' => 'en_GB',
@@ -154,5 +154,13 @@ return [
         'fixture' => [
             'Application' => __DIR__ . '/../src/Fixture',
         ]
-    ],    
+    ],   
+    'validators' => [
+        'factories' => [
+            Validator\UniqueObject::class => Factory\Validator\UniqueObjectFactory::class,
+        ],
+        'aliases' => [
+            'UniqueObject' => Validator\UniqueObject::class,
+        ],
+    ]    
 ];

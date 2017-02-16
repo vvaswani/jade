@@ -10,7 +10,7 @@ namespace Application;
 use Zend\Mvc\Controller\AbstractActionController;
 use Application\Controller\UserController;
 
-class Module
+class Module 
 {
     const VERSION = '3.0.2dev';
 
@@ -56,17 +56,6 @@ class Module
                 'Zend\Authentication\AuthenticationService' => function ($serviceManager) {
                     return $serviceManager->get('doctrine.authenticationservice.orm_default');
                 },
-                /*
-                // TODO instantiate validator
-                'DoctrineModule\Validator\UniqueObject' => function ($serviceManager) {
-                    $uniqueObject = new DoctrineModule\Validator\UniqueObject(array(
-                        'fields' => 'username',
-                        'object_repository' => $serviceManager->get('Doctrine\ORM\EntityManager')->getRepository('Application\Entity\User'),
-                        'object_manager' => $serviceManager->get('Doctrine\ORM\EntityManager'),
-                    ));
-                    return $uniqueObject;
-                },
-                */
             ],
         ];
     }

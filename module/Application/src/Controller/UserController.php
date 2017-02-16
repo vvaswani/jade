@@ -132,6 +132,18 @@ class UserController extends AbstractActionController
         $form = $builder->createForm($user);
         $form->setHydrator($hydrator);
         $form->getInputFilter()->get('password')->setRequired($passwordRequired);
+        // TODO use an ElementAnnotationsListener with the DoctrineORMModule AnnotationBuilder
+        // TODO see https://github.com/internalsystemerror/ise-module-bread/blob/feature/zf3/src/Factory/FormAbstractFactory.php
+        // TODO see https://github.com/internalsystemerror/ise-module-bread/blob/feature/zf3/src/Form/Annotation/ElementAnnotationsListener.php
+        $form->getInputFilter()->get('username')->getValidatorChain()->attach(
+             new \DoctrineModule\Validator\UniqueObject(array(
+                'use_context' => true,
+                'fields' => 'username',
+                'object_repository' => $this->em->getRepository('Application\Entity\User'),
+                'object_manager' => $this->em,
+            ))
+        );
+        $form->setInputFilter($form->getInputFilter());
         $form->bind($user);
 
         $request = $this->getRequest();
