@@ -40,18 +40,12 @@ class ActivityManagerService
         $activity = new Activity();
         $user = $this->as->getIdentity();
         $activity->setCreated($ts);
-        $activity->setOperation($operation);
-        if (is_null($user) && $operation == Activity::OPERATION_LOGIN) {
-            $activity->setUser($user);
-            $activity->setEntityId($user->getId());
-        } else if ($operation == Activity::OPERATION_LOGOUT) {
+        $activity->setOperation($operation);            
+        if (is_null($user) && $operation == Activity::OPERATION_LOGOUT) {
             $user = $this->em->getRepository(User::class)->find($entity->getId());
-            $activity->setUser($user);
-            $activity->setEntityId($entity->getId());
-        } else {
-            $activity->setUser($user);            
-            $activity->setEntityId($entity->getId());
         }
+        $activity->setUser($user);
+        $activity->setEntityId($entity->getId());
         $entityClassSegments = explode('\\', get_class($entity));     
         $entityClass = array_pop($entityClassSegments);
         $activity->setEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($entityClass)));

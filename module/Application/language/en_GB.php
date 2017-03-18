@@ -8,7 +8,7 @@ namespace Application;
 		'common.create' => 'Create New',
 		'common.view' => 'View',
 		'common.edit' => 'Edit',
-		'common.delete' => 'Remove',
+		'common.delete' => 'Delete',
 		'common.save' => 'Save', 
 		'common.download' => 'Download', 
 		'common.cancel' => 'Cancel', 
@@ -79,7 +79,8 @@ namespace Application;
 		'user.deactivate' => 'Deactivate', 
 		'user.confirm-deactivate' => 'This operation will deactivate the %s %s.',
 		'user.confirm-activate' => 'This operation will activate the %s %s.',
-		'user.alert-min-threshold' => 'This application requires a minimum of 1 %s.'
+		'user.alert-min-threshold' => 'This application requires a minimum of 1 %s.',
+		'user.alert-owner-open-jobs' => 'This %s has at least one open %s and cannot be deleted.'
     
 	);
 ?>

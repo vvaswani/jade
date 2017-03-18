@@ -56,7 +56,20 @@ class User
      * @ORM\Column(type="integer")
      * @Annotation\Exclude()
      */
-    public $status;
+    protected $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="user", cascade={"remove"})
+     * @ORM\OrderBy({"created" = "DESC"})
+     * @Annotation\Exclude()
+     */
+    protected $activities;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Privilege", mappedBy="user", cascade={"remove"})
+     * @Annotation\Exclude()
+     */
+    protected $privileges;
 
     public function setId($id)
     {
@@ -116,5 +129,45 @@ class User
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    public function getActivities()
+    {
+        return $this->activities;
+    }
+
+    public function setActivities($activities)
+    {
+        $this->activities = $activities;
+    }
+
+    public function addActivity(Activity $activity)
+    {
+        $this->activities->add($activity);
+    }
+
+    public function removeActivity(Activity $activity)
+    {
+        $this->activities->removeElement($activity);
     }     
+
+    public function getPrivileges()
+    {
+        return $this->privileges;
+    }
+
+    public function setPrivileges($privileges)
+    {
+        $this->privileges = $privileges;
+    }
+
+    public function addPrivilege(Privilege $privilege)
+    {
+        $this->privileges->add($privilege);
+    }
+
+    public function removePrivilege(Privilege $privilege)
+    {
+        $this->privileges->removeElement($privilege);
+    }    
 }

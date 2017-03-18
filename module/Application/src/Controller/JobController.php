@@ -44,7 +44,8 @@ class JobController extends AbstractActionController
 
     public function indexAction()
     {
-        //$ownedJobs = $this->em->getRepository(Job::class)->findBy(array('owner' => $this->as->getIdentity(), 'status' => Job::STATUS_OPEN), array('created' => 'DESC'));
+        // this is more efficient but less consistent with the ACL approach
+        /*
         $qb = $this->em->createQueryBuilder();
         $qb->select('j')
            ->from(Privilege::class, 'p')
@@ -56,6 +57,14 @@ class JobController extends AbstractActionController
            ->setParameter('status', Job::STATUS_OPEN)
            ->setParameter('user', $this->as->getIdentity());
         $jobs = $qb->getQuery()->getResult();
+        */
+        $results = $this->em->getRepository(Job::class)->findBy(array('status' => Job::STATUS_OPEN), array('created' => 'DESC'));
+        $jobs = array();
+        foreach ($results as $job) {
+            if ($this->authorizationPlugin()->authorize($job) !== false) {
+                $jobs[] = $job;
+            }
+        }
         return new ViewModel(array('jobs' => $jobs));
     }
     
@@ -72,7 +81,7 @@ class JobController extends AbstractActionController
         }
         
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
         }
 
         $activities = $this->em->getRepository(Activity::class)->findBy(
@@ -105,7 +114,7 @@ class JobController extends AbstractActionController
             $job->setPrivileges(array($privilege));
         } else {
             if ($this->authorizationPlugin()->authorize($job) === false) {
-                return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
+                return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
             }
         }
 
@@ -167,7 +176,7 @@ class JobController extends AbstractActionController
         }
 
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
         }
 
         $builder = new AnnotationBuilder();
@@ -219,7 +228,7 @@ class JobController extends AbstractActionController
         }
 
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
         }
 
         $builder = new AnnotationBuilder();
@@ -266,7 +275,7 @@ class JobController extends AbstractActionController
         }
 
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
         }
 
         $builder = new AnnotationBuilder();

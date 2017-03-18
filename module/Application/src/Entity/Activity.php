@@ -63,8 +63,7 @@ class Activity
     protected $associatedEntityId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn()
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="activities")
      */
     protected $user;
     

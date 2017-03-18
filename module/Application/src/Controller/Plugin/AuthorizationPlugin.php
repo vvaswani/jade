@@ -40,7 +40,8 @@ class AuthorizationPlugin extends AbstractPlugin
 		        $privilege = $entity->getUserPrivilege($this->as->getIdentity());
 		        if (!$acl->isAllowed($privilege->getName(), 'job', $actionName)) {
 		            return false; 
-		        }    	
+		        }
+                break;   	
         }
     }
 }

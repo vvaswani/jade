@@ -24,7 +24,7 @@ class AuthorizationService
         $acl->addRole($green, $orange);
 
         $acl->addResource(new Resource('job'));
-        $acl->allow($yellow, 'job', array('view'));
+        $acl->allow($yellow, 'job', array('view', 'index'));
         $acl->allow($orange, 'job', array('save'));
         $acl->allow($green, 'job', array('delete', 'close', 'open'));
 

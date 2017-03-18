@@ -34,7 +34,7 @@ use Zend\Form\Annotation;
     protected $id;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Job", inversedBy="privileges", cascade="persist")
+     * @ORM\ManyToOne(targetEntity="Job", inversedBy="privileges", cascade={"persist"})
      */
      protected $job;
 

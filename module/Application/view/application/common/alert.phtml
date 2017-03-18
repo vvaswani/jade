@@ -5,7 +5,11 @@
                             <h4 class="modal-title"><?php echo $this->translate('common.alert-action'); ?></h4>
                         </div>
                         <div class="modal-body">
-                            <?php echo sprintf($this->translate($this->alertMessage), $this->escapeHtml(strtolower($this->translate($this->entityType . '.entity')))); ?>                   
+                            <?php $alertMessageEntitiesTranslated = array(); ?>
+                            <?php foreach ($this->alertMessageEntities as $ame): ?>
+                                <?php $alertMessageEntitiesTranslated[] = $this->escapeHtml(strtolower($this->translate($ame))); ?>
+                            <?php endforeach; ?>
+                            <?php echo vsprintf($this->translate($this->alertMessage), $alertMessageEntitiesTranslated); ?>                   
                         </div>
                         <div class="modal-footer">
                             <div class="form-group text-center">

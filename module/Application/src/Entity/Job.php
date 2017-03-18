@@ -63,13 +63,6 @@ class Job
     protected $created;
 
     /**
-     * ORM\ManyToOne(targetEntity="User")
-     * ORM\JoinColumn(name="created_by")
-     * Annotation\Exclude()
-     protected $owner;
-     */
-
-    /**
      * @ORM\Column(type="integer")
      * @Annotation\Exclude()
      */

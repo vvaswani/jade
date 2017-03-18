@@ -7,7 +7,7 @@ use Zend\View\Model\ViewModel;
 class AlertPlugin extends AbstractPlugin 
 {
 
-    public function alert($entity, $alertMessage, $cancelToRoute)
+    public function alert($alertMessage, $alertMessageEntities, $cancelToRoute)
     {
         $controller = $this->getController();
         if (!$controller || !method_exists($controller, 'plugin')) {
@@ -18,8 +18,8 @@ class AlertPlugin extends AbstractPlugin
         $urlPlugin = $controller->plugin('url');
 
         $viewModel = new ViewModel(array(
-            'entityType' => $entity,
             'alertMessage' => $alertMessage, 
+            'alertMessageEntities' => $alertMessageEntities, 
             'cancelTo' => $urlPlugin->fromRoute($cancelToRoute)
         ));
         $viewModel->setTerminal($request->isXmlHttpRequest());

@@ -12,6 +12,8 @@ use Application\Listener\ActivityListener;
 use Application\Service\ActivityManagerService;
 use Application\Entity\User;
 use Application\Entity\Activity;
+use Application\Entity\Privilege;
+use Application\Entity\Job;
 use Application\Form\LoginForm;
 use Application\Form\ConfirmationForm;
 
@@ -55,31 +57,28 @@ class UserController extends AbstractActionController
                 $result = $this->as->authenticate();
 
                 if (!$result->isValid()) {
-                    $user = new User();
-                    $user->setId(0);
                     $form->get('password')->setMessages($result->getMessages());
                 } else {
                     $user = $this->as->getIdentity();
-                }
+                    $queue = $this->al->getQueue();
+                    $source = $request->getServer('REMOTE_ADDR');
+                    $queue[] = array(
+                        Activity::OPERATION_LOGIN, 
+                        new \DateTime("now"),
+                        $user,
+                        null, 
+                        array('source' => $source, 'result' => (string)$result->getCode())
+                    );
+                    $this->al->setQueue($queue);
+                    $this->ams->flush($this->al->getQueue());
 
-                $queue = $this->al->getQueue();
-                $source = $request->getServer('REMOTE_ADDR');
-                $queue[] = array(
-                    Activity::OPERATION_LOGIN, 
-                    new \DateTime("now"),
-                    $user,
-                    null, 
-                    array('source' => $source, 'result' => (string)$result->getCode())
-                );
-                $this->al->setQueue($queue);
-                $this->ams->flush($this->al->getQueue());
-
-                if ($this->as->hasIdentity()) {
-                    if(empty($data['url'])) {
-                        return $this->redirect()->toRoute('jobs');
-                    } else {
-                        $this->redirect()->toUrl($data['url']);
-                    }                                    
+                    if ($this->as->hasIdentity()) {
+                        if(empty($data['url'])) {
+                            return $this->redirect()->toRoute('jobs');
+                        } else {
+                            $this->redirect()->toUrl($data['url']);
+                        }                                    
+                    }
                 }
              } 
         }
@@ -180,9 +179,18 @@ class UserController extends AbstractActionController
 
         $request = $this->getRequest();
 
+        // check for at least one administrator
         $users = $this->em->getRepository(User::class)->findAll();
         if (count($users) == 1) {
-            return $this->alertPlugin()->alert('user', 'user.alert-min-threshold', 'users'); 
+            return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.entity'), 'users'); 
+        }
+
+        // check for open owned jobs
+        $privileges = $user->getPrivileges();
+        foreach ($privileges as $p) {
+            if ($p->getName() == Privilege::NAME_GREEN && $p->getJob()->getStatus() == Job::STATUS_OPEN) {
+                return $this->alertPlugin()->alert('user.alert-owner-open-jobs', array('user.entity', 'job.entity'), 'users');                
+            }
         }
 
         $builder = new AnnotationBuilder();
