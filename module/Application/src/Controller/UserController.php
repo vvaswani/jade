@@ -118,7 +118,7 @@ class UserController extends AbstractActionController
     public function saveAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
-        $user = $this->em->getRepository(User::class)->find($id);        
+        $user = $this->em->getRepository(User::class)->find($id);   
         if (!$user) {
             $user = new User();
             $user->setCreated(new \DateTime("now"));

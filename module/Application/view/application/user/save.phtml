@@ -19,6 +19,7 @@ $form->prepare();
                 </div>
                 <div class="panel-body">
                     <?php echo $this->form()->openTag($form); ?>
+                        <?php echo $this->formHidden($form->get('id')); // required for UniqueObject validator ?>
                         <div class="form-group"> 
                             <?php echo $this->formLabel($form->get('name')) ?>
                             <?php echo $this->formInput($form->get('name')) ?>
