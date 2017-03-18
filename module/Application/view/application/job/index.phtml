@@ -28,6 +28,7 @@
                                 <td>
                                     <?php echo $this->escapeHtml($j->getTitle()); ?>
                                     <?php $labels = $j->getLabels(); ?>
+                                    <?php $privilege = $j->getUserPrivilege($this->identity()); ?>                                    
                                     <?php if (count($labels) >= 1): ?>
                                         <span class="label label-default" style="background-color: <?php echo $this->escapeHtml($labels[0]->getColour()); ?>">
                                             <?php echo $this->escapeHtml($labels[0]->getName()); ?>
@@ -43,21 +44,27 @@
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'view', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('common.view'); ?>
                                     </a>
-                                </td>                        
+                                </td> 
                                 <td>
+                                <?php if (($privilege->getName() == $privilege::NAME_ORANGE) || ($privilege->getName() == $privilege::NAME_GREEN)): ?>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
                                     </a>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
+                                <?php if (($privilege->getName() == $privilege::NAME_ORANGE) || ($privilege->getName() == $privilege::NAME_GREEN)): ?>
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'close', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-eye-close"></span> <?php echo $this->translate('job.close'); ?>
                                     </a>
-                                </td>                                
+                                    <?php endif; ?>
+                                </td>
                                 <td>
+                                    <?php if ($privilege->getName() == $privilege::NAME_GREEN): ?>                                                          
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
                                     </a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>            
                             <?php endforeach; ?>

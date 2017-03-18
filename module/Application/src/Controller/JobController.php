@@ -10,11 +10,13 @@ use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Listener\ActivityListener;
 use Application\Service\ActivityManagerService;
+use Application\Service\AuthorizationService;
 use Application\Entity\Job;
 use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Label;
 use Application\Entity\File;
+use Application\Entity\Privilege;
 use Application\Form\ConfirmationForm;
 
 class JobController extends AbstractActionController
@@ -27,19 +29,33 @@ class JobController extends AbstractActionController
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as)
+    private $acs;
+
+    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as, AuthorizationService $acs)
     {
         $this->em = $em;
         $this->ams = $ams;
         $this->al = $al;
         $this->as = $as;
+        $this->acs = $acs;
         $this->em->getEventManager()->addEventListener(
             array(Events::onFlush), $this->al);
     }
 
     public function indexAction()
     {
-        $jobs = $this->em->getRepository(Job::class)->findBy(array('status' => Job::STATUS_OPEN), array('created' => 'DESC'));
+        //$ownedJobs = $this->em->getRepository(Job::class)->findBy(array('owner' => $this->as->getIdentity(), 'status' => Job::STATUS_OPEN), array('created' => 'DESC'));
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('j')
+           ->from(Privilege::class, 'p')
+           ->leftJoin(Job::class, 'j', 
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'p.job = j.id')
+           ->where("j.status = :status")
+           ->andWhere("p.user = :user")
+           ->orderBy("p.name", "ASC")
+           ->setParameter('status', Job::STATUS_OPEN)
+           ->setParameter('user', $this->as->getIdentity());
+        $jobs = $qb->getQuery()->getResult();
         return new ViewModel(array('jobs' => $jobs));
     }
     
@@ -55,6 +71,10 @@ class JobController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
         
+        if ($this->authorizationPlugin()->authorize($job) === false) {
+            return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
+        }
+
         $activities = $this->em->getRepository(Activity::class)->findBy(
             array('entityId' => $job->getId(), 'entityType' => Activity::ENTITY_TYPE_JOB),
             array('id' => 'DESC')
@@ -74,11 +94,21 @@ class JobController extends AbstractActionController
     public function saveAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
-        $job = $this->em->getRepository(Job::class)->find($id);        
+        $job = $this->em->getRepository(Job::class)->find($id); 
         if (!$job) {
             $job = new Job();
             $job->setCreated(new \DateTime("now"));
+            $privilege = new Privilege();
+            $privilege->setJob($job);
+            $privilege->setUser($this->as->getIdentity());
+            $privilege->setName(Privilege::NAME_GREEN);
+            $job->setPrivileges(array($privilege));
+        } else {
+            if ($this->authorizationPlugin()->authorize($job) === false) {
+                return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
+            }
         }
+
         $builder = new AnnotationBuilder();
         $hydrator = new DoctrineHydrator($this->em);
         $form = $builder->createForm($job);
@@ -108,7 +138,7 @@ class JobController extends AbstractActionController
             $form->setData($request->getPost());
             if ($form->isValid()){  
                 $job->setStatus(Job::STATUS_OPEN);
-                $this->em->persist($job); 
+                $this->em->persist($job);
                 $this->em->flush();
                 if (!file_exists(File::UPLOAD_PATH . '/' . (int)$job->getId())) {
                     mkdir (File::UPLOAD_PATH . '/' . (int)$job->getId());
@@ -134,6 +164,10 @@ class JobController extends AbstractActionController
         $job = $this->em->getRepository(Job::class)->find($id);
         if (!$job) {
             return $this->redirect()->toRoute('jobs');
+        }
+
+        if ($this->authorizationPlugin()->authorize($job) === false) {
+            return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
         }
 
         $builder = new AnnotationBuilder();
@@ -184,6 +218,10 @@ class JobController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
 
+        if ($this->authorizationPlugin()->authorize($job) === false) {
+            return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
+        }
+
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'close', 'id' => $id)));
@@ -225,6 +263,10 @@ class JobController extends AbstractActionController
         $job = $this->em->getRepository(Job::class)->find($id);
         if (!$job) {
             return $this->redirect()->toRoute('jobs');
+        }
+
+        if ($this->authorizationPlugin()->authorize($job) === false) {
+            return $this->alertPlugin()->alert('job', 'common.alert-access-denied', 'jobs');
         }
 
         $builder = new AnnotationBuilder();

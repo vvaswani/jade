@@ -4,6 +4,7 @@ namespace Application\Service;
 use Doctrine\ORM\EntityManager;
 use Zend\Authentication\AuthenticationService;
 use Application\Entity\Activity;
+use Application\Entity\User;
 
 class ActivityManagerService
 {
@@ -41,13 +42,14 @@ class ActivityManagerService
         $activity->setCreated($ts);
         $activity->setOperation($operation);
         if (is_null($user) && $operation == Activity::OPERATION_LOGIN) {
-            $activity->setUserId(0);
-            $activity->setEntityId(0);
+            $activity->setUser($user);
+            $activity->setEntityId($user->getId());
         } else if ($operation == Activity::OPERATION_LOGOUT) {
-            $activity->setUserId($entity->getId());
+            $user = $this->em->getRepository(User::class)->find($entity->getId());
+            $activity->setUser($user);
             $activity->setEntityId($entity->getId());
         } else {
-            $activity->setUserId($user->getId());            
+            $activity->setUser($user);            
             $activity->setEntityId($entity->getId());
         }
         $entityClassSegments = explode('\\', get_class($entity));     

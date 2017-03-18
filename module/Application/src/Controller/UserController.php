@@ -132,9 +132,7 @@ class UserController extends AbstractActionController
         $form = $builder->createForm($user);
         $form->setHydrator($hydrator);
         $form->getInputFilter()->get('password')->setRequired($passwordRequired);
-        // TODO use an ElementAnnotationsListener with the DoctrineORMModule AnnotationBuilder
-        // TODO see https://github.com/internalsystemerror/ise-module-bread/blob/feature/zf3/src/Factory/FormAbstractFactory.php
-        // TODO see https://github.com/internalsystemerror/ise-module-bread/blob/feature/zf3/src/Form/Annotation/ElementAnnotationsListener.php
+        // TODO use a @UniqueObject annotation once it works 
         $form->getInputFilter()->get('username')->getValidatorChain()->attach(
              new \DoctrineModule\Validator\UniqueObject(array(
                 'use_context' => true,
@@ -184,14 +182,7 @@ class UserController extends AbstractActionController
 
         $users = $this->em->getRepository(User::class)->findAll();
         if (count($users) == 1) {
-            $viewModel = new ViewModel(array(
-                'entityType' => 'user',
-                'alertMessage' => 'user.alert-min-threshold', 
-                'cancelTo' => $this->url()->fromRoute('users')
-            ));
-            $viewModel->setTerminal($request->isXmlHttpRequest());
-            $viewModel->setTemplate('application/common/alert.phtml');
-            return $viewModel;            
+            return $this->alertPlugin()->alert('user', 'user.alert-min-threshold', 'users'); 
         }
 
         $builder = new AnnotationBuilder();

@@ -4,6 +4,7 @@ namespace Application\Factory\Controller;
 use Interop\Container\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use Application\Service\ActivityManagerService;
+use Application\Service\AuthorizationService;
 use Application\Listener\ActivityListener;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -15,6 +16,7 @@ class ApplicationControllerFactory implements FactoryInterface
         $ams = $container->get(ActivityManagerService::class);
         $al = $container->get(ActivityListener::class);
         $as = $container->get('doctrine.authenticationservice.orm_default');
-        return new $requestedName($em, $ams, $al, $as);
+        $acs = $container->get(AuthorizationService::class);
+        return new $requestedName($em, $ams, $al, $as, $acs);
     }
 }

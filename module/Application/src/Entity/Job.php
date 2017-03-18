@@ -63,6 +63,13 @@ class Job
     protected $created;
 
     /**
+     * ORM\ManyToOne(targetEntity="User")
+     * ORM\JoinColumn(name="created_by")
+     * Annotation\Exclude()
+     protected $owner;
+     */
+
+    /**
      * @ORM\Column(type="integer")
      * @Annotation\Exclude()
      */
@@ -88,6 +95,12 @@ class Job
     public $files;
 
     /**
+     * @ORM\OneToMany(targetEntity="Privilege", mappedBy="job", cascade={"remove", "persist"})
+     * @Annotation\Required(false)
+     */
+    public $privileges;
+
+    /**
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.save"})
      */
@@ -96,6 +109,7 @@ class Job
     public function __construct() {
         $this->labels = new ArrayCollection();
         $this->files = new ArrayCollection();
+        $this->privileges = new ArrayCollection();
     }    
     
     public function setId($id)
@@ -146,7 +160,7 @@ class Job
     public function setCreated($created)
     {
         $this->created = $created;
-    }
+    }  
 
     public function getStatus()
     {
@@ -202,4 +216,39 @@ class Job
         $this->files->removeElement($file);
     } 
 
+    public function getPrivileges()
+    {
+        return $this->privileges;
+    }
+
+    public function getUserPrivilege(User $user)
+    {
+        $defaultPrivilege = new Privilege();
+        $defaultPrivilege->setName(Privilege::NAME_RED);
+        $defaultPrivilege->setJob($this);
+        $defaultPrivilege->setUser($user);
+        foreach ($this->privileges as $privilege)
+        {
+            if ($privilege->getUser()->getId() == $user->getId())
+            {
+                return $privilege;
+            }
+        }
+        return $defaultPrivilege;
+    }
+
+    public function setPrivileges($privileges)
+    {
+        $this->privileges = $privileges;
+    }
+
+    public function addPrivilege(Privilege $privilege)
+    {
+        $this->privileges->add($privilege);
+    }
+
+    public function removePrivilege(Privilege $privilege)
+    {
+        $this->privileges->removeElement($privilege);
+    } 
 }

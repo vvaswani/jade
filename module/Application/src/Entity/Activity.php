@@ -63,9 +63,10 @@ class Activity
     protected $associatedEntityId;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn()
      */
-    protected $userId;
+    protected $user;
     
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -142,14 +143,14 @@ class Activity
         $this->associatedEntityType = $associatedEntityType;
     }
 
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId($userId)
+    public function setUser(User $user)
     {
-        $this->userId = $userId;
+        $this->user = $user;
     }
 
     public function getData()

@@ -27,6 +27,7 @@ namespace Application;
 		'common.close' => 'Close',
 		'common.no-undo' => 'This operation cannot be undone.',
 		'common.alert-action' => 'Alert', 
+		'common.alert-access-denied' => 'Access denied',
 
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 

@@ -5,7 +5,7 @@ use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 use Application\Factory\Controller\ApplicationControllerFactory;
-use Application\Factory\Controller\UserControllerFactory;
+use Application\Factory\Controller\Plugin\AuthorizationControllerPluginFactory;
 
 return [
     'router' => [
@@ -104,7 +104,7 @@ return [
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
             'Application\Service\ActivityManagerService' => 'Application\Factory\Service\ActivityManagerServiceFactory',
             'Application\Listener\ActivityListener' => 'Application\Factory\Listener\ActivityListenerFactory',
-            'Application\Service\AccessControlService' => 'Application\Factory\Service\AccessControlServiceFactory',
+            'Application\Service\AuthorizationService' => 'Application\Factory\Service\AuthorizationServiceFactory',
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
@@ -127,6 +127,16 @@ return [
             Controller\LabelController::class => ApplicationControllerFactory::class,
             Controller\FileController::class => ApplicationControllerFactory::class,
             Controller\UserController::class => ApplicationControllerFactory::class,
+        ]
+    ],
+    'controller_plugins' => [
+        'factories' => [
+            Controller\Plugin\AlertPlugin::class => InvokableFactory::class,
+            Controller\Plugin\AuthorizationPlugin::class => AuthorizationControllerPluginFactory::class,
+        ],
+        'aliases' => [
+            'alertPlugin' => Controller\Plugin\AlertPlugin::class,
+            'authorizationPlugin' => Controller\Plugin\AuthorizationPlugin::class,
         ]
     ],
     'view_manager' => [

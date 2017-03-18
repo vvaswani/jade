@@ -2,6 +2,10 @@ body {
     padding-top: 70px;
 }
 
+.container {
+    width: auto;
+}
+
 .navbar {
     text-transform: uppercase;
     font-size: small;

@@ -7,7 +7,7 @@ use Zend\Form\Annotation;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="file")
+ * @ORM\Table(name="job_file")
  * @Annotation\Name("file")
  */
  class File

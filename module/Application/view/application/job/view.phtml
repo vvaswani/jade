@@ -122,20 +122,20 @@ $form->prepare();
                                     <?php if ($propertyValues[1] == 0): ?>
                                         <?php echo sprintf(
                                             $this->translate('activity-stream.closed'), 
-                                            '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                            '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
                                             strtolower($this->translate('job.' . $propertyName)) 
                                         ); ?>.                                        
                                     <?php elseif ($propertyValues[1] == 1): ?>
                                         <?php echo sprintf(
                                             $this->translate('activity-stream.opened'), 
-                                            '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                            '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
                                             strtolower($this->translate('job.' . $propertyName)) 
                                         ); ?>.  
                                     <?php endif; ?>
                                 <?php else: ?>
                                     <?php echo sprintf(
                                         $this->translate('activity-stream.updated'), 
-                                        '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
                                         strtolower($this->translate('job.' . $propertyName)), 
                                         !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>', 
                                         !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>' 
@@ -153,7 +153,7 @@ $form->prepare();
                                 <td>
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.associated'), 
-                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
                                     '<strong>' . $properties['name'] . '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
@@ -163,7 +163,7 @@ $form->prepare();
                                                 <?php break; ?>
                                         <?php default: ?>
                             <tr>                               
-                                <td><?php echo sprintf($this->translate('activity-stream.created'), '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>'); ?>.</td>
+                                <td><?php echo sprintf($this->translate('activity-stream.created'), '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>
                                     <?php endswitch; ?> 
