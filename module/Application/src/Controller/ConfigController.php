@@ -5,24 +5,20 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
 use Doctrine\ORM\EntityManager;
-use Application\Listener\ActivityListener;
-use Application\Service\ActivityManagerService;
+use Application\Service\ActivityService;
 use Application\Service\AuthorizationService;
 use Application\Entity\User;
 
 class ConfigController extends AbstractActionController
 {
 
-    private $al;
-
     private $ams;
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as, AuthorizationService $acs)
+    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as, AuthorizationService $acs)
     {
         $this->ams = $ams;
-        $this->al = $al;
         $this->as = $as;
     }
 

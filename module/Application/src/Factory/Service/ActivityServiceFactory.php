@@ -5,7 +5,7 @@ use Interop\Container\ContainerInterface;
 use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class ActivityManagerServiceFactory implements FactoryInterface
+class ActivityServiceFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {

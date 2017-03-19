@@ -8,8 +8,7 @@ use Zend\Authentication\AuthenticationService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Application\Listener\ActivityListener;
-use Application\Service\ActivityManagerService;
+use Application\Service\ActivityService;
 use Application\Service\AuthorizationService;
 use Application\Entity\User;
 use Application\Entity\Activity;
@@ -23,20 +22,15 @@ class UserController extends AbstractActionController
 
     private $em;
     
-    private $al;
-
     private $ams;
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as, AuthorizationService $acs)
+    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as, AuthorizationService $acs)
     {
         $this->em = $em;
         $this->ams = $ams;
-        $this->al = $al;
         $this->as = $as;
-        $this->em->getEventManager()->addEventListener(
-            array(Events::onFlush), $this->al);        
     }
 
     public function loginAction()
@@ -61,7 +55,7 @@ class UserController extends AbstractActionController
                     $form->get('password')->setMessages($result->getMessages());
                 } else {
                     $user = $this->as->getIdentity();
-                    $queue = $this->al->getQueue();
+                    $queue = $this->ams->getQueue();
                     $source = $request->getServer('REMOTE_ADDR');
                     $queue[] = array(
                         Activity::OPERATION_LOGIN, 
@@ -70,8 +64,8 @@ class UserController extends AbstractActionController
                         null, 
                         array('source' => $source, 'result' => (string)$result->getCode())
                     );
-                    $this->al->setQueue($queue);
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->setQueue($queue);
+                    $this->ams->flush($this->ams->getQueue());
 
                     if ($this->as->hasIdentity()) {
                         if(empty($data['url'])) {
@@ -102,8 +96,8 @@ class UserController extends AbstractActionController
                 null, 
                 array('source' => $request->getServer('REMOTE_ADDR'))
             );
-            $this->al->setQueue($queue);
-            $this->ams->flush($this->al->getQueue());            
+            $this->ams->setQueue($queue);
+            $this->ams->flush();            
         }
         return $this->redirect()->toRoute('login');
     }
@@ -171,7 +165,7 @@ class UserController extends AbstractActionController
                 $user->setStatus(User::STATUS_ACTIVE);
                 $this->em->persist($user); 
                 $this->em->flush();
-                $this->ams->flush($this->al->getQueue());
+                $this->ams->flush();
                 return $this->redirect()->toRoute('users');
             }
         }
@@ -226,7 +220,7 @@ class UserController extends AbstractActionController
                 if ($data['confirm'] == 1) {
                     $this->em->remove($user);
                     $this->em->flush(); 
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->flush();
                 } 
             }
             return $this->redirect()->toRoute('users');
@@ -270,7 +264,7 @@ class UserController extends AbstractActionController
                     $user->setStatus(User::STATUS_INACTIVE);
                     $this->em->persist($user); 
                     $this->em->flush(); 
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->flush();
                 } 
             }
             return $this->redirect()->toRoute('users');
@@ -314,7 +308,7 @@ class UserController extends AbstractActionController
                     $user->setStatus(User::STATUS_ACTIVE);
                     $this->em->persist($user); 
                     $this->em->flush(); 
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->flush();
                 } 
             }
             return $this->redirect()->toRoute('users');

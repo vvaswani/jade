@@ -8,8 +8,7 @@ use Zend\Authentication\AuthenticationService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Application\Listener\ActivityListener;
-use Application\Service\ActivityManagerService;
+use Application\Service\ActivityService;
 use Application\Service\AuthorizationService;
 use Application\Entity\Job;
 use Application\Entity\Activity;
@@ -23,23 +22,18 @@ class JobController extends AbstractActionController
 {
     private $em;
 
-    private $al;
-
     private $ams;
 
     private $as;
 
     private $acs;
 
-    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as, AuthorizationService $acs)
+    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as, AuthorizationService $acs)
     {
         $this->em = $em;
         $this->ams = $ams;
-        $this->al = $al;
         $this->as = $as;
         $this->acs = $acs;
-        $this->em->getEventManager()->addEventListener(
-            array(Events::onFlush), $this->al);
     }
 
     public function indexAction()
@@ -152,7 +146,7 @@ class JobController extends AbstractActionController
                 if (!file_exists(File::UPLOAD_PATH . '/' . (int)$job->getId())) {
                     mkdir (File::UPLOAD_PATH . '/' . (int)$job->getId());
                 }
-                $this->ams->flush($this->al->getQueue());
+                $this->ams->flush();
                 return $this->redirect()->toRoute('jobs');
             }
         }
@@ -197,7 +191,7 @@ class JobController extends AbstractActionController
                         }
                         rmdir (File::UPLOAD_PATH . '/' . (int)$id);
                     }
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->flush();
                 } 
             }
             return $this->redirect()->toRoute('jobs');
@@ -241,7 +235,7 @@ class JobController extends AbstractActionController
                     $job->setStatus(Job::STATUS_CLOSED);
                     $this->em->persist($job); 
                     $this->em->flush(); 
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->flush();
                 } 
             }
             return $this->redirect()->toRoute('jobs');
@@ -285,7 +279,7 @@ class JobController extends AbstractActionController
                     $job->setStatus(Job::STATUS_OPEN);
                     $this->em->persist($job); 
                     $this->em->flush(); 
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->flush();
                 } 
             }
             return $this->redirect()->toRoute('jobs');

@@ -9,28 +9,23 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Entity\Label;
-use Application\Listener\ActivityListener;
-use Application\Service\ActivityManagerService;
+use Application\Service\ActivityService;
+use Application\Service\AuthorizationService;
 use Application\Form\ConfirmationForm;
 
 class LabelController extends AbstractActionController
 {
     private $em;
     
-    private $al;
-
     private $ams;
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as)
+    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as, AuthorizationService $acs)
     {
         $this->em = $em;
         $this->ams = $ams;
-        $this->al = $al;
         $this->as = $as;
-        $this->em->getEventManager()->addEventListener(
-            array(Events::onFlush), $this->al);
     }
 
     public function indexAction()
@@ -59,7 +54,7 @@ class LabelController extends AbstractActionController
             if ($form->isValid()){  
                 $this->em->persist($label); 
                 $this->em->flush(); 
-                $this->ams->flush($this->al->getQueue());
+                $this->ams->flush();
                 return $this->redirect()->toRoute('labels');
             }
         }
@@ -93,7 +88,7 @@ class LabelController extends AbstractActionController
                 if ($data['confirm'] == 1) {
                     $this->em->remove($label);
                     $this->em->flush();                    
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->flush();
                 } 
             }
             return $this->redirect()->toRoute('labels');

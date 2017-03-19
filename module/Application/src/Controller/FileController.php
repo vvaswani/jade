@@ -10,8 +10,8 @@ use Zend\Authentication\AuthenticationService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-use Application\Listener\ActivityListener;
-use Application\Service\ActivityManagerService;
+use Application\Service\ActivityService;
+use Application\Service\AuthorizationService;
 use Application\Entity\File;
 use Application\Entity\Job;
 use Application\Entity\Activity;
@@ -22,22 +22,15 @@ class FileController extends AbstractActionController
 
     private $em;
     
-    private $al;
-
     private $ams;
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as)
+    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as, AuthorizationService $acs)
     {
         $this->em = $em;
         $this->ams = $ams;
-        $this->al = $al;
         $this->as = $as;
-        $this->em->getEventManager()->addEventListener(
-            array(Events::onFlush),
-            $this->al
-        );
     }
 
     public function saveAction()
@@ -79,7 +72,7 @@ class FileController extends AbstractActionController
                 $file->setJob($job);                      
                 $this->em->persist($file); 
                 $this->em->flush();
-                $this->ams->flush($this->al->getQueue());
+                $this->ams->flush();
                 return $this->redirect()->toRoute('jobs', array('action' => 'view', 'id' => $job->getId()));
             } 
         }
@@ -123,7 +116,7 @@ class FileController extends AbstractActionController
                     }
                     $this->em->remove($file);
                     $this->em->flush(); 
-                    $this->ams->flush($this->al->getQueue());
+                    $this->ams->flush();
                     return $this->redirect()->toRoute('jobs', array('action' => 'view', 'id' => $file->getJob()->getId()));
                 }
             } 
@@ -163,8 +156,8 @@ class FileController extends AbstractActionController
                 $file, 
                 array('name' => $file->getName())
             );
-            $this->al->setQueue($queue); 
-            $this->ams->flush($this->al->getQueue());
+            $this->ams->setQueue($queue); 
+            $this->ams->flush();
             $response = new Stream();
             $response->setStream(fopen($fileObject, 'r'));
             $response->setStatusCode(200);

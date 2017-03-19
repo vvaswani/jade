@@ -40,10 +40,9 @@ namespace Application;
 		'activity-stream.closed' => '%s closed this case', 
 		'activity-stream.recent-activity' => 'Recent Activity', 
 
-		// case entity
+		// job entity
 		'job.entity' => 'Case',
 		'job.open-jobs' => 'Open Cases',
-		'job.open-job' => 'Open Case',
 		'job.id' => '#', 
 		'job.title' => 'Title',
 		'job.created' => 'Created on',
@@ -71,7 +70,7 @@ namespace Application;
     	// user entity
 		'user.entity' => 'User',
 		'user.current-users' => 'Current Users',
-		'user.current-user' => 'Current User',
+		'user.my-profile' => 'Profile',
 		'user.id' => '#', 
 		'user.name' => 'Name', 
 		'user.username' => 'Email address',
