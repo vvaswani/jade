@@ -37,12 +37,16 @@ class Module
         $as = $event->getApplication()->getServiceManager()
         			->get('doctrine.authenticationservice.orm_default');
 
-        $match = $event->getRouteMatch();
         if (!(($controllerName == 'Application\Controller\UserController' && $actionName == 'login') || ($controllerName == 'Application\Controller\IndexController')) && !$as->hasIdentity()) {
-            $match->setParam('controller', UserController::class)
-                  ->setParam('action', 'logout');            
-        } 
-
+            $uri = $event->getApplication()->getRequest()->getUri();
+            $uri->setScheme(null)
+                ->setHost(null)
+                ->setPort(null)
+                ->setUserInfo(null);
+            $redirectUri = $uri->toString();
+            return $controller->redirect()->toRoute('login', [], 
+                    ['query' => ['url' => $redirectUri]]);
+        }
     }  
 
     public function getServiceConfig()
