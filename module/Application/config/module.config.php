@@ -133,10 +133,12 @@ return [
         'factories' => [
             Controller\Plugin\AlertPlugin::class => InvokableFactory::class,
             Controller\Plugin\AuthorizationPlugin::class => AuthorizationControllerPluginFactory::class,
+            Controller\Plugin\ConfirmationPlugin::class => InvokableFactory::class,
         ],
         'aliases' => [
             'alertPlugin' => Controller\Plugin\AlertPlugin::class,
             'authorizationPlugin' => Controller\Plugin\AuthorizationPlugin::class,
+            'confirmationPlugin' => Controller\Plugin\ConfirmationPlugin::class,
         ]
     ],
     'view_manager' => [

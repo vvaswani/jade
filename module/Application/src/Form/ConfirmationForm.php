@@ -22,7 +22,7 @@ class ConfirmationForm
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})     
      */
-    protected $cancelTo;
+    protected $cancelUrl;
 
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")

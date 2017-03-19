@@ -84,7 +84,6 @@ class LabelController extends AbstractActionController
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('labels', array('action' => 'delete', 'id' => $id)));
-        $form->get('cancelTo')->setValue($this->url()->fromRoute('labels'));
         
         $request = $this->getRequest();
         if ($request->isPost()){
@@ -100,14 +99,12 @@ class LabelController extends AbstractActionController
             return $this->redirect()->toRoute('labels');
         } 
 
-        $viewModel = new ViewModel(array(
-            'form' => $form,
-            'entityType' => 'label',
-            'entityDescriptor' => $label->getName(),            
-        ));
-        $viewModel->setTerminal($request->isXmlHttpRequest());
-        $viewModel->setTemplate('application/common/confirm.phtml');
-        return $viewModel;
+        return $this->confirmationPlugin()->confirm(
+            'common.confirm-delete', 
+            array ('label.entity', $label->getName()), 
+            $form,
+            $this->url()->fromRoute('labels')
+        );
     }
     
 }

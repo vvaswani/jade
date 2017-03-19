@@ -182,21 +182,20 @@ class UserController extends AbstractActionController
         // check for at least one administrator
         $users = $this->em->getRepository(User::class)->findAll();
         if (count($users) == 1) {
-            return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.entity'), 'users'); 
+            return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.entity'), $this->url()->fromRoute('users')); 
         }
 
         // check for open owned jobs
         $privileges = $user->getPrivileges();
         foreach ($privileges as $p) {
             if ($p->getName() == Privilege::NAME_GREEN && $p->getJob()->getStatus() == Job::STATUS_OPEN) {
-                return $this->alertPlugin()->alert('user.alert-owner-open-jobs', array('user.entity', 'job.entity'), 'users');                
+                return $this->alertPlugin()->alert('user.alert-owner-open-jobs', array('user.entity', 'job.entity'), $this->url()->fromRoute('users'));                
             }
         }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'delete', 'id' => $id)));
-        $form->get('cancelTo')->setValue($this->url()->fromRoute('users'));
         
         if ($request->isPost()) {
             $form->setData($request->getPost());
@@ -211,15 +210,12 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('users');
         } 
 
-        $viewModel = new ViewModel(array(
-            'form' => $form,
-            'entityType' => 'user',
-            'entityDescriptor' => $user->getUsername(),
-            'confirmationMessage' => 'common.confirm-delete', 
-        ));
-        $viewModel->setTerminal($request->isXmlHttpRequest());
-        $viewModel->setTemplate('application/common/confirm.phtml');
-        return $viewModel;
+        return $this->confirmationPlugin()->confirm(
+            'common.confirm-delete', 
+            array ('user.entity', $user->getUsername()), 
+            $form,
+            $this->url()->fromRoute('users')
+        );
     }
 
     public function deactivateAction()
@@ -237,7 +233,6 @@ class UserController extends AbstractActionController
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'deactivate', 'id' => $id)));
-        $form->get('cancelTo')->setValue($this->url()->fromRoute('users'));
         
         $request = $this->getRequest();
         if ($request->isPost()){
@@ -254,15 +249,12 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('users');
         } 
 
-        $viewModel = new ViewModel(array(
-            'form' => $form,
-            'entityType' => 'user',
-            'entityDescriptor' => $user->getUsername(),
-            'confirmationMessage' => 'user.confirm-deactivate',            
-        ));
-        $viewModel->setTerminal($request->isXmlHttpRequest());
-        $viewModel->setTemplate('application/common/confirm.phtml');
-        return $viewModel;
+        return $this->confirmationPlugin()->confirm(
+            'user.confirm-deactivate', 
+            array ('user.entity', $user->getUsername()), 
+            $form,
+            $this->url()->fromRoute('users')
+        );
     }    
 
     public function activateAction()
@@ -280,7 +272,6 @@ class UserController extends AbstractActionController
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'activate', 'id' => $id)));
-        $form->get('cancelTo')->setValue($this->url()->fromRoute('users'));
         
         $request = $this->getRequest();
         if ($request->isPost()){
@@ -297,15 +288,12 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('users');
         } 
 
-        $viewModel = new ViewModel(array(
-            'form' => $form,
-            'entityType' => 'user',
-            'entityDescriptor' => $user->getUsername(),
-            'confirmationMessage' => 'user.confirm-activate', 
-        ));
-        $viewModel->setTerminal($request->isXmlHttpRequest());
-        $viewModel->setTemplate('application/common/confirm.phtml');
-        return $viewModel;
+        return $this->confirmationPlugin()->confirm(
+            'user.confirm-activate', 
+            array ('user.entity', $user->getUsername()), 
+            $form,
+            $this->url()->fromRoute('users')
+        );
     }
 
     public static function verifyCredential(User $user, $inputPassword) 

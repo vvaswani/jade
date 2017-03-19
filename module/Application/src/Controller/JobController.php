@@ -81,7 +81,7 @@ class JobController extends AbstractActionController
         }
         
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
         $activities = $this->em->getRepository(Activity::class)->findBy(
@@ -114,7 +114,7 @@ class JobController extends AbstractActionController
             $job->setPrivileges(array($privilege));
         } else {
             if ($this->authorizationPlugin()->authorize($job) === false) {
-                return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+                return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
             }
         }
 
@@ -176,14 +176,13 @@ class JobController extends AbstractActionController
         }
 
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'delete', 'id' => $id)));
-        $form->get('cancelTo')->setValue($this->url()->fromRoute('jobs'));
-        
+
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
@@ -204,15 +203,13 @@ class JobController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         } 
 
-        $viewModel = new ViewModel(array(
-            'form' => $form,
-            'entityType' => 'job',
-            'entityDescriptor' => $job->getTitle(),
-            'confirmationMessage' => 'common.confirm-delete', 
-        ));
-        $viewModel->setTerminal($request->isXmlHttpRequest());
-        $viewModel->setTemplate('application/common/confirm.phtml');
-        return $viewModel;
+        return $this->confirmationPlugin()->confirm(
+            'common.confirm-delete', 
+            array ('job.entity', $job->getTitle()), 
+            $form,
+            $this->url()->fromRoute('jobs')
+        );
+
     }
 
     public function closeAction()
@@ -228,13 +225,12 @@ class JobController extends AbstractActionController
         }
 
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'close', 'id' => $id)));
-        $form->get('cancelTo')->setValue($this->url()->fromRoute('jobs'));
         
         $request = $this->getRequest();
         if ($request->isPost()){
@@ -251,15 +247,13 @@ class JobController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         } 
 
-        $viewModel = new ViewModel(array(
-            'form' => $form,
-            'entityType' => 'job',
-            'entityDescriptor' => $job->getTitle(),
-            'confirmationMessage' => 'job.confirm-close',            
-        ));
-        $viewModel->setTerminal($request->isXmlHttpRequest());
-        $viewModel->setTemplate('application/common/confirm.phtml');
-        return $viewModel;
+        return $this->confirmationPlugin()->confirm(
+            'job.confirm-close', 
+            array ('job.entity', $job->getTitle()), 
+            $form,
+            $this->url()->fromRoute('jobs')
+        );
+
     }    
 
     public function openAction()
@@ -275,13 +269,12 @@ class JobController extends AbstractActionController
         }
 
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'open', 'id' => $id)));
-        $form->get('cancelTo')->setValue($this->url()->fromRoute('jobs'));
         
         $request = $this->getRequest();
         if ($request->isPost()){
@@ -298,15 +291,12 @@ class JobController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         } 
 
-        $viewModel = new ViewModel(array(
-            'form' => $form,
-            'entityType' => 'job',
-            'entityDescriptor' => $job->getTitle(),
-            'confirmationMessage' => 'job.confirm-open', 
-        ));
-        $viewModel->setTerminal($request->isXmlHttpRequest());
-        $viewModel->setTemplate('application/common/confirm.phtml');
-        return $viewModel;
+        return $this->confirmationPlugin()->confirm(
+            'job.confirm-open', 
+            array ('job.entity', $job->getTitle()), 
+            $form,
+            $this->url()->fromRoute('jobs')
+        );
     }    
 
 }

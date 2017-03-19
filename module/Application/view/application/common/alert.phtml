@@ -5,15 +5,15 @@
                             <h4 class="modal-title"><?php echo $this->translate('common.alert-action'); ?></h4>
                         </div>
                         <div class="modal-body">
-                            <?php $alertMessageEntitiesTranslated = array(); ?>
-                            <?php foreach ($this->alertMessageEntities as $ame): ?>
-                                <?php $alertMessageEntitiesTranslated[] = $this->escapeHtml(strtolower($this->translate($ame))); ?>
+                            <?php $alertMessageStringsTranslated = array(); ?>
+                            <?php foreach ($this->alertMessageStrings as $ams): ?>
+                                <?php $alertMessageStringsTranslated[] = $this->escapeHtml(strtolower($this->translate($ams))); ?>
                             <?php endforeach; ?>
-                            <?php echo vsprintf($this->translate($this->alertMessage), $alertMessageEntitiesTranslated); ?>                   
+                            <?php echo vsprintf($this->translate($this->alertMessage), $alertMessageStringsTranslated); ?>                   
                         </div>
                         <div class="modal-footer">
                             <div class="form-group text-center">
-                                <a role="button" class="btn btn-primary" data-dismiss="modal" href="<?php echo $this->cancelTo; ?>">
+                                <a role="button" class="btn btn-primary" data-dismiss="modal" href="<?php echo $this->cancelUrl; ?>">
                                     <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.close'); ?>
                                 </a>
                             </div>

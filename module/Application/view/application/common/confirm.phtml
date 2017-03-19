@@ -11,11 +11,11 @@ $form->prepare();
                             <h4 class="modal-title"><?php echo $this->translate('common.confirm-action'); ?></h4>
                         </div>
                         <div class="modal-body">
-                            <?php echo sprintf($this->translate($this->confirmationMessage), $this->escapeHtml(strtolower($this->translate($this->entityType . '.entity'))), '<strong>' . $this->escapeHtml($this->entityDescriptor) . '</strong>'); ?>
-                            <?php if ($this->confirmationMessage == 'common.confirm-delete'): ?> 
+                            <?php echo sprintf($this->translate($this->confirmationMessage), $this->escapeHtml(strtolower($this->translate($this->confirmationMessageStrings[0]))), '<strong>' . $this->escapeHtml($this->confirmationMessageStrings[1]) . '</strong>'); ?>
+                            <?php if ($this->confirmationMessage == 'common.confirm-delete'): ?>
                               <?php echo $this->translate('common.no-undo'); ?> 
                             <?php endif; ?>
-                            <?php echo $this->translate('common.confirm-proceed'); ?>                   
+                            <?php echo $this->translate('common.confirm-proceed'); ?>          
                         </div>
                         <div class="modal-footer">
                             <?php echo $this->form()->openTag($form); ?>
@@ -26,7 +26,7 @@ $form->prepare();
                                 </span>
                             </div> 
                           <div class="form-group text-center">
-                              <a role="button" class="btn btn-primary" data-dismiss="modal" href="<?php echo $this->escapeHtml($form->get('cancelTo')->getValue()); ?>">
+                              <a role="button" class="btn btn-primary" data-dismiss="modal" href="<?php echo $this->escapeHtml($form->get('cancelUrl')->getValue()); ?>">
                                   <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.no'); ?>
                               </a>
                               <button type="submit" class="btn btn-danger">

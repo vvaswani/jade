@@ -53,7 +53,7 @@ class FileController extends AbstractActionController
         }
 
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
         $file = new File();
@@ -104,13 +104,12 @@ class FileController extends AbstractActionController
 
         $job = $file->getJob();
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('files', array('action' => 'delete', 'id' => $id, 'jid' => $file->getJob()->getId())));
-        $form->get('cancelTo')->setValue($this->url()->fromRoute('jobs'));
         
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -131,15 +130,12 @@ class FileController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
 
-        $viewModel = new ViewModel(array(
-            'form' => $form,
-            'entityType' => 'file',
-            'entityDescriptor' => $file->getName(),
-            'confirmationMessage' => 'common.confirm-delete', 
-        ));
-        $viewModel->setTerminal($request->isXmlHttpRequest());
-        $viewModel->setTemplate('application/common/confirm.phtml');
-        return $viewModel;
+        return $this->confirmationPlugin()->confirm(
+            'common.confirm-delete', 
+            array ('file.entity', $file->getName()), 
+            $form,
+            $this->url()->fromRoute('jobs')
+        );
     }
 
     public function downloadAction() 
@@ -155,7 +151,7 @@ class FileController extends AbstractActionController
         }
 
         if ($this->authorizationPlugin()->authorize($job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
         
         $fileObject = File::UPLOAD_PATH . '/' . $file->getJob()->getId() . '/' . $file->getName();
