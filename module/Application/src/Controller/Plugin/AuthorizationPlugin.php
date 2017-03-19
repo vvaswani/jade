@@ -35,13 +35,18 @@ class AuthorizationPlugin extends AbstractPlugin
 
         $entityClassSegments = explode('\\', get_class($entity));     
         $entityClass = array_pop($entityClassSegments);
-        switch (strtoupper($entityClass)) {
-        	case 'JOB':
+
+        $controllerClassSegments = explode('\\', get_class($controller));     
+        $controllerClass = array_pop($controllerClassSegments);
+        $controllerName = substr($controllerClass, 0, -10);
+
+        switch ($entityClass) {
+        	case 'Job':
 		        $privilege = $entity->getUserPrivilege($this->as->getIdentity());
-		        if (!$acl->isAllowed($privilege->getName(), 'job', $actionName)) {
+		        if (!$acl->isAllowed($privilege->getName(), 'job', strtolower($controllerName) . '.' . $actionName)) {
 		            return false; 
 		        }
-                break;   	
+                break;	
         }
     }
 }

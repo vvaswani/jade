@@ -52,6 +52,10 @@ class FileController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
 
+        if ($this->authorizationPlugin()->authorize($job) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+        }
+
         $file = new File();
         $builder = new AnnotationBuilder();
         $form = $builder->createForm($file);
@@ -96,6 +100,11 @@ class FileController extends AbstractActionController
         $file = $this->em->getRepository(File::class)->find($id);
         if (!$file) {
             return $this->redirect()->toRoute('jobs');
+        }
+
+        $job = $file->getJob();
+        if ($this->authorizationPlugin()->authorize($job) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
         }
 
         $builder = new AnnotationBuilder();
@@ -145,6 +154,10 @@ class FileController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
 
+        if ($this->authorizationPlugin()->authorize($job) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), 'jobs');
+        }
+        
         $fileObject = File::UPLOAD_PATH . '/' . $file->getJob()->getId() . '/' . $file->getName();
         if (file_exists($fileObject)) {
             $queue[] = array(

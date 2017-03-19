@@ -184,7 +184,7 @@ $form->prepare();
                                 <td>
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.dissociated'), 
-                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
                                     '<strong>' . $properties['name'] . '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
@@ -194,7 +194,7 @@ $form->prepare();
                                                 <?php break; ?>
                                         <?php default: ?>
                             <tr>                               
-                                <td><?php echo sprintf($this->translate('activity-stream.deleted'), '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>'); ?>.</td>
+                                <td><?php echo sprintf($this->translate('activity-stream.deleted'), '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>'); ?>.</td>
                                 <td><?php echo $activity->getCreated()->format('d M Y h:i T'); ?></td>
                             </tr>                          
                                     <?php endswitch; ?> 
@@ -206,7 +206,7 @@ $form->prepare();
                                 <td>
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.associated'), 
-                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
                                     '<span class="label label-default" style="background-color: ' . $properties['colour'] . '">' .  $properties['name']. '</span>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
@@ -223,7 +223,7 @@ $form->prepare();
                                 <td>
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.dissociated'), 
-                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
                                     '<span class="label label-default" style="background-color: ' . $properties['colour'] . '">' .  $properties['name']. '</span>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
@@ -240,7 +240,7 @@ $form->prepare();
                                 <td>
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.requested'), 
-                                    '<strong>' . $this->escapeHtml($this->user->getName()) . '</strong>', 
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
                                     '<strong>' .  $properties['name']. '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
