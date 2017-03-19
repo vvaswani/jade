@@ -27,7 +27,7 @@ namespace Application;
 		'common.close' => 'Close',
 		'common.no-undo' => 'This operation cannot be undone.',
 		'common.alert-action' => 'Alert', 
-		'common.alert-access-denied' => 'Access denied',
+		'common.alert-access-denied' => 'You do not have sufficient privileges to perform this action.',
 
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 
@@ -43,6 +43,7 @@ namespace Application;
 		// case entity
 		'job.entity' => 'Case',
 		'job.open-jobs' => 'Open Cases',
+		'job.open-job' => 'Open Case',
 		'job.id' => '#', 
 		'job.title' => 'Title',
 		'job.created' => 'Created on',
@@ -70,10 +71,15 @@ namespace Application;
     	// user entity
 		'user.entity' => 'User',
 		'user.current-users' => 'Current Users',
+		'user.current-user' => 'Current User',
 		'user.id' => '#', 
 		'user.name' => 'Name', 
 		'user.username' => 'Email address',
 		'user.password' => 'Password',
+		'user.role' => 'Role',
+		'user.role-administrator' => 'Administrator',
+		'user.role-employee' => 'Employee',
+		'user.role-customer' => 'Customer',
 		'user.status' => 'Status',
 		'user.activate' => 'Activate', 
 		'user.deactivate' => 'Deactivate', 

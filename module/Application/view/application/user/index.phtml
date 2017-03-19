@@ -1,11 +1,14 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
-                    <span class="panel-title"> <?php echo $this->translate('user.current-users'); ?></span>
+                    <span class="panel-title"> <?php echo $this->translatePlural('user.current-user', 'user.current-users', count($this->users)); ?></span>
                     <div class="pull-right">
+                        <?php $identity = $this->identity(); ?>
+                        <?php if ($identity->getRole() == $identity::ROLE_ADMINISTRATOR): ?>
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('users', array('action' => 'save')); ?>">
                             <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
                         </a>
+                        <?php endif; ?>
                     </div>                    
                 </div>
                 <div class="table-responsive">
@@ -15,6 +18,7 @@
                                 <th><?php echo $this->translate('user.id'); ?></th>
                                 <th><?php echo $this->translate('user.name'); ?></th>
                                 <th><?php echo $this->translate('user.username'); ?></th>
+                                <th><?php echo $this->translate('user.role'); ?></th>
                                 <th><?php echo $this->translate('user.status'); ?></th>
                                 <th></th>
                                 <th></th>
@@ -27,6 +31,19 @@
                                 <td><?php echo $this->escapeHtml($u->getId()); ?></td>        
                                 <td><?php echo $this->escapeHtml($u->getName()); ?></td>
                                 <td><?php echo $this->escapeHtml($u->getUsername()); ?></td>
+                                <td>
+                                    <?php switch ($u->getRole()):
+                                        case $u::ROLE_ADMINISTRATOR:
+                                            echo $this->translate('user.role-administrator'); 
+                                            break;
+                                        case $u::ROLE_EMPLOYEE:
+                                            echo $this->translate('user.role-employee'); 
+                                            break;
+                                        case $u::ROLE_CUSTOMER:
+                                            echo $this->translate('user.role-customer'); 
+                                            break;
+                                    endswitch; ?>
+                                    </td>
                                 <td><?php echo ($u->getStatus() == $u::STATUS_ACTIVE) ? 'Active' : 'Inactive'; ?></td>
                                 <td>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('users', array('action' => 'save', 'id' => $this->escapeHtml($u->getId()))); ?>">
@@ -34,20 +51,24 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <?php if ($u->getStatus() == $u::STATUS_ACTIVE): ?>
-                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('users', array('action' => 'deactivate', 'id' => $this->escapeHtml($u->getId()))); ?>">
-                                        <span class="glyphicon glyphicon-eye-close"></span> <?php echo $this->translate('user.deactivate'); ?>
-                                    </a>
-                                    <?php else: ?>
-                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('users', array('action' => 'activate', 'id' => $this->escapeHtml($u->getId()))); ?>">
-                                        <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('user.activate'); ?>
-                                    </a>
+                                    <?php if ($identity->getRole() == $identity::ROLE_ADMINISTRATOR): ?>
+                                        <?php if ($u->getStatus() == $u::STATUS_ACTIVE): ?>
+                                        <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('users', array('action' => 'deactivate', 'id' => $this->escapeHtml($u->getId()))); ?>">
+                                            <span class="glyphicon glyphicon-eye-close"></span> <?php echo $this->translate('user.deactivate'); ?>
+                                        </a>
+                                        <?php else: ?>
+                                        <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('users', array('action' => 'activate', 'id' => $this->escapeHtml($u->getId()))); ?>">
+                                            <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('user.activate'); ?>
+                                        </a>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </td> 
                                 <td>
+                                    <?php if ($identity->getRole() == $identity::ROLE_ADMINISTRATOR): ?>
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('users', array('action' => 'delete', 'id' => $this->escapeHtml($u->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
                                     </a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>            
                             <?php endforeach; ?>

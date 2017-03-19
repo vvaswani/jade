@@ -14,6 +14,10 @@ class User
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
 
+    const ROLE_ADMINISTRATOR = 1;
+    const ROLE_EMPLOYEE = 2;
+    const ROLE_CUSTOMER = 3;
+
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")
@@ -45,6 +49,15 @@ class User
      * @Annotation\Options({"label":"user.name"})     
      */
     protected $name;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})
+     * @Annotation\Options({"label":"user.role"})     
+     */
+    protected $role;
 
     /**
      * @ORM\Column(type="datetime")
@@ -109,6 +122,16 @@ class User
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 
     public function getCreated()

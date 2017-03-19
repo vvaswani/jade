@@ -10,6 +10,7 @@ use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Listener\ActivityListener;
 use Application\Service\ActivityManagerService;
+use Application\Service\AuthorizationService;
 use Application\Entity\User;
 use Application\Entity\Activity;
 use Application\Entity\Privilege;
@@ -28,7 +29,7 @@ class UserController extends AbstractActionController
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as)
+    public function __construct(EntityManager $em, ActivityManagerService $ams, ActivityListener $al, AuthenticationService $as, AuthorizationService $acs)
     {
         $this->em = $em;
         $this->ams = $ams;
@@ -109,14 +110,24 @@ class UserController extends AbstractActionController
 
     public function indexAction()
     {
-        $users = $this->em->getRepository(User::class)->findBy(array(), 
-            array('created' => 'DESC'));
+        $identity = $this->as->getIdentity();
+        if ($identity->getRole() == User::ROLE_ADMINISTRATOR) {
+            $users = $this->em->getRepository(User::class)->findBy(array(), 
+                array('created' => 'DESC'));
+        } else {
+            $users = array($identity);            
+        }
         return new ViewModel(array('users' => $users));
     }
 
     public function saveAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
+        $identity = $this->as->getIdentity();
+        if (!$id && $identity->getRole() != User::ROLE_ADMINISTRATOR) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
+        }
+
         $user = $this->em->getRepository(User::class)->find($id);   
         if (!$user) {
             $user = new User();
@@ -131,6 +142,12 @@ class UserController extends AbstractActionController
         $form = $builder->createForm($user);
         $form->setHydrator($hydrator);
         $form->getInputFilter()->get('password')->setRequired($passwordRequired);
+        $form->get('role')->setValueOptions(array(
+            User::ROLE_ADMINISTRATOR => 'user.role-administrator',
+            User::ROLE_EMPLOYEE => 'user.role-employee',
+            User::ROLE_CUSTOMER => 'user.role-customer',
+        ));
+        
         // TODO use a @UniqueObject annotation once it works 
         $form->getInputFilter()->get('username')->getValidatorChain()->attach(
              new \DoctrineModule\Validator\UniqueObject(array(
@@ -167,6 +184,11 @@ class UserController extends AbstractActionController
 
     public function deleteAction()
     {   
+        $identity = $this->as->getIdentity();
+        if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
+        }
+
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('users');
@@ -220,6 +242,11 @@ class UserController extends AbstractActionController
 
     public function deactivateAction()
     {   
+        $identity = $this->as->getIdentity();
+        if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
+        }
+
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('users');
@@ -259,6 +286,11 @@ class UserController extends AbstractActionController
 
     public function activateAction()
     {   
+        $identity = $this->as->getIdentity();
+        if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
+        }
+
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('users');

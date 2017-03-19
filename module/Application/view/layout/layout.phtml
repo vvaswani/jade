@@ -37,7 +37,10 @@
                 <?php if ($this->identity()): ?>
                 <li class="active"><a href="<?php echo $this->url('jobs'); ?>"><?php echo $this->translate('common.dashboard'); ?></a></li>
                 <li><a href="#"><?php echo $this->translate('common.reports'); ?></a></li>
-                <li><a href="#"><?php echo $this->translate('common.settings'); ?></a></li>
+                <?php $user = $this->identity(); ?>
+                <?php if ($user->getRole() == $user::ROLE_ADMINISTRATOR): ?>
+                <li><a href="<?php echo $this->url('config'); ?>"><?php echo $this->translate('common.settings'); ?></a></li>
+                <?php endif; ?>
                 <li><a href="<?php echo $this->url('logout'); ?>"><?php echo $this->translate('common.logout'); ?></a></li>
                 <?php else: ?>
                 <li><a href="<?php echo $this->url('home'); ?>"><?php echo $this->translate('common.home'); ?></a></li>

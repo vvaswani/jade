@@ -76,7 +76,17 @@ return [
                         'id'     => '[0-9]*',
                     ],
                 ],
-            ],            
+            ],
+            'config' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/settings',
+                    'defaults' => [
+                        'controller' => Controller\ConfigController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],                       
             'login' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -127,6 +137,7 @@ return [
             Controller\LabelController::class => ApplicationControllerFactory::class,
             Controller\FileController::class => ApplicationControllerFactory::class,
             Controller\UserController::class => ApplicationControllerFactory::class,
+            Controller\ConfigController::class => ApplicationControllerFactory::class,
         ]
     ],
     'controller_plugins' => [

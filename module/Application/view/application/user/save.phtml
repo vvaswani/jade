@@ -44,6 +44,14 @@ $form->prepare();
                             </span>
                         </div> 
 
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('role')) ?>
+                            <?php echo $this->formSelect($form->get('role')->setAttributes(array('class' => 'selectpicker'))) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('role')) ?>
+                            </span>
+                        </div> 
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>

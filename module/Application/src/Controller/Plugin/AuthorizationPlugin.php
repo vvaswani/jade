@@ -29,24 +29,35 @@ class AuthorizationPlugin extends AbstractPlugin
         $event = $controller->getEvent();
         $actionName = $event->getRouteMatch()->getParam('action', null);
 
-        $acl = $this->acs->getAcl();
-
         $alertPlugin = $controller->plugin('alertPlugin');
 
-        $entityClassSegments = explode('\\', get_class($entity));     
-        $entityClass = array_pop($entityClassSegments);
+        if (is_object($entity)) {
+            $entityClassSegments = explode('\\', get_class($entity));     
+            $entityName = array_pop($entityClassSegments);            
+        } else {
+            $entityName = $entity;
+        }
 
         $controllerClassSegments = explode('\\', get_class($controller));     
         $controllerClass = array_pop($controllerClassSegments);
         $controllerName = substr($controllerClass, 0, -10);
 
-        switch ($entityClass) {
-        	case 'Job':
-		        $privilege = $entity->getUserPrivilege($this->as->getIdentity());
+        switch (strtoupper($entityName)) {
+        	case 'JOB':
+                $acl = $this->acs->getAcl();
+                $job = $entity;
+		        $privilege = $job->getUserPrivilege($this->as->getIdentity());
 		        if (!$acl->isAllowed($privilege->getName(), 'job', strtolower($controllerName) . '.' . $actionName)) {
 		            return false; 
 		        }
                 break;	
+            case 'SYSTEM':
+                $acl = $this->acs->getSystemAcl();
+                $user = $this->as->getIdentity();
+                if (!$acl->isAllowed($user->getRole(), 'system', strtolower($controllerName) . '.' . $actionName)) {
+                    return false; 
+                }
+                break;  
         }
     }
 }
