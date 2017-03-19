@@ -30,7 +30,7 @@ class LabelController extends AbstractActionController
 
     public function indexAction()
     {
-        $labels = $this->em->getRepository(Label::class)->findBy(array(), array('created' => 'DESC'));
+        $labels = $this->em->getRepository(Label::class)->findBy(array(), array('creationTime' => 'DESC'));
         return new ViewModel(array('labels' => $labels));
     }
     
@@ -40,7 +40,7 @@ class LabelController extends AbstractActionController
         $label = $this->em->getRepository(Label::class)->find($id);    
         if (!$label) {
             $label = new Label();
-            $label->setCreated(new \DateTime("now"));
+            $label->setCreationTime(new \DateTime("now"));
         }
         
         $builder = new AnnotationBuilder();

@@ -107,7 +107,7 @@ class UserController extends AbstractActionController
         $identity = $this->as->getIdentity();
         if ($identity->getRole() == User::ROLE_ADMINISTRATOR) {
             $users = $this->em->getRepository(User::class)->findBy(array(), 
-                array('created' => 'DESC'));
+                array('creationTime' => 'DESC'));
         } else {
             $users = array($identity);            
         }
@@ -125,7 +125,7 @@ class UserController extends AbstractActionController
         $user = $this->em->getRepository(User::class)->find($id);   
         if (!$user) {
             $user = new User();
-            $user->setCreated(new \DateTime("now"));
+            $user->setCreationTime(new \DateTime("now"));
             $passwordRequired = true;  // new user creation
         } else {
             $passwordHash = $user->getPassword();

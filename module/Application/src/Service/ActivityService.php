@@ -171,7 +171,7 @@ class ActivityService
     {
         $activity = new Activity();
         $user = $this->as->getIdentity();
-        $activity->setCreated($ts);
+        $activity->setCreationTime($ts);
         $activity->setOperation($operation);            
         if (is_null($user) && $operation == Activity::OPERATION_LOGOUT) {
             $user = $this->em->getRepository(User::class)->find($entity->getId());

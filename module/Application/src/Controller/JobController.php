@@ -52,7 +52,7 @@ class JobController extends AbstractActionController
            ->setParameter('user', $this->as->getIdentity());
         $jobs = $qb->getQuery()->getResult();
         */
-        $results = $this->em->getRepository(Job::class)->findBy(array('status' => Job::STATUS_OPEN), array('created' => 'DESC'));
+        $results = $this->em->getRepository(Job::class)->findBy(array('status' => Job::STATUS_OPEN), array('creationTime' => 'DESC'));
         $jobs = array();
         foreach ($results as $job) {
             if ($this->authorizationPlugin()->authorize($job) !== false) {
@@ -100,7 +100,7 @@ class JobController extends AbstractActionController
         $job = $this->em->getRepository(Job::class)->find($id); 
         if (!$job) {
             $job = new Job();
-            $job->setCreated(new \DateTime("now"));
+            $job->setCreationTime(new \DateTime("now"));
             $privilege = new Privilege();
             $privilege->setJob($job);
             $privilege->setUser($this->as->getIdentity());

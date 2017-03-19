@@ -60,7 +60,7 @@ class Job
      * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
      */
-    protected $created;
+    protected $creationTime;
 
     /**
      * @ORM\Column(type="integer")
@@ -81,7 +81,7 @@ class Job
 
     /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="job", cascade={"remove"})
-     * @ORM\OrderBy({"created" = "DESC"})
+     * @ORM\OrderBy({"creationTime" = "DESC"})
      * @Annotation\Required(false)
      * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
      */
@@ -145,14 +145,14 @@ class Job
         $this->comments = $comments;
     }
 
-    public function getCreated()
+    public function getCreationTime()
     {
-        return $this->created;
+        return $this->creationTime;
     }
 
-    public function setCreated($created)
+    public function setCreationTime($creationTime)
     {
-        $this->created = $created;
+        $this->creationTime = $creationTime;
     }  
 
     public function getStatus()

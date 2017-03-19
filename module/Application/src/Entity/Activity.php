@@ -35,7 +35,7 @@ class Activity
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $created;
+    protected $creationTime;
         
     /**
      * @ORM\Column(type="string")
@@ -82,14 +82,14 @@ class Activity
         return $this->id;
     }
 
-    public function getCreated()
+    public function getCreationTime()
     {
-        return $this->created;
+        return $this->creationTime;
     }
 
-    public function setCreated($created)
+    public function setCreationTime($creationTime)
     {
-        $this->created = $created;
+        $this->creationTime = $creationTime;
     }    
 
     public function getOperation()

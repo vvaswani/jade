@@ -37,7 +37,7 @@ use Zend\Form\Annotation;
      * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
      */
-    protected $created;
+    protected $creationTime;
 
     /**
      * @ORM\ManyToOne(targetEntity="Job", inversedBy="files")
@@ -71,14 +71,14 @@ use Zend\Form\Annotation;
         $this->name = $name;
     }
 
-    public function getCreated()
+    public function getCreationTime()
     {
-        return $this->created;
+        return $this->creationTime;
     }
 
-    public function setCreated($created)
+    public function setCreationTime($creationTime)
     {
-        $this->created = $created;
+        $this->creationTime = $creationTime;
     }
 
     public function getJob()

@@ -45,7 +45,7 @@ namespace Application;
 		'job.open-jobs' => 'Open Cases',
 		'job.id' => '#', 
 		'job.title' => 'Title',
-		'job.created' => 'Created on',
+		'job.creation-time' => 'Created on',
 		'job.description' => 'Description', 
 		'job.comments' => 'Comments', 
 		'job.labels' => 'Labels', 
@@ -64,7 +64,7 @@ namespace Application;
 		'file.entity' => 'File',
 		'file.current-files' => 'Current Files',
 		'file.name' => 'Name',
-		'file.created' => 'Date',
+		'file.creation-time' => 'Date',
 		'file.add' => 'Add',
     
     	// user entity

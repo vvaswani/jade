@@ -67,7 +67,7 @@ class FileController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) { 
                 $data = $form->getData();
-                $file->setCreated(new \DateTime("now"));
+                $file->setCreationTime(new \DateTime("now"));
                 $file->setName($data['file']['name']); 
                 $file->setJob($job);                      
                 $this->em->persist($file); 
