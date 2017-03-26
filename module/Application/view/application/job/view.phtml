@@ -7,7 +7,6 @@ $form->setAttribute('novalidate', 'true');
 $form->prepare();
 ?>
 
-            <?php $privilege = $this->job->getUserPrivilege($this->identity()); ?>
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
@@ -37,12 +36,12 @@ $form->prepare();
                             <tr>
                                 <td colspan="2">
                                     <div class="pull-right">
-                                        <?php if (($privilege->getName() == $privilege::NAME_ORANGE) || ($privilege->getName() == $privilege::NAME_GREEN)): ?>
+                                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'save', $this->job)): ?>
                                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                                             <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
                                         </a>
                                         <?php endif; ?>
-                                        <?php if ($privilege->getName() == $privilege::NAME_GREEN): ?>
+                                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'close', $this->job)): ?>
                                         <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'close', 'id' => $this->escapeHtml($this->job->getId()))); ?>">
                                             <span class="glyphicon glyphicon-eye-close"></span> <?php echo $this->translate('job.close'); ?>
                                         </a>  
@@ -61,7 +60,7 @@ $form->prepare();
                         <?php echo $this->translate('file.current-files'); ?>    
                     </span>
                     <div class="pull-right">
-                    <?php if (($privilege->getName() == $privilege::NAME_ORANGE) || ($privilege->getName() == $privilege::NAME_GREEN)): ?>                    
+                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'file', 'save', $this->job)): ?>
                         <a role="button" class="btn btn-primary btn-sm btn-file-add" href="<?php echo $this->url('files', array('action' => 'save', 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
                             <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('file.add'); ?>
                         </a>
@@ -70,7 +69,7 @@ $form->prepare();
                                 <?php echo $this->formFile($form->get('file')); ?>
                             <?php echo $this->form()->closeTag($form); ?>
                         </div> 
-                    <?php endif; ?>                       
+                        <?php endif; ?>                       
                     </div>  
                 </div>
                 <div class="panel-body table-responsive">
@@ -90,12 +89,14 @@ $form->prepare();
                                 <td><?php echo $this->escapeHtml($file->getName()); ?></td>
                                 <td><?php echo $file->getCreationTime()->format('d M Y h:i T'); ?></td>
                                 <td>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'file', 'download', $this->job)): ?>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('files', array('action' => 'download', 'id' => $this->escapeHtml($file->getId()), 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
                                         <span class="glyphicon glyphicon-download"></span> <?php echo $this->translate('common.download'); ?>
                                     </a>
+                                    <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if (($privilege->getName() == $privilege::NAME_ORANGE) || ($privilege->getName() == $privilege::NAME_GREEN)): ?>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'file', 'delete', $this->job)): ?>
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('files', array('action' => 'delete', 'id' => $this->escapeHtml($file->getId()), 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
                                     </a>
@@ -261,9 +262,6 @@ $form->prepare();
                 </div>
             </div>
             
-            <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
-            </div>
-
             <script>
             $( document ).ready(function() {
 

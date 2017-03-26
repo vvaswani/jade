@@ -14,9 +14,12 @@ class User
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
 
-    const ROLE_ADMINISTRATOR = 1;
-    const ROLE_EMPLOYEE = 2;
-    const ROLE_CUSTOMER = 3;
+    const ROLE_ADMINISTRATOR = 'ADMINISTRATOR';
+    const ROLE_EMPLOYEE = 'EMPLOYEE';
+    const ROLE_CUSTOMER = 'CUSTOMER';
+
+    const PERMISSION_MANAGE = 'USER.MANAGE';
+    const PERMISSION_EDIT = 'USER.EDIT';
 
     /**
      * @ORM\Id 
@@ -51,7 +54,7 @@ class User
     protected $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      * @Annotation\Type("Zend\Form\Element\Select")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
@@ -79,10 +82,10 @@ class User
     protected $activities;
 
     /**
-     * @ORM\OneToMany(targetEntity="Privilege", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Application\Entity\Permission", mappedBy="user", cascade={"remove", "persist"})
      * @Annotation\Exclude()
      */
-    protected $privileges;
+    protected $permissions;
 
     public function setId($id)
     {
@@ -174,23 +177,40 @@ class User
         $this->activities->removeElement($activity);
     }     
 
-    public function getPrivileges()
+    public function getPermissions()
     {
-        return $this->privileges;
+        return $this->permissions;
     }
 
-    public function setPrivileges($privileges)
+    public function setPermissions($permissions)
     {
-        $this->privileges = $privileges;
+        $this->permissions = $permissions;
     }
 
-    public function addPrivilege(Privilege $privilege)
+    public function addPermission(Permission $permission)
     {
-        $this->privileges->add($privilege);
+        $this->permissions->add($permission);
     }
 
-    public function removePrivilege(Privilege $privilege)
+    public function removePermission(Permission $permission)
     {
-        $this->privileges->removeElement($privilege);
+        $this->permissions->removeElement($permission);
     }    
+
+    public function getUserPermissions(User $identity)
+    {
+        $permissions = array();
+        if ($identity->getRole() == User::ROLE_ADMINISTRATOR) {
+            $permission = new Permission\User;
+            $permission->setUser($this);
+            $permission->setName(User::PERMISSION_MANAGE);
+            $permissions[] = $permission;
+        } 
+        foreach ($identity->getPermissions() as $permission) {
+            if (($permission->getUser()->getId() == $this->getId())) {
+                $permissions[] = $permission;
+            }
+        }        
+        return $permissions;
+    }     
 }

@@ -16,6 +16,10 @@ class Job
     const STATUS_OPEN = 1;
     const STATUS_CLOSED = 0;
 
+    const PERMISSION_MANAGE = 'JOB.MANAGE';
+    const PERMISSION_EDIT = 'JOB.EDIT';
+    const PERMISSION_VIEW = 'JOB.VIEW';
+
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")
@@ -66,7 +70,7 @@ class Job
      * @ORM\Column(type="integer")
      * @Annotation\Exclude()
      */
-    public $status;
+    protected $status;
 
     /**
      * @ORM\ManyToMany(targetEntity="Label")
@@ -77,7 +81,7 @@ class Job
      * @Annotation\Options({"label":"job.labels", "use_hidden_element":"true"})   
      * @see https://github.com/zendframework/zendframework/issues/7298       
      */
-    public $labels;
+    protected $labels;
 
     /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="job", cascade={"remove"})
@@ -85,13 +89,13 @@ class Job
      * @Annotation\Required(false)
      * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
      */
-    public $files;
+    protected $files;
 
     /**
-     * @ORM\OneToMany(targetEntity="Privilege", mappedBy="job", cascade={"remove", "persist"})
-     * @Annotation\Required(false)
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Permission\Job", mappedBy="entity", cascade={"remove", "persist"})
+     * @Annotation\Exclude()
      */
-    public $privileges;
+    protected $permissions;
 
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
@@ -209,39 +213,41 @@ class Job
         $this->files->removeElement($file);
     } 
 
-    public function getPrivileges()
+    public function getPermissions()
     {
-        return $this->privileges;
+        return $this->permissions;
     }
 
-    public function getUserPrivilege(User $user)
+    public function setPermissions($permissions)
     {
-        $defaultPrivilege = new Privilege();
-        $defaultPrivilege->setName(Privilege::NAME_RED);
-        $defaultPrivilege->setJob($this);
-        $defaultPrivilege->setUser($user);
-        foreach ($this->privileges as $privilege)
-        {
-            if ($privilege->getUser()->getId() == $user->getId())
-            {
-                return $privilege;
-            }
-        }
-        return $defaultPrivilege;
+        $this->permissions = $permissions;
     }
 
-    public function setPrivileges($privileges)
+    public function addPermission(Permission $permission)
     {
-        $this->privileges = $privileges;
+        $this->permissions->add($permission);
     }
 
-    public function addPrivilege(Privilege $privilege)
+    public function removePermission(Permission $permission)
     {
-        $this->privileges->add($privilege);
-    }
-
-    public function removePrivilege(Privilege $privilege)
-    {
-        $this->privileges->removeElement($privilege);
+        $this->permissions->removeElement($permission);
     } 
+
+    public function getUserPermissions(User $user)
+    {
+        $permissions = array();
+        if ($user->getRole() == User::ROLE_ADMINISTRATOR) {
+            $permission = new Permission\Job;
+            $permission->setUser($user);
+            $permission->setName(Job::PERMISSION_MANAGE);
+            $permission->setJob($this);
+            $permissions[] = $permission;
+        } 
+        foreach ($this->permissions as $permission) {
+            if ($permission->getUser()->getId() == $user->getId()) {
+                $permissions[] = $permission;
+            }
+        }        
+        return $permissions;
+    }     
 }

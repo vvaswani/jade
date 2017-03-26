@@ -6,6 +6,7 @@ use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 use Application\Factory\Controller\ApplicationControllerFactory;
 use Application\Factory\Controller\Plugin\AuthorizationControllerPluginFactory;
+use Application\Factory\View\Helper\AuthorizationViewHelperFactory;
 
 return [
     'router' => [
@@ -151,6 +152,14 @@ return [
             'confirmationPlugin' => Controller\Plugin\ConfirmationPlugin::class,
         ]
     ],
+    'view_helpers' => [
+        'factories' => [
+            View\Helper\Authorize::class => AuthorizationViewHelperFactory::class,                    
+        ],
+       'aliases' => [
+            'authorize' => View\Helper\Authorize::class
+       ]
+    ],      
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,

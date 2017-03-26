@@ -26,7 +26,7 @@ class FileController extends AbstractActionController
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as, AuthorizationService $acs)
+    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as)
     {
         $this->em = $em;
         $this->ams = $ams;
@@ -45,10 +45,10 @@ class FileController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
 
-        if ($this->authorizationPlugin()->authorize($job) === false) {
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
-
+        
         $file = new File();
         $builder = new AnnotationBuilder();
         $form = $builder->createForm($file);
@@ -96,7 +96,7 @@ class FileController extends AbstractActionController
         }
 
         $job = $file->getJob();
-        if ($this->authorizationPlugin()->authorize($job) === false) {
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
@@ -143,7 +143,8 @@ class FileController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
 
-        if ($this->authorizationPlugin()->authorize($job) === false) {
+        $job = $file->getJob();
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
         

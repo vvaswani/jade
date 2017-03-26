@@ -3,9 +3,11 @@
                 <div class="panel-heading clearfix">
                     <span class="panel-title"> <?php echo $this->translate('job.open-jobs'); ?></span>
                     <div class="pull-right">
+                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'save')): ?>
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save')); ?>">
                             <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
                         </a>
+                        <?php endif; ?>
                     </div>                    
                 </div>
                 <div class="panel-body table-responsive">
@@ -28,7 +30,6 @@
                                 <td>
                                     <?php echo $this->escapeHtml($j->getTitle()); ?>
                                     <?php $labels = $j->getLabels(); ?>
-                                    <?php $privilege = $j->getUserPrivilege($this->identity()); ?>                                    
                                     <?php if (count($labels) >= 1): ?>
                                         <span class="label label-default" style="background-color: <?php echo $this->escapeHtml($labels[0]->getColour()); ?>">
                                             <?php echo $this->escapeHtml($labels[0]->getName()); ?>
@@ -41,26 +42,28 @@
                                     <?php endif; ?>                                
                                 </td>
                                 <td>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'view', $j)): ?>              
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'view', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('common.view'); ?>
                                     </a>
+                                    <?php endif; ?>                                    
                                 </td> 
                                 <td>
-                                <?php if (($privilege->getName() == $privilege::NAME_ORANGE) || ($privilege->getName() == $privilege::NAME_GREEN)): ?>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'save', $j)): ?>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
                                     </a>
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                <?php if ($privilege->getName() == $privilege::NAME_GREEN): ?>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'close', $j)): ?>
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'close', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-eye-close"></span> <?php echo $this->translate('job.close'); ?>
                                     </a>
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($privilege->getName() == $privilege::NAME_GREEN): ?>                                                          
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'delete', $j)): ?>
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs', array('action' => 'delete', 'id' => $this->escapeHtml($j->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
                                     </a>
@@ -72,7 +75,4 @@
                     </table>
                     <?php endif; ?>
                 </div>
-            </div>
-                
-            <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
             </div>

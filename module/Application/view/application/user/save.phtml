@@ -44,6 +44,7 @@ $form->prepare();
                             </span>
                         </div> 
 
+                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'user', 'delete', $this->user)): ?>
                         <div class="form-group"> 
                             <?php echo $this->formLabel($form->get('role')) ?>
                             <?php echo $this->formSelect($form->get('role')->setAttributes(array('class' => 'selectpicker'))) ?>
@@ -51,6 +52,7 @@ $form->prepare();
                                 <?php echo $this->formElementErrors($form->get('role')) ?>
                             </span>
                         </div> 
+                        <?php endif; ?>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">

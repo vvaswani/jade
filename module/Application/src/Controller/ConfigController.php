@@ -16,7 +16,7 @@ class ConfigController extends AbstractActionController
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as, AuthorizationService $acs)
+    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as)
     {
         $this->ams = $ams;
         $this->as = $as;
@@ -25,7 +25,7 @@ class ConfigController extends AbstractActionController
     public function indexAction()
     {
 		$identity = $this->as->getIdentity();
-		if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
+		if ($this->authorizationPlugin()->isAuthorized() === false) {
 			return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('home'));
 		}
         return new ViewModel();

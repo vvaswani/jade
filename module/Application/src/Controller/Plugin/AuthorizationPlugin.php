@@ -5,6 +5,7 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\Authentication\AuthenticationService;
 use Application\Service\AuthorizationService;
 
+
 class AuthorizationPlugin extends AbstractPlugin 
 {
 
@@ -18,7 +19,7 @@ class AuthorizationPlugin extends AbstractPlugin
         $this->acs = $acs;
     }
 
-    public function authorize($entity)
+    public function isAuthorized($user = null, $controllerName = null, $actionName = null, $entity = null)
     {
         $controller = $this->getController();
 
@@ -27,37 +28,21 @@ class AuthorizationPlugin extends AbstractPlugin
         }
 
         $event = $controller->getEvent();
-        $actionName = $event->getRouteMatch()->getParam('action', null);
 
-        $alertPlugin = $controller->plugin('alertPlugin');
-
-        if (is_object($entity)) {
-            $entityClassSegments = explode('\\', get_class($entity));     
-            $entityName = array_pop($entityClassSegments);            
-        } else {
-            $entityName = $entity;
+        if (is_null($controllerName)) {        
+            $controllerClassSegments = explode('\\', get_class($controller));     
+            $controllerClass = array_pop($controllerClassSegments);
+            $controllerName = substr($controllerClass, 0, -10);
         }
 
-        $controllerClassSegments = explode('\\', get_class($controller));     
-        $controllerClass = array_pop($controllerClassSegments);
-        $controllerName = substr($controllerClass, 0, -10);
-
-        switch (strtoupper($entityName)) {
-        	case 'JOB':
-                $acl = $this->acs->getAcl();
-                $job = $entity;
-		        $privilege = $job->getUserPrivilege($this->as->getIdentity());
-		        if (!$acl->isAllowed($privilege->getName(), 'job', strtolower($controllerName) . '.' . $actionName)) {
-		            return false; 
-		        }
-                break;	
-            case 'SYSTEM':
-                $acl = $this->acs->getSystemAcl();
-                $user = $this->as->getIdentity();
-                if (!$acl->isAllowed($user->getRole(), 'system', strtolower($controllerName) . '.' . $actionName)) {
-                    return false; 
-                }
-                break;  
+        if (is_null($actionName)) {        
+            $actionName = $event->getRouteMatch()->getParam('action', null);
         }
+
+        if (is_null($user)) {
+            $user = $this->as->getIdentity();
+        }
+
+        return $this->acs->isAuthorized($user, $controllerName, $actionName, $entity);
     }
 }

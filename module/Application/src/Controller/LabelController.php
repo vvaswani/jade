@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Entity\Label;
+use Application\Entity\Permission\Label as LabelPermission;
 use Application\Service\ActivityService;
-use Application\Service\AuthorizationService;
 use Application\Form\ConfirmationForm;
 
 class LabelController extends AbstractActionController
@@ -21,7 +21,7 @@ class LabelController extends AbstractActionController
 
     private $as;
 
-    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as, AuthorizationService $acs)
+    public function __construct(EntityManager $em, ActivityService $ams, AuthenticationService $as)
     {
         $this->em = $em;
         $this->ams = $ams;
@@ -30,6 +30,10 @@ class LabelController extends AbstractActionController
 
     public function indexAction()
     {
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('label.entity'), $this->url()->fromRoute('labels'));
+        }  
+
         $labels = $this->em->getRepository(Label::class)->findBy(array(), array('creationTime' => 'DESC'));
         return new ViewModel(array('labels' => $labels));
     }
@@ -38,11 +42,21 @@ class LabelController extends AbstractActionController
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
         $label = $this->em->getRepository(Label::class)->find($id);    
+
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $label) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('label.entity'), $this->url()->fromRoute('labels'));
+        }            
+        
         if (!$label) {
             $label = new Label();
             $label->setCreationTime(new \DateTime("now"));
-        }
-        
+            $permission = new LabelPermission();
+            $permission->setUser($this->as->getIdentity());
+            $permission->setName(Label::PERMISSION_MANAGE);
+            $permission->setLabel($label);
+            $label->setPermissions(array($permission));
+        } 
+
         $builder = new AnnotationBuilder();
         $hydrator = new DoctrineHydrator($this->em);
         $form = $builder->createForm($label);
@@ -51,7 +65,7 @@ class LabelController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()){  
+            if ($form->isValid()){
                 $this->em->persist($label); 
                 $this->em->flush(); 
                 $this->ams->flush();
@@ -75,6 +89,10 @@ class LabelController extends AbstractActionController
         if (!$label) {
             return $this->redirect()->toRoute('labels');
         } 
+
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $label) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('label.entity'), $this->url()->fromRoute('labels'));
+        }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());

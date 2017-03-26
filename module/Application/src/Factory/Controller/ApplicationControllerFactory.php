@@ -15,9 +15,8 @@ class ApplicationControllerFactory implements FactoryInterface
         $em = $container->get(EntityManager::class);
         $ams = $container->get(ActivityService::class);
         $as = $container->get('doctrine.authenticationservice.orm_default');
-        $acs = $container->get(AuthorizationService::class);
         $em->getEventManager()->addEventListener(
             array(Events::onFlush), $ams);
-        return new $requestedName($em, $ams, $as, $acs);
+        return new $requestedName($em, $ams, $as);
     }
 }

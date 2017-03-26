@@ -12,6 +12,8 @@ use Zend\Form\Annotation;
  class Label
  {
 
+    const PERMISSION_MANAGE = 'LABEL.MANAGE';
+
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")
@@ -46,6 +48,12 @@ use Zend\Form\Annotation;
      * @Annotation\Exclude()
      */
     protected $creationTime;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Permission\Label", mappedBy="entity", cascade={"remove", "persist"})
+     * @Annotation\Exclude()
+     */
+    protected $permissions;
     
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
@@ -91,5 +99,44 @@ use Zend\Form\Annotation;
     public function setCreationTime($creationTime)
     {
         $this->creationTime = $creationTime;
+    }
+
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
+
+    public function setPermissions($permissions)
+    {
+        $this->permissions = $permissions;
+    }
+
+    public function addPermission(Permission $permission)
+    {
+        $this->permissions->add($permission);
+    }
+
+    public function removePermission(Permission $permission)
+    {
+        $this->permissions->removeElement($permission);
+    } 
+
+    public function getUserPermissions(User $user)
+    {
+        $permissions = array();
+        if ($user->getRole() == User::ROLE_ADMINISTRATOR) {
+            $permission = new Permission\Label;
+            $permission->setUser($user);
+            $permission->setName(Label::PERMISSION_MANAGE);
+            $permission->setLabel($this);
+            $permissions[] = $permission;
+        } 
+        foreach ($this->permissions as $permission) {
+            if ($permission->getUser()->getId() == $user->getId()) {
+                $permissions[] = $permission;
+            }
+        }        
+        return $permissions;
     }    
 }
+
