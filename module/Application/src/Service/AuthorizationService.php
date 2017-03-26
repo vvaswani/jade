@@ -46,7 +46,7 @@ class AuthorizationService
 
             $systemAcl->allow($jobCollaboratorViewer, 'job', array('view'));
             $systemAcl->allow($jobCollaboratorEditor, 'job', array('save'));
-            $systemAcl->allow($jobOwner, 'job', array('delete', 'close', 'open'));
+            $systemAcl->allow($jobOwner, 'job', array('delete', 'close', 'open', 'grant', 'revoke'));
 
             $systemAcl->addResource('file');
             $systemAcl->allow($jobCollaboratorViewer, 'file', array('download'));

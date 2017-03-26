@@ -73,7 +73,7 @@ class Job
     protected $status;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Label")
+     * @ORM\ManyToMany(targetEntity="\Application\Entity\Label")
      * @ORM\JoinTable(name="job_label")
      * @Annotation\Required(false)
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
@@ -84,7 +84,7 @@ class Job
     protected $labels;
 
     /**
-     * @ORM\OneToMany(targetEntity="File", mappedBy="job", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Job\File", mappedBy="job", cascade={"remove"})
      * @ORM\OrderBy({"creationTime" = "DESC"})
      * @Annotation\Required(false)
      * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
@@ -203,12 +203,12 @@ class Job
         $this->files = $files;
     }
 
-    public function addFile(File $file)
+    public function addFile(\Application\Entity\Job\File $file)
     {
         $this->files->add($file);
     }
 
-    public function removeFile(File $file)
+    public function removeFile(\Application\Entity\Job\File $file)
     {
         $this->files->removeElement($file);
     } 

@@ -49,7 +49,14 @@ namespace Application;
 		'job.creation-time' => 'Created on',
 		'job.description' => 'Description', 
 		'job.comments' => 'Comments', 
+		'job.permissions' => 'Permissions', 
 		'job.close' => 'Close', 
+		'job.grant' => 'Add Collaborator', 
+		'job.revoke' => 'Remove Collaborator', 
+		'job.collaborators' => 'Collaborators', 
+		'job.permission-manage' => 'Owner with all privileges', 
+		'job.permission-edit' => 'Collaborator with edit privileges', 
+		'job.permission-view' => 'Collaborator with view privileges', 
 		'job.confirm-close' => 'This operation will close the %s %s and hide all related data in the system.',
 		'job.confirm-open' => 'This operation will open the %s %s and make all related data visible in the system.',
 
@@ -66,7 +73,7 @@ namespace Application;
 		'file.current-files' => 'Current Files',
 		'file.name' => 'Name',
 		'file.creation-time' => 'Date',
-		'file.add' => 'Add',
+		'file.add' => 'Add File',
     
     	// user entity
 		'user.entity' => 'User',
@@ -78,6 +85,7 @@ namespace Application;
 		'user.username' => 'Email address',
 		'user.password' => 'Password',
 		'user.role' => 'Role',
+		'user.self' => 'You',
 		'user.role-administrator' => 'Administrator',
 		'user.role-employee' => 'Employee',
 		'user.role-customer' => 'Customer',

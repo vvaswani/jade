@@ -1,5 +1,5 @@
 <?php
-namespace Application\Entity;
+namespace Application\Entity\Job;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -7,7 +7,7 @@ use Zend\Form\Annotation;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="file")
+ * @ORM\Table(name="job_file")
  * @Annotation\Name("file")
  */
  class File
@@ -40,7 +40,7 @@ use Zend\Form\Annotation;
     protected $creationTime;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Job", inversedBy="files")
+     * @ORM\ManyToOne(targetEntity="\Application\Entity\Job", inversedBy="files")
      * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
      */
      protected $job;
@@ -86,7 +86,7 @@ use Zend\Form\Annotation;
         return $this->job;
     }
 
-    public function setJob(Job $job)
+    public function setJob(\Application\Entity\Job $job)
     {
         $this->job = $job;
     }

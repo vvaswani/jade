@@ -14,7 +14,7 @@ use Application\Entity\Permission\Job as JobPermission;
 use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Label;
-use Application\Entity\File;
+use Application\Entity\Job\File;
 use Application\Form\ConfirmationForm;
 
 class JobController extends AbstractActionController
@@ -293,5 +293,21 @@ class JobController extends AbstractActionController
             $this->url()->fromRoute('jobs')
         );
     }    
+
+    public function grantAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('jobs');
+        }
+    }
+
+    public function revokeAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('jobs');
+        }
+    }
 
 }

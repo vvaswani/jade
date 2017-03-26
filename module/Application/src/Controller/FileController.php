@@ -12,7 +12,7 @@ use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Service\ActivityService;
 use Application\Service\AuthorizationService;
-use Application\Entity\File;
+use Application\Entity\Job\File;
 use Application\Entity\Job;
 use Application\Entity\Activity;
 use Application\Form\ConfirmationForm;

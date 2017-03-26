@@ -8,7 +8,7 @@ use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Job;
 use Application\Entity\Label;
-use Application\Entity\File;
+use Application\Entity\Job\File;
 
 class ActivityService
 {
