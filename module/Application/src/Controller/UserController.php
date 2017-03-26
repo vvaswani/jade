@@ -103,8 +103,6 @@ class UserController extends AbstractActionController
 
     public function indexAction()
     {
-        /*
-        // this is simpler but the other is more consistent with the ACL approach
         $identity = $this->as->getIdentity();
         if ($identity->getRole() == User::ROLE_ADMINISTRATOR) {
             $users = $this->em->getRepository(User::class)->findBy(array(), 
@@ -112,42 +110,23 @@ class UserController extends AbstractActionController
         } else {
             $users = array($identity);            
         }
-        */
-
-        $results = $this->em->getRepository(User::class)->findBy(array(), array('creationTime' => 'DESC'));
-        $users = array();
-        foreach ($results as $user) {
-            if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'user', 'save', $user) !== false) {
-                $users[] = $user;
-            }
-        }
         return new ViewModel(array('users' => $users));
     }
 
     public function saveAction()
     {   
         $id = (int) $this->params()->fromRoute('id', 0);
-        /*
         $identity = $this->as->getIdentity();
-        if (!$id && $identity->getRole() != User::ROLE_ADMINISTRATOR) {
+        if (($identity->getRole() != User::ROLE_ADMINISTRATOR) && ($id != $identity->getId())) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
         }
-        */
-        $user = $this->em->getRepository(User::class)->find($id);   
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $user) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('user.entity'), $this->url()->fromRoute('users'));
-        }
 
-        if (!$user) {
+        if (!$id) {
             $user = new User();
             $user->setCreationTime(new \DateTime("now"));
-            $passwordRequired = true;  // new user creation
-            $permission = new UserPermission();
-            $permission->setUser($user);
-            $permission->setName(User::PERMISSION_EDIT);
-            $permission->setEntity($user);
-            $user->setPermissions(array($permission));            
+            $passwordRequired = true;  // new user creation  
         } else {
+            $user = $this->em->getRepository(User::class)->find($id); 
             $passwordHash = $user->getPassword();
             $passwordRequired = false;  // existing user modification
             $role = $user->getRole();
@@ -157,11 +136,13 @@ class UserController extends AbstractActionController
         $form = $builder->createForm($user);
         $form->setHydrator($hydrator);
         $form->getInputFilter()->get('password')->setRequired($passwordRequired);
-        $form->get('role')->setValueOptions(array(
-            User::ROLE_ADMINISTRATOR => 'user.role-administrator',
-            User::ROLE_EMPLOYEE => 'user.role-employee',
-            User::ROLE_CUSTOMER => 'user.role-customer',
-        ));
+        if ($identity->getRole() == User::ROLE_ADMINISTRATOR) {
+            $form->get('role')->setValueOptions(array(
+                User::ROLE_ADMINISTRATOR => 'user.role-administrator',
+                User::ROLE_EMPLOYEE => 'user.role-employee',
+                User::ROLE_CUSTOMER => 'user.role-customer',
+            ));            
+        }
         
         // TODO use a @UniqueObject annotation once it works 
         $form->getInputFilter()->get('username')->getValidatorChain()->attach(
@@ -183,10 +164,12 @@ class UserController extends AbstractActionController
                     $passwordHash = password_hash($user->getPassword(), PASSWORD_DEFAULT);
                 }
                 $user->setPassword($passwordHash);
-                $user->setStatus(User::STATUS_ACTIVE);
-                if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'user', 'delete', $user) === false) {
+                $user->setStatus(User::STATUS_ACTIVE); 
+                // to avoid POST manual injection for role change
+                // explicitly reset the role
+                if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
                     $user->setRole($role);
-                }                
+                }       
                 $this->em->persist($user); 
                 $this->em->flush();
                 $this->ams->flush();
@@ -204,6 +187,11 @@ class UserController extends AbstractActionController
     public function deleteAction()
     {   
         $identity = $this->as->getIdentity();
+
+        if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
+        }
+
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('users');
@@ -212,10 +200,6 @@ class UserController extends AbstractActionController
         $user = $this->em->getRepository(User::class)->find($id);
         if (!$user) {
             return $this->redirect()->toRoute('users');
-        }
-
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $user) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('user.entity'), $this->url()->fromRoute('users'));
         }
 
         $request = $this->getRequest();
@@ -257,6 +241,10 @@ class UserController extends AbstractActionController
     {   
         $identity = $this->as->getIdentity();
 
+        if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
+        }
+
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('users');
@@ -266,10 +254,6 @@ class UserController extends AbstractActionController
         if (!$user) {
             return $this->redirect()->toRoute('users');
         }
-
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $user) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('user.entity'), $this->url()->fromRoute('users'));
-        }        
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
@@ -301,6 +285,10 @@ class UserController extends AbstractActionController
     public function activateAction()
     {   
         $identity = $this->as->getIdentity();
+
+        if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
+        }     
 
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {

@@ -52,18 +52,7 @@ class AuthorizationService
             $systemAcl->allow($jobCollaboratorViewer, 'file', array('download'));
             $systemAcl->allow($jobCollaboratorEditor, 'file', array('save', 'delete'));
 
-        /* users */
-        $systemAcl->addResource('user');
-        $systemAcl->allow($systemCustomer, 'user', array('index')); // create functionality is only available to administrators
-
-            $userOwner = new Role(User::PERMISSION_MANAGE);
-            $userEditor = new Role(User::PERMISSION_EDIT);
-            $systemAcl->addRole($userEditor, $systemCustomer);
-            $systemAcl->addRole($userOwner, $userEditor);
-            $systemAcl->allow($userEditor, 'user', array('save'));
-            $systemAcl->allow($userOwner, 'user', array('delete', 'deactivate', 'activate'));
-
-        $systemAcl->addRole($systemAdministrator, array($systemEmployee, $jobOwner, $labelOwner, $userOwner));
+        $systemAcl->addRole($systemAdministrator, array($systemEmployee, $jobOwner, $labelOwner));
 
         /* config */
         $systemAcl->addResource('config');

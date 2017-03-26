@@ -44,7 +44,8 @@ $form->prepare();
                             </span>
                         </div> 
 
-                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'user', 'delete', $this->user)): ?>
+                        <?php $identity = $this->identity(); ?>
+                        <?php if ($identity->getRole() == $identity::ROLE_ADMINISTRATOR): ?>
                         <div class="form-group"> 
                             <?php echo $this->formLabel($form->get('role')) ?>
                             <?php echo $this->formSelect($form->get('role')->setAttributes(array('class' => 'selectpicker'))) ?>

@@ -18,9 +18,6 @@ class User
     const ROLE_EMPLOYEE = 'EMPLOYEE';
     const ROLE_CUSTOMER = 'CUSTOMER';
 
-    const PERMISSION_MANAGE = 'USER.MANAGE';
-    const PERMISSION_EDIT = 'USER.EDIT';
-
     /**
      * @ORM\Id 
      * @ORM\Column(type="integer")
@@ -59,6 +56,7 @@ class User
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Options({"label":"user.role"})     
+     * @Annotation\Required(false)
      */
     protected $role;
 
@@ -195,22 +193,6 @@ class User
     public function removePermission(Permission $permission)
     {
         $this->permissions->removeElement($permission);
-    }    
+    }
 
-    public function getUserPermissions(User $identity)
-    {
-        $permissions = array();
-        if ($identity->getRole() == User::ROLE_ADMINISTRATOR) {
-            $permission = new Permission\User;
-            $permission->setUser($this);
-            $permission->setName(User::PERMISSION_MANAGE);
-            $permissions[] = $permission;
-        } 
-        foreach ($identity->getPermissions() as $permission) {
-            if (($permission->getUser()->getId() == $this->getId())) {
-                $permissions[] = $permission;
-            }
-        }        
-        return $permissions;
-    }     
 }
