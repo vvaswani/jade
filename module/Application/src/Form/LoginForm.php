@@ -33,7 +33,7 @@ class LoginForm
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      */
-    protected $url;    
+    protected $continue;    
 
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")

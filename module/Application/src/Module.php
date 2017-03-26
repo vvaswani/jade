@@ -37,7 +37,7 @@ class Module
         $as = $event->getApplication()->getServiceManager()
         			->get('doctrine.authenticationservice.orm_default');
 
-        if (!(($controllerName == 'Application\Controller\UserController' && $actionName == 'login') || ($controllerName == 'Application\Controller\IndexController')) && !$as->hasIdentity()) {
+        if (!(($controllerName == 'Application\Controller\UserController' && $actionName == 'login') || ($controllerName == 'Application\Controller\IndexController'  && $actionName == 'index')) && !$as->hasIdentity()) {
             $uri = $event->getApplication()->getRequest()->getUri();
             $uri->setScheme(null)
                 ->setHost(null)
@@ -45,7 +45,7 @@ class Module
                 ->setUserInfo(null);
             $redirectUri = $uri->toString();
             return $controller->redirect()->toRoute('login', [], 
-                    ['query' => ['url' => $redirectUri]]);
+                    ['query' => ['continue' => $redirectUri]]);
         }
     }  
 

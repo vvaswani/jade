@@ -21,6 +21,16 @@ return [
                     ],
                 ],
             ],
+            'dashboard' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route'    => '/dashboard',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'dashboard',
+                    ],
+                ],
+            ],
             'jobs' => [
                 'type'    => Segment::class,
                 'options' => [

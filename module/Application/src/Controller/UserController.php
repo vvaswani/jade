@@ -38,8 +38,8 @@ class UserController extends AbstractActionController
         $form = $builder->createForm(new LoginForm());
         $request = $this->getRequest();
 
-        $redirectUri = (string) $this->params()->fromQuery('url', '');
-        $form->get('url')->setValue($redirectUri);
+        $redirectUri = (string) $this->params()->fromQuery('continue', '');
+        $form->get('continue')->setValue($redirectUri);
 
         if ($request->isPost()) {
             $form->setData($request->getPost());
@@ -67,10 +67,10 @@ class UserController extends AbstractActionController
                     $this->ams->flush($this->ams->getQueue());
 
                     if ($this->as->hasIdentity()) {
-                        if(empty($data['url'])) {
-                            return $this->redirect()->toRoute('jobs');
+                        if(empty($data['continue'])) {
+                            return $this->redirect()->toRoute('dashboard');
                         } else {
-                            $this->redirect()->toUrl($data['url']);
+                            $this->redirect()->toUrl($data['continue']);
                         }                                    
                     }
                 }

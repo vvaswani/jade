@@ -42,19 +42,20 @@ namespace Application;
 
 		// job entity
 		'job.entity' => 'Case',
+		'job.jobs' => 'Cases',
 		'job.open-jobs' => 'Open Cases',
 		'job.id' => '#', 
 		'job.title' => 'Title',
 		'job.creation-time' => 'Created on',
 		'job.description' => 'Description', 
 		'job.comments' => 'Comments', 
-		'job.labels' => 'Labels', 
 		'job.close' => 'Close', 
 		'job.confirm-close' => 'This operation will close the %s %s and hide all related data in the system.',
 		'job.confirm-open' => 'This operation will open the %s %s and make all related data visible in the system.',
 
 		// label entity
 		'label.entity' => 'Label',
+		'label.labels' => 'Labels',
 		'label.id' => '#', 
 		'label.colour' => 'Colour',
 		'label.name' => 'Name', 
@@ -69,6 +70,7 @@ namespace Application;
     
     	// user entity
 		'user.entity' => 'User',
+		'user.users' => 'Users',
 		'user.current-users' => 'Current Users',
 		'user.my-profile' => 'Profile',
 		'user.id' => '#', 

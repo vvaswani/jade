@@ -35,7 +35,7 @@
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav navbar-right">
                 <?php if ($this->identity()): ?>
-                <li class="active"><a href="<?php echo $this->url('jobs'); ?>"><?php echo $this->translate('common.dashboard'); ?></a></li>
+                <li class="active"><a href="<?php echo $this->url('dashboard'); ?>"><?php echo $this->translate('common.dashboard'); ?></a></li>
                 <li><a href="#"><?php echo $this->translate('common.reports'); ?></a></li>
                 <?php if ($this->authorize()->isAuthorized($this->identity(), 'config', 'index')): ?>
                 <li><a href="<?php echo $this->url('config'); ?>"><?php echo $this->translate('common.settings'); ?></a></li>

@@ -11,4 +11,9 @@ class IndexController extends AbstractActionController
         $this->layout()->setVariable('home', 'true');
         return new ViewModel();
     }
+
+    public function dashboardAction()
+    {
+        return new ViewModel();
+    }    
 }

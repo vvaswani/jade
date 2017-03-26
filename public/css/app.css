@@ -87,3 +87,29 @@ input, textarea {
     visibility: hidden;
     overflow: hidden;
 }
+
+.placeholder {
+    display: inline-block;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    padding: 65px;
+    color: white;
+    margin: 40px;
+}
+
+.placeholder h4 {
+    text-align: center;
+}
+
+#placeholder-jobs {
+    background-color: red; 
+}
+
+#placeholder-users {
+    background-color: green; 
+}
+
+#placeholder-labels {
+    background-color: blue; 
+}
