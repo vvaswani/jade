@@ -36,15 +36,33 @@ class ActivityService
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User) {
+            if ($entity instanceof Job) {
                 $this->queue[] = array(
                     Activity::OPERATION_CREATE, 
                     new \DateTime("now"),
                     $entity,
                     null, 
-                    null
+                    array('name' => $entity->getTitle())
                 ); 
             }
+            if ($entity instanceof Label) {
+                $this->queue[] = array(
+                    Activity::OPERATION_CREATE, 
+                    new \DateTime("now"),
+                    $entity,
+                    null, 
+                    array('name' => $entity->getName())
+                ); 
+            }
+            if ($entity instanceof User) {
+                $this->queue[] = array(
+                    Activity::OPERATION_CREATE, 
+                    new \DateTime("now"),
+                    $entity,
+                    null, 
+                    array('name' => $entity->getName(), 'username' => $entity->getUsername())
+                ); 
+            }                        
             if ($entity instanceof File) {
                 $this->queue[] = array(
                     Activity::OPERATION_CREATE, 
@@ -82,15 +100,33 @@ class ActivityService
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User) {
+            if ($entity instanceof Job) {
                 $this->queue[] = array(
                     Activity::OPERATION_DELETE, 
                     new \DateTime("now"),
                     serialize($entity),
                     null, 
-                    null
+                    array('name' => $entity->getTitle())
                 );
             }
+            if ($entity instanceof Label) {
+                $this->queue[] = array(
+                    Activity::OPERATION_DELETE, 
+                    new \DateTime("now"),
+                    serialize($entity),
+                    null, 
+                    array('name' => $entity->getName())
+                );
+            }
+            if ($entity instanceof User) {
+                $this->queue[] = array(
+                    Activity::OPERATION_DELETE, 
+                    new \DateTime("now"),
+                    serialize($entity),
+                    null, 
+                    array('name' => $entity->getName(), 'username' => $entity->getUsername())
+                );
+            }                        
             if ($entity instanceof File) {
                 $this->queue[] = array(
                     Activity::OPERATION_DELETE, 
