@@ -59,21 +59,36 @@ return [
                     ],
                 ],
             ],
-            'files' => [
+            'jobs.files' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/jobs/:jid/files[/:action][/:id]',
+                    'route'    => '/jobs/view/:jid/files/:action[/:id]',
                     'defaults' => [
-                        'controller' => Controller\FileController::class,
-                        'action'     => 'index',
+                        'controller' => Controller\Job\FileController::class,
+                        'action'     => 'save',
                     ],
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]*',
-                        'jid'     => '[0-9]*',
+                        'jid'    => '[0-9]*',
                     ],
                 ],
             ],
+            'jobs.permissions' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/jobs/view/:jid/permissions/:action[/:id]',
+                    'defaults' => [
+                        'controller' => Controller\JobController::class,
+                        'action'     => 'grant',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                        'jid'    => '[0-9]*',
+                    ],
+                ],
+            ],            
             'users' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -145,7 +160,7 @@ return [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\JobController::class  => ApplicationControllerFactory::class,
             Controller\LabelController::class => ApplicationControllerFactory::class,
-            Controller\FileController::class => ApplicationControllerFactory::class,
+            Controller\Job\FileController::class => ApplicationControllerFactory::class,
             Controller\UserController::class => ApplicationControllerFactory::class,
             Controller\ConfigController::class => ApplicationControllerFactory::class,
         ]

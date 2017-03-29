@@ -1,5 +1,5 @@
 <?php
-namespace Application\Controller;
+namespace Application\Controller\Job;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Service\ActivityService;
-use Application\Service\AuthorizationService;
 use Application\Entity\Job\File;
 use Application\Entity\Job;
 use Application\Entity\Activity;
@@ -102,7 +101,7 @@ class FileController extends AbstractActionController
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
-        $form->setAttribute('action', $this->url()->fromRoute('files', array('action' => 'delete', 'id' => $id, 'jid' => $file->getJob()->getId())));
+        $form->setAttribute('action', $this->url()->fromRoute('jobs.files', array('action' => 'delete', 'id' => $id, 'jid' => $file->getJob()->getId())));
         
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -125,7 +124,10 @@ class FileController extends AbstractActionController
 
         return $this->confirmationPlugin()->confirm(
             'common.confirm-delete', 
-            array ('file.entity', $file->getName()), 
+            array (
+                array('file.entity', 'lower', 'false'),
+                array($file->getName(), 'none', 'true'),
+            ), 
             $form,
             $this->url()->fromRoute('jobs')
         );

@@ -8,6 +8,7 @@ use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Job;
 use Application\Entity\Label;
+use Application\Entity\Permission;
 use Application\Entity\Job\File;
 
 class ActivityService
@@ -52,7 +53,17 @@ class ActivityService
                     $entity, 
                     array('name' => $entity->getName())
                 ); 
-            }            
+            }
+            if ($entity instanceof Permission) {
+                $this->queue[] = array(
+                    Activity::OPERATION_GRANT, 
+                    new \DateTime("now"),
+                    $entity->getEntity(),
+                    $entity->getUser(), 
+                    array('name' => $entity->getName())
+                ); 
+            }
+
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
@@ -72,25 +83,33 @@ class ActivityService
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
             if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User) {
-                $clone = clone $entity;
                 $this->queue[] = array(
                     Activity::OPERATION_DELETE, 
                     new \DateTime("now"),
-                    $clone,
+                    serialize($entity),
                     null, 
                     null
                 );
             }
             if ($entity instanceof File) {
-                $clone = clone $entity;
                 $this->queue[] = array(
                     Activity::OPERATION_DELETE, 
                     new \DateTime("now"),
-                    $clone->getJob(),
-                    $clone, 
-                    array('name' => $clone->getName())
+                    serialize($entity->getJob()),
+                    serialize($entity), 
+                    array('name' => $entity->getName())
                 ); 
-            }              
+            }
+            if ($entity instanceof Permission) {
+                $this->queue[] = array(
+                    Activity::OPERATION_REVOKE, 
+                    new \DateTime("now"),
+                    serialize($entity->getEntity()),
+                    serialize($entity->getUser()), 
+                    array('name' => $entity->getName())
+                ); 
+            }
+
         }
 
         foreach ($uow->getScheduledCollectionDeletions() as $col) {
@@ -171,8 +190,14 @@ class ActivityService
     {
         $activity = new Activity();
         $user = $this->as->getIdentity();
+        if (!is_object($entity)) {
+            $entity = unserialize($entity);
+        }
+        if (!is_null($associatedEntity) && !is_object($associatedEntity)) {
+            $associatedEntity = unserialize($associatedEntity);
+        }        
         $activity->setCreationTime($ts);
-        $activity->setOperation($operation);            
+        $activity->setOperation($operation);
         if (is_null($user) && $operation == Activity::OPERATION_LOGOUT) {
             $user = $this->em->getRepository(User::class)->find($entity->getId());
         }

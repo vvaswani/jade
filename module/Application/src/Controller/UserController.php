@@ -205,12 +205,12 @@ class UserController extends AbstractActionController
         $request = $this->getRequest();
 
         // check for at least one administrator
-        $users = $this->em->getRepository(User::class)->findAll();
-        if (count($users) == 1) {
-            return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.entity'), $this->url()->fromRoute('users')); 
+        if ($user->getRole() == User::ROLE_ADMINISTRATOR) {        
+            $users = $this->em->getRepository(User::class)->findBy(array('role' => User::ROLE_ADMINISTRATOR));
+            if (count($users) == 1) {
+                return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.role-administrator'), $this->url()->fromRoute('users')); 
+            }
         }
-
-        // TODO: check for open owned jobs
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
@@ -231,7 +231,10 @@ class UserController extends AbstractActionController
 
         return $this->confirmationPlugin()->confirm(
             'common.confirm-delete', 
-            array ('user.entity', $user->getUsername()), 
+            array (
+                array('user.entity', 'lower', 'false'),
+                array($user->getUsername(), 'none', 'true'),
+            ),            
             $form,
             $this->url()->fromRoute('users')
         );
@@ -255,6 +258,14 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('users');
         }
 
+        // check for at least one administrator
+        if ($user->getRole() == User::ROLE_ADMINISTRATOR) {        
+            $users = $this->em->getRepository(User::class)->findBy(array('role' => User::ROLE_ADMINISTRATOR));
+            if (count($users) == 1) {
+                return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.role-administrator'), $this->url()->fromRoute('users')); 
+            }
+        }
+
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'deactivate', 'id' => $id)));
@@ -276,7 +287,10 @@ class UserController extends AbstractActionController
 
         return $this->confirmationPlugin()->confirm(
             'user.confirm-deactivate', 
-            array ('user.entity', $user->getUsername()), 
+            array (
+                array('user.entity', 'lower', 'false'),
+                array($user->getUsername(), 'none', 'true'),
+            ),            
             $form,
             $this->url()->fromRoute('users')
         );
@@ -300,10 +314,6 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('users');
         }
 
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $user) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('user.entity'), $this->url()->fromRoute('users'));
-        }
-
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'activate', 'id' => $id)));
@@ -325,7 +335,10 @@ class UserController extends AbstractActionController
 
         return $this->confirmationPlugin()->confirm(
             'user.confirm-activate', 
-            array ('user.entity', $user->getUsername()), 
+            array (
+                array('user.entity', 'lower', 'false'),
+                array($user->getUsername(), 'none', 'true'),
+            ),            
             $form,
             $this->url()->fromRoute('users')
         );

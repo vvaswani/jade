@@ -15,6 +15,7 @@ use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Label;
 use Application\Entity\Job\File;
+use Application\Entity\Permission;
 use Application\Form\ConfirmationForm;
 
 class JobController extends AbstractActionController
@@ -200,7 +201,10 @@ class JobController extends AbstractActionController
 
         return $this->confirmationPlugin()->confirm(
             'common.confirm-delete', 
-            array ('job.entity', $job->getTitle()), 
+            array (
+                array('job.entity', 'lower', 'false'),
+                array($job->getTitle(), 'none', 'true'),
+            ),            
             $form,
             $this->url()->fromRoute('jobs')
         );
@@ -244,7 +248,10 @@ class JobController extends AbstractActionController
 
         return $this->confirmationPlugin()->confirm(
             'job.confirm-close', 
-            array ('job.entity', $job->getTitle()), 
+            array (
+                array('job.entity', 'lower', 'false'),
+                array($job->getTitle(), 'none', 'true'),
+            ),            
             $form,
             $this->url()->fromRoute('jobs')
         );
@@ -288,7 +295,10 @@ class JobController extends AbstractActionController
 
         return $this->confirmationPlugin()->confirm(
             'job.confirm-open', 
-            array ('job.entity', $job->getTitle()), 
+            array (
+                array('job.entity', 'lower', 'false'),
+                array($job->getTitle(), 'none', 'true'),
+            ),            
             $form,
             $this->url()->fromRoute('jobs')
         );
@@ -296,10 +306,11 @@ class JobController extends AbstractActionController
 
     public function grantAction()
     {   
-        $id = (int) $this->params()->fromRoute('id', 0);
-        if (!$id) {
+        $jid = (int) $this->params()->fromRoute('jid', 0);
+        if (!$jid) {
             return $this->redirect()->toRoute('jobs');
         }
+        echo 'nbbbb'; die;
     }
 
     public function revokeAction()
@@ -308,6 +319,51 @@ class JobController extends AbstractActionController
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
         }
+
+        $permission = $this->em->getRepository(Permission::class)->find($id);
+        if (!$permission || !$permission instanceof \Application\Entity\Permission\Job) {
+            return $this->redirect()->toRoute('jobs');
+        }
+
+        $job = $permission->getJob();
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId())));
+        }
+
+        if ($permission->getName() == Job::PERMISSION_MANAGE) {
+            return $this->alertPlugin()->alert('job.alert-owner-permissions-revoke', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId())));
+        }        
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('jobs.permissions', array('action' => 'revoke', 'jid' => $job->getId(), 'id' => $permission->getId())));
+        
+        $request = $this->getRequest();
+        if ($request->isPost()){
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $this->em->remove($permission); 
+                    $this->em->flush(); 
+                    $this->ams->flush();
+                } 
+            }
+            return $this->redirect()->toRoute('jobs', array('action' => 'view', 'id' => $job->getId()));
+        } 
+
+        return $this->confirmationPlugin()->confirm(
+            'common.confirm-permissions-revoke', 
+            array (
+                array('user.entity', 'lower', 'false'),
+                array($permission->getUser()->getName(), 'none', 'true'),
+                array('job.entity', 'lower', 'false'),
+                array($job->getTitle(), 'none', 'true')
+            ), 
+            $form,
+            $this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId()))
+        );
+
     }
 
 }

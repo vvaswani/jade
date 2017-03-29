@@ -19,6 +19,8 @@ class Activity
     const OPERATION_REQUEST = 'REQUEST';
     const OPERATION_LOGIN = 'LOGIN';
     const OPERATION_LOGOUT = 'LOGOUT';
+    const OPERATION_GRANT = 'GRANT';
+    const OPERATION_REVOKE = 'REVOKE';
 
     const ENTITY_TYPE_JOB = 'JOB';
     const ENTITY_TYPE_LABEL = 'LABEL';

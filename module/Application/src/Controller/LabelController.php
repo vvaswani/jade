@@ -114,7 +114,10 @@ class LabelController extends AbstractActionController
 
         return $this->confirmationPlugin()->confirm(
             'common.confirm-delete', 
-            array ('label.entity', $label->getName()), 
+            array (
+                array('label.entity', 'lower', 'false'),
+                array($label->getName(), 'none', 'true'),
+            ),            
             $form,
             $this->url()->fromRoute('labels')
         );

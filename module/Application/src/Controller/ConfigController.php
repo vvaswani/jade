@@ -6,7 +6,6 @@ use Zend\View\Model\ViewModel;
 use Zend\Authentication\AuthenticationService;
 use Doctrine\ORM\EntityManager;
 use Application\Service\ActivityService;
-use Application\Service\AuthorizationService;
 use Application\Entity\User;
 
 class ConfigController extends AbstractActionController
