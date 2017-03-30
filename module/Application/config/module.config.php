@@ -79,7 +79,7 @@ return [
                 'options' => [
                     'route'    => '/jobs/view/:jid/permissions/:action[/:id]',
                     'defaults' => [
-                        'controller' => Controller\JobController::class,
+                        'controller' => Controller\Job\PermissionController::class,
                         'action'     => 'grant',
                     ],
                     'constraints' => [
@@ -161,6 +161,7 @@ return [
             Controller\JobController::class  => ApplicationControllerFactory::class,
             Controller\LabelController::class => ApplicationControllerFactory::class,
             Controller\Job\FileController::class => ApplicationControllerFactory::class,
+            Controller\Job\PermissionController::class => ApplicationControllerFactory::class,
             Controller\UserController::class => ApplicationControllerFactory::class,
             Controller\ConfigController::class => ApplicationControllerFactory::class,
         ]

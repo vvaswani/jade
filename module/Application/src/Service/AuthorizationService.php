@@ -46,11 +46,14 @@ class AuthorizationService
 
             $systemAcl->allow($jobCollaboratorViewer, 'job', array('view'));
             $systemAcl->allow($jobCollaboratorEditor, 'job', array('save'));
-            $systemAcl->allow($jobOwner, 'job', array('delete', 'close', 'open', 'grant', 'revoke'));
+            $systemAcl->allow($jobOwner, 'job', array('delete', 'close', 'open'));
 
-            $systemAcl->addResource('file');
-            $systemAcl->allow($jobCollaboratorViewer, 'file', array('download'));
-            $systemAcl->allow($jobCollaboratorEditor, 'file', array('save', 'delete'));
+                $systemAcl->addResource('job.file');
+                $systemAcl->allow($jobCollaboratorViewer, 'job.file', array('download'));
+                $systemAcl->allow($jobCollaboratorEditor, 'job.file', array('save', 'delete'));
+
+                $systemAcl->addResource('job.permission');
+                $systemAcl->allow($jobOwner, 'job.permission', array('grant', 'revoke'));
 
         $systemAcl->addRole($systemAdministrator, array($systemEmployee, $jobOwner, $labelOwner));
 

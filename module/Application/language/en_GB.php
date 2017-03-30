@@ -28,8 +28,8 @@ namespace Application;
 		'common.no-undo' => 'This operation cannot be undone.',
 		'common.alert-action' => 'Alert', 
 		'common.alert-access-denied' => 'You do not have sufficient privileges to perform this action.',
-		'common.confirm-permissions-revoke' => 'This operation will revoke %s %s\'s access to the %s %s.',
-		'common.confirm-permissions-grant' => 'This operation will grant %s %s access to the %s %s.',
+		'common.confirm-permissions-revoke' => 'This operation will revoke %s %s\'s privileges to the %s %s.',
+		'common.confirm-permissions-grant' => 'This operation will grant %s %s privileges to the %s %s.',
 
 		'activity-stream.created' => '%s created this case', 
 		'activity-stream.deleted' => '%s deleted this case', 
@@ -51,11 +51,7 @@ namespace Application;
 		'job.creation-time' => 'Created on',
 		'job.description' => 'Description', 
 		'job.comments' => 'Comments', 
-		'job.permissions' => 'Privileges', 
 		'job.close' => 'Close', 
-		'job.grant' => 'Add Collaborator', 
-		'job.revoke' => 'Remove Collaborator', 
-		'job.collaborators' => 'Collaborators', 
 		'job.permission-manage' => 'Owner with all privileges', 
 		'job.permission-edit' => 'Collaborator with edit privileges', 
 		'job.permission-view' => 'Collaborator with view privileges', 
@@ -98,7 +94,14 @@ namespace Application;
 		'user.confirm-deactivate' => 'This operation will deactivate the %s %s.',
 		'user.confirm-activate' => 'This operation will activate the %s %s.',
 		'user.alert-min-threshold' => 'This application requires a minimum of 1 active %s.',
-		'user.alert-owner-open-jobs' => 'This %s has at least one open %s and cannot be deleted.'
+		'user.alert-owner-open-jobs' => 'This %s has at least one open %s and cannot be deleted.',
+
+		// permission entity
+		'permission.entity' => 'Privilege', 
+		'permission.permissions' => 'Privileges', 
+		'permission.grant' => 'Add Collaborator(s)', 
+		'permission.revoke' => 'Remove Collaborator', 
+		'permission.collaborators' => 'Collaborators', 
     
 	);
 ?>

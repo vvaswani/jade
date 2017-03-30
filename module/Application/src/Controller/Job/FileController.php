@@ -44,7 +44,7 @@ class FileController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
 
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job.file', null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
         
@@ -95,7 +95,7 @@ class FileController extends AbstractActionController
         }
 
         $job = $file->getJob();
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job.file', null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
@@ -146,7 +146,7 @@ class FileController extends AbstractActionController
         }
 
         $job = $file->getJob();
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job.file', null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
         

@@ -10,7 +10,7 @@ use Zend\Form\Annotation;
  * @ORM\Table(name="permission")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="entity_type", type="string")
- * @ORM\DiscriminatorMap({"JOB" = "Application\Entity\Permission\Job", "LABEL" = "Application\Entity\Permission\Label"})
+ * @ORM\DiscriminatorMap({"JOB" = "Application\Entity\Job\Permission", "LABEL" = "Application\Entity\Label\Permission"})
  */
  abstract class Permission
  {
@@ -23,21 +23,45 @@ use Zend\Form\Annotation;
      * @ORM\Id 
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
+     * @Annotation\Exclude()
      */
     protected $id;
     
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="permissions")
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})
+     * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Attributes({"multiple":"multiple"})
+     * @Annotation\Options({"label":"permission.collaborators", "use_hidden_element":"true"})     
      */
      protected $user;
 
     /**
      * @ORM\Column(type="string")
+     * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})
+     * @Annotation\Options({"label":"permission.permissions", "use_hidden_element":"true"})     
      */
     protected $name;
 
     // overridden in child classes
-     protected $entity;
+    protected $entity;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Hidden")
+     * @Annotation\Required(false)
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})     
+     */
+    protected $cancelUrl;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Submit")
+     * @Annotation\Attributes({"value":"common.confirm"})
+     */
+    public $submit;    
 
     public function setId($id)
     {

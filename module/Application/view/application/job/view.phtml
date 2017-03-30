@@ -60,7 +60,7 @@ $form->prepare();
                         <?php echo $this->translate('file.current-files'); ?>    
                     </span>
                     <div class="pull-right">
-                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'file', 'save', $this->job)): ?>
+                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'job.file', 'save', $this->job)): ?>
                         <a role="button" class="btn btn-primary btn-sm btn-file-add" href="<?php echo $this->url('jobs.files', array('action' => 'save', 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
                             <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('file.add'); ?>
                         </a>
@@ -89,14 +89,14 @@ $form->prepare();
                                 <td><?php echo $this->escapeHtml($file->getName()); ?></td>
                                 <td><?php echo $file->getCreationTime()->format('d M Y h:i T'); ?></td>
                                 <td>
-                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'file', 'download', $this->job)): ?>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job.file', 'download', $this->job)): ?>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs.files', array('action' => 'download', 'id' => $this->escapeHtml($file->getId()), 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
                                         <span class="glyphicon glyphicon-download"></span> <?php echo $this->translate('common.download'); ?>
                                     </a>
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'file', 'delete', $this->job)): ?>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job.file', 'delete', $this->job)): ?>
                                     <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs.files', array('action' => 'delete', 'id' => $this->escapeHtml($file->getId()), 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
                                         <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
                                     </a>
@@ -113,12 +113,12 @@ $form->prepare();
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
-                        <?php echo $this->translate('job.collaborators'); ?>
+                        <?php echo $this->translate('permission.collaborators'); ?>
                     </span>
                     <div class="pull-right">
-                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'grant', $this->job)): ?>
+                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'job.permission', 'grant', $this->job)): ?>
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs.permissions', array('action' => 'grant', 'jid' => $this->escapeHtml($this->job->getId()))); ?>">
-                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('job.grant'); ?>
+                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('permission.grant'); ?>
                         </a>
                         <?php endif; ?>
                     </div>                    
@@ -128,7 +128,7 @@ $form->prepare();
                         <thead>
                             <tr>
                                 <th><?php echo $this->translate('user.name'); ?></th>
-                                <th><?php echo $this->translate('job.permissions'); ?></th>
+                                <th><?php echo $this->translate('permission.permissions'); ?></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -151,10 +151,10 @@ $form->prepare();
                                     <?php endswitch; ?>
                                 </td>
                                 <td>
-                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'revoke', $job)): ?>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job.permission', 'revoke', $job)): ?>
                                         <?php if (($permission->getUser()->getId() != $this->identity()->getId()) && ($permission->getName() !=  $job::PERMISSION_MANAGE)): ?>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs.permissions', array('action' => 'revoke', 'jid' => $this->escapeHtml($job->getId()), 'id' => $this->escapeHtml($permission->getId()))); ?>">
-                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('job.revoke'); ?>
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('permission.revoke'); ?>
                                     </a>
                                         <?php endif; ?>
                                     <?php endif; ?>

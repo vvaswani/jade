@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Entity\Label;
-use Application\Entity\Permission\Label as LabelPermission;
+use Application\Entity\Label\Permission as LabelPermission;
 use Application\Service\ActivityService;
 use Application\Form\ConfirmationForm;
 

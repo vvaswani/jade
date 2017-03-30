@@ -50,7 +50,7 @@ use Zend\Form\Annotation;
     protected $creationTime;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Application\Entity\Permission\Label", mappedBy="entity", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Label\Permission", mappedBy="entity", cascade={"remove", "persist"})
      * @Annotation\Exclude()
      */
     protected $permissions;
@@ -125,7 +125,7 @@ use Zend\Form\Annotation;
     {
         $permissions = array();
         if ($user->getRole() == User::ROLE_ADMINISTRATOR) {
-            $permission = new Permission\Label;
+            $permission = new Label\Permission;
             $permission->setUser($user);
             $permission->setName(Label::PERMISSION_MANAGE);
             $permission->setLabel($this);

@@ -92,7 +92,7 @@ class Job
     protected $files;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Application\Entity\Permission\Job", mappedBy="entity", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Job\Permission", mappedBy="entity", cascade={"remove", "persist"})
      * @Annotation\Exclude()
      */
     protected $permissions;
@@ -237,7 +237,7 @@ class Job
     {
         $permissions = array();
         if ($user->getRole() == User::ROLE_ADMINISTRATOR) {
-            $permission = new Permission\Job;
+            $permission = new Job\Permission;
             $permission->setUser($user);
             $permission->setName(Job::PERMISSION_MANAGE);
             $permission->setJob($this);

@@ -1,15 +1,15 @@
 <?php
-namespace Application\Entity\Permission;
+namespace Application\Entity\Label;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Form\Annotation;
-use Application\Entity\Permission;
+use Application\Entity\Permission as BasePermission;
 
 /**
  * @ORM\Entity
  */
-class Label extends Permission
+class Permission extends BasePermission
 {
 
     public function __construct()
@@ -19,6 +19,7 @@ class Label extends Permission
 
     /**
      * @ORM\ManyToOne(targetEntity="\Application\Entity\Label", inversedBy="permissions")
+     * @Annotation\Exclude()
      */
     protected $entity;
 

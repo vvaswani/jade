@@ -1,18 +1,19 @@
 <?php
-namespace Application\Entity\Permission;
+namespace Application\Entity\Job;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Form\Annotation;
-use Application\Entity\Permission;
+use Application\Entity\Permission as BasePermission;
 
 /**
  * @ORM\Entity
  */
-class Job extends Permission
+class Permission extends BasePermission
  {
     /**
      * @ORM\ManyToOne(targetEntity="\Application\Entity\Job", inversedBy="permissions")
+     * @Annotation\Exclude()
      */
     protected $entity;
 
