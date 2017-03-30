@@ -78,7 +78,10 @@ class ActivityService
                     new \DateTime("now"),
                     $entity->getEntity(),
                     $entity->getUser(), 
-                    array('name' => $entity->getName())
+                    array(
+                        'name' => $entity->getName(), 
+                        'user' => array('name' => $entity->getUser()->getName())
+                    )
                 ); 
             }
 
@@ -142,7 +145,10 @@ class ActivityService
                     new \DateTime("now"),
                     serialize($entity->getEntity()),
                     serialize($entity->getUser()), 
-                    array('name' => $entity->getName())
+                    array(
+                        'name' => $entity->getName(), 
+                        'user' => array('name' => $entity->getUser()->getName())
+                    )
                 ); 
             }
 

@@ -40,6 +40,8 @@ namespace Application;
 		'activity-stream.empty' => 'empty', 
 		'activity-stream.opened' => '%s opened this case', 
 		'activity-stream.closed' => '%s closed this case', 
+		'activity-stream.granted' => '%s granted %s access to this case', 
+		'activity-stream.revoked' => '%s revoked %s\'s access to this case', 
 		'activity-stream.recent-activity' => 'Recent Activity', 
 
 		// job entity

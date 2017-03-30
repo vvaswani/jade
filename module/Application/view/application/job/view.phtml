@@ -307,6 +307,38 @@ $form->prepare();
                             </tr>  
                                         <?php break; ?>
                                     <?php endswitch; ?>
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_GRANT): ?> 
+                                    <?php switch ($activity->getAssociatedEntityType()): 
+                                        case 'USER': ?>                                    
+                                        <?php $properties = json_decode($activity->getData(), true); ?>
+                            <tr> 
+                                <td>
+                                <?php echo sprintf(
+                                    $this->translate('activity-stream.granted'), 
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                    '<strong>' .  $properties['user']['name']. '</strong>'
+                                ); ?>.
+                                </td>
+                                <td><?php echo $activity->getCreationTime()->format('d M Y h:i T'); ?></td>
+                            </tr>  
+                                        <?php break; ?>
+                                    <?php endswitch; ?>
+                                <?php elseif ($activity->getOperation() == $activity::OPERATION_REVOKE): ?>   
+                                    <?php switch ($activity->getAssociatedEntityType()): 
+                                        case 'USER': ?>                                    
+                                        <?php $properties = json_decode($activity->getData(), true); ?>
+                            <tr> 
+                                <td>
+                                <?php echo sprintf(
+                                    $this->translate('activity-stream.revoked'), 
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                    '<strong>' .  $properties['user']['name']. '</strong>'
+                                ); ?>.
+                                </td>
+                                <td><?php echo $activity->getCreationTime()->format('d M Y h:i T'); ?></td>
+                            </tr>  
+                                        <?php break; ?>
+                                    <?php endswitch; ?>
                                 <?php endif; ?>        
                             <?php endforeach; ?>
                         <?php else: ?>
