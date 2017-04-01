@@ -30,17 +30,18 @@
 
 Permissions for label resources are defined and managed by the system.
 
- * LABEL.MANAGE: All access. Automatically granted by the system to administrators and the label creator. 
+ * `LABEL.MANAGE`: All access. Automatically granted by the system to administrators and the label creator. 
 
 #### Jobs
 
 Permissions for job resources are initially defined by the system and can be additionally granted/revoked by users.
 
- * JOB.MANAGE: All access. Automatically granted by the system to administrators and the job creator. 
- * JOB.EDIT: Limited write access. Manually granted by administrators and the job creator.
- * JOB.VIEW: Read access. Manually granted by administrators and the job creator.
+ * `JOB.MANAGE`: All access. Automatically granted by the system to administrators and the job creator. 
+ * `JOB.EDIT`: Limited write access. Manually granted by administrators and the job creator.
+ * `JOB.VIEW`: Read access. Manually granted by administrators and the job creator.
 
 ### Permission Matrix
+
 |                              | Administrator | Employee | Customer |
 |------------------------------|---------------|----------|----------|
 | Create user                  |       Y       |    Y     |    N     |
@@ -64,6 +65,7 @@ Permissions for job resources are initially defined by the system and can be add
 | Add file to job              |       Y       |    Y *4  |    Y *4  |
 | Remove file from job         |       Y       |    Y *4  |    Y *4  |
 | View file associated with job|       Y       |    Y *3  |    Y *3  |
+|------------------------------|---------------|----------|----------|
 
 
 *1 = only for the user's own data
