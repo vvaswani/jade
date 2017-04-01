@@ -91,8 +91,10 @@ class AuthorizationService
             } 
         }
 
-        if ($systemAcl->isAllowed($identity->getRole(), $aclResource, $aclPermission)) {
-            return true;
+        if (is_null($entity)) {
+            if ($systemAcl->isAllowed($identity->getRole(), $aclResource, $aclPermission)) {
+                return true;
+            }
         }
 
         // default deny
