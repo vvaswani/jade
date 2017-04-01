@@ -72,8 +72,8 @@ Permissions for job resources are initially defined by the system and can be add
 
  *2 = only for labels created by the user
 
- *3 = only if the user has VIEW or higher permissions for the job
+ *3 = only if the user has `JOB.VIEW` or higher permissions for the job
 
- *4 = only if the user has EDIT or higher permissions for the job
- 
- *5 = only if the user has MANAGE permissions for the job
+ *4 = only if the user has `JOB.EDIT` or higher permissions for the job
+
+ *5 = only if the user has `JOB.MANAGE` permissions for the job
