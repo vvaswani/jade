@@ -1,15 +1,12 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
-
 namespace Application;
 
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Application\Factory\Controller\ApplicationControllerFactory;
+use Application\Factory\Controller\Plugin\AuthorizationControllerPluginFactory;
+use Application\Factory\View\Helper\AuthorizationViewHelperFactory;
 
 return [
     'router' => [
@@ -24,23 +21,171 @@ return [
                     ],
                 ],
             ],
-            'application' => [
-                'type'    => Segment::class,
+            'dashboard' => [
+                'type' => Literal::class,
                 'options' => [
-                    'route'    => '/application[/:action]',
+                    'route'    => '/dashboard',
                     'defaults' => [
                         'controller' => Controller\IndexController::class,
+                        'action'     => 'dashboard',
+                    ],
+                ],
+            ],
+            'jobs' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/jobs[/:action][/:id]',
+                    'defaults' => [
+                        'controller' => Controller\JobController::class,
+                        'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                    ],
+                ],
+            ],
+            'labels' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/labels[/:action][/:id]',
+                    'defaults' => [
+                        'controller' => Controller\LabelController::class,
+                        'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                    ],
+                ],
+            ],
+            'jobs.files' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/jobs/view/:jid/files/:action[/:id]',
+                    'defaults' => [
+                        'controller' => Controller\Job\FileController::class,
+                        'action'     => 'save',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                        'jid'    => '[0-9]*',
+                    ],
+                ],
+            ],
+            'jobs.permissions' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/jobs/view/:jid/permissions/:action[/:id]',
+                    'defaults' => [
+                        'controller' => Controller\Job\PermissionController::class,
+                        'action'     => 'grant',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                        'jid'    => '[0-9]*',
+                    ],
+                ],
+            ],            
+            'users' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/users[/:action][/:id]',
+                    'defaults' => [
+                        'controller' => Controller\UserController::class,
+                        'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                    ],
+                ],
+            ],
+            'config' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/settings',
+                    'defaults' => [
+                        'controller' => Controller\ConfigController::class,
                         'action'     => 'index',
                     ],
                 ],
+            ],                       
+            'login' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/login',
+                    'defaults' => [
+                        'controller' => Controller\UserController::class,
+                        'action'     => 'login',
+                    ],
+                ],
+            ],            
+            'logout' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/logout',
+                    'defaults' => [
+                        'controller' => Controller\UserController::class,
+                        'action'     => 'logout',
+                    ],
+                ],
+            ],            
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            'Application\Service\AuthorizationService' => 'Application\Factory\Service\AuthorizationServiceFactory',
+            'Application\Service\ActivityService' => 'Application\Factory\Service\ActivityServiceFactory',
+        ],
+        'invokables' => [
+            'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
+        ],        
+    ],
+    'translator' => [
+        'locale' => 'en_GB',
+        'translation_file_patterns' =>  [
+            [
+                'type'     => 'phparray',
+                'base_dir' => __DIR__ . '/../language',
+                'pattern'  => '%s.php',
             ],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-        ],
+            Controller\JobController::class  => ApplicationControllerFactory::class,
+            Controller\LabelController::class => ApplicationControllerFactory::class,
+            Controller\Job\FileController::class => ApplicationControllerFactory::class,
+            Controller\Job\PermissionController::class => ApplicationControllerFactory::class,
+            Controller\UserController::class => ApplicationControllerFactory::class,
+            Controller\ConfigController::class => ApplicationControllerFactory::class,
+        ]
     ],
+    'controller_plugins' => [
+        'factories' => [
+            Controller\Plugin\AlertPlugin::class => InvokableFactory::class,
+            Controller\Plugin\AuthorizationPlugin::class => AuthorizationControllerPluginFactory::class,
+            Controller\Plugin\ConfirmationPlugin::class => InvokableFactory::class,
+        ],
+        'aliases' => [
+            'alertPlugin' => Controller\Plugin\AlertPlugin::class,
+            'authorizationPlugin' => Controller\Plugin\AuthorizationPlugin::class,
+            'confirmationPlugin' => Controller\Plugin\ConfirmationPlugin::class,
+        ]
+    ],
+    'view_helpers' => [
+        'factories' => [
+            View\Helper\Authorize::class => AuthorizationViewHelperFactory::class,                    
+        ],
+       'aliases' => [
+            'authorize' => View\Helper\Authorize::class
+       ]
+    ],      
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
@@ -56,5 +201,15 @@ return [
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
+    ],
+    'doctrine' => [
+        'configuration' => [
+            'orm_default' => [
+                'naming_strategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy'
+            ],
+        ],
+        'fixture' => [
+            'Application' => __DIR__ . '/../src/Fixture',
+        ]
     ],
 ];

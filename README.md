@@ -20,7 +20,7 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 ### Configuration: Apache
 
-  * Ensure that your Apache server has `.htaccess` file support.
+  * Ensure that your Apache server has the `AllowOverride All` directive set for the Web server document root.
   * Ensure that your Apache server has the `mod_rewrite` module enabled.
 
 ### Configuration: PHP
@@ -38,11 +38,12 @@ If administrator access to the `php.ini` file is not available, set these values
   * Install [Composer](http://getcomposer.org/).
   * Clone or download the [application from Github](https://github.com/vvaswani/jade/). The variable `$APP_DIR` refers to the directory hosting the application source code.
   * Download dependencies by executing `composer install`.  
-  * Ensure that the `$APP_DIR/data/cache` and `$APP_DIR/data/tmp` directories are writable by the Web server user.
+  * Ensure that the `$APP_DIR/data/cache`, `$APP_DIR/data/tmp` and `$APP_DIR/data/upload` directories are writable by the Web server user.
   * Copy `$APP_DIR/config/autoload/local.php.dist` to `$APP_DIR/config/autoload/local.php`. Any changes to this file will be ignored by Git to enable per-developer configuration.
   * Update `$APP_DIR/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection.
   * (For development environments, optional) Copy `$APP_DIR/config/development.config.php.dist` to `$APP_DIR/config/development.config.php`. This enables detailed exception listings and the Zend Developer Tools (ZDT) toolbar. This is not recommended for production environments.
   * Create the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:create` from the `$APP_DIR` directory.
+  * Seed the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load` from the `$APP_DIR` directory.
 
 Sample commands:
 
@@ -53,10 +54,27 @@ Sample commands:
       $ composer install
       $ chown -R www-data data/tmp
       $ chown -R www-data data/cache
+      $ chown -R www-data data/upload
       $ cp config/autoload/local.php.dist config/autoload/local.php
       $ cp config/autoload/development.config.php.dist config/autoload/development.config.php
       $ ./vendor/bin/doctrine-module orm:schema-tool:create
-      
+      $ ./vendor/bin/doctrine-module orm:fixtures:load
+
+### Upgrade
+
+  * Pull the [latest application code from Github](https://github.com/vvaswani/jade/). 
+  * Update dependencies by executing `composer install`.  
+  * Update the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:update --force` from the `$APP_DIR` directory.
+  * Update the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load --append` from the `$APP_DIR` directory.
+
+Sample commands:
+
+      $ cd jade
+      $ git pull
+      $ composer install
+      $ ./vendor/bin/doctrine-module orm:schema-tool:update --force
+      $ ./vendor/bin/doctrine-module orm:fixtures:load --append
+        
 ## Roadmap
 If you are interested in the future direction of this project, please contribute using the [issues log](https://github.com/vvaswani/jade/issues). Your feedback is appreciated.
   

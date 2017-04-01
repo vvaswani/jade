@@ -10,7 +10,6 @@
  * control, so do not include passwords or other sensitive information in this
  * file.
  */
-
 return [
     'doctrine' => [
         'driver' => [
@@ -27,5 +26,20 @@ return [
                 ],
             ],
         ],
+        'configuration' => [
+            'orm_default' => [
+                'generate_proxies' => true,
+                'proxy_dir' => 'data/tmp/DoctrineORMModule/Proxy',
+            ],
+        ],
+        'authentication' => [
+            'orm_default' => [
+                'object_manager' => 'Doctrine\ORM\EntityManager',
+                'identity_class' => 'Application\Entity\User',
+                'identity_property' => 'username',
+                'credential_property' => 'password',
+                'credential_callable' => 'Application\Controller\UserController::verifyCredential'
+            ],
+        ]
     ],
 ];

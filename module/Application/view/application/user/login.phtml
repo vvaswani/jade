@@ -1,0 +1,47 @@
+<?php        
+$form = $this->form;
+$form->setAttribute('action', $this->url('login'));
+$form->setAttribute('method', 'POST');
+$form->setAttribute('novalidate', 'true');
+$form->prepare();
+?>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo $this->translate('common.login'); ?>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <?php echo $this->form()->openTag($form); ?>
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('username')) ?>
+                            <?php echo $this->formInput($form->get('username')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('username')) ?>
+                            </span>
+                        </div> 
+
+                        <div class="form-group"> 
+                            <?php echo $this->formLabel($form->get('password')) ?>
+                            <?php echo $this->formPassword($form->get('password')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('password')) ?>
+                            </span>
+                        </div> 
+
+                        <div class="form-group"> 
+                            <?php echo $this->formHidden($form->get('continue')) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('continue')) ?>
+                            </span>
+                        </div> 
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-user"></span> <?php echo $this->translate('common.login'); ?>
+                            </button> 
+                        </div>	 
+                    <?php echo $this->form()->closeTag($form); ?>
+                </div>
+            </div>

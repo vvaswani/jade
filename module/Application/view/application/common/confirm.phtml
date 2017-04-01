@@ -1,0 +1,54 @@
+<?php        
+$form = $this->form;
+$form->setAttribute('method', 'POST');
+$form->setAttribute('novalidate', 'true');
+$form->prepare();
+?>
+
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"><?php echo $this->translate('common.confirm-action'); ?></h4>
+                        </div>
+                        <div class="modal-body">
+                            <?php $formattedConfirmationMessageStrings = array(); ?>
+                            <?php foreach ($this->confirmationMessageStrings as $cms):
+                                $cms[0] = $this->escapeHtml($this->translate($cms[0]));
+                                if ($cms[1] == 'lower'):
+                                    $cms[0] = strtolower($cms[0]);
+                                elseif ($cms[1] == 'upper'):
+                                    $cms[0] = strtoupper($cms[0]);
+                                elseif ($cms[1] == 'none'):
+                                    $cms[0] = $cms[0];
+                                endif; 
+                                if ($cms[2] == 'true'):
+                                  $cms[0] = '<strong>' . $cms[0] . '</strong>';
+                                endif;
+                                $formattedConfirmationMessageStrings[] = $cms[0];
+                            endforeach; ?>                             
+                            <?php echo vsprintf($this->translate($this->confirmationMessage), $formattedConfirmationMessageStrings); ?>
+                            <?php if ($this->confirmationMessage == 'common.confirm-delete'): ?>
+                              <?php echo $this->translate('common.no-undo'); ?> 
+                            <?php endif; ?>
+                            <?php echo $this->translate('common.confirm-proceed'); ?>          
+                        </div>
+                        <div class="modal-footer">
+                            <?php echo $this->form()->openTag($form); ?>
+                            <div class="form-group"> 
+                                <?php echo $this->formHidden($form->get('confirm')) ?>
+                                <span class="form-errors">
+                                    <?php echo $this->formElementErrors($form->get('confirm')) ?>
+                                </span>
+                            </div> 
+                          <div class="form-group text-center">
+                              <a role="button" class="btn btn-primary" data-dismiss="modal" href="<?php echo $this->escapeHtml($form->get('cancelUrl')->getValue()); ?>">
+                                  <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.no'); ?>
+                              </a>
+                              <button type="submit" class="btn btn-danger">
+                                  <span class="glyphicon glyphicon-ok"></span> <?php echo $this->translate('common.yes'); ?>
+                              </button> 
+                          </div>   
+                          <?php echo $this->form()->closeTag($form); ?>   
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
