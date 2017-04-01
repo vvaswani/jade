@@ -66,8 +66,6 @@ Permissions for job resources are initially defined by the system and can be add
 | Remove file from job         |       Y       |    Y *4  |    Y *4  |
 | View file associated with job|       Y       |    Y *3  |    Y *3  |
 
-#### Notes
-
  *1 = only for the user's own data
 
  *2 = only for labels created by the user
