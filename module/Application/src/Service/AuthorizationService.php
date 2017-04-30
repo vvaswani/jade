@@ -8,6 +8,7 @@ use Zend\View\Model\ViewModel;
 use Application\Entity\User;
 use Application\Entity\Job;
 use Application\Entity\Label;
+use Application\Entity\Template;
 
 class AuthorizationService
 {
@@ -56,6 +57,15 @@ class AuthorizationService
                 $systemAcl->allow($jobOwner, 'job.permission', array('grant', 'revoke'));
 
         $systemAcl->addRole($systemAdministrator, array($systemEmployee, $jobOwner, $labelOwner));
+
+        /* templates */
+        $systemAcl->addResource('template');
+        $systemAcl->allow($systemEmployee, 'template', array('index', 'save', 'download'));  // employees can create templates
+
+            $templateOwner = new Role(Template::PERMISSION_MANAGE);
+            $systemAcl->addRole($templateOwner, $systemEmployee);
+            $systemAcl->allow($templateOwner, 'template', array('delete', 'save'));
+
 
         /* config */
         $systemAcl->addResource('config');

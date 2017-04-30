@@ -13,7 +13,7 @@ use Zend\Form\Annotation;
  class File
  {
 
-    const UPLOAD_PATH = 'data/upload';
+    const UPLOAD_PATH = 'data/upload/jobs';
 
     /**
      * @ORM\Id 

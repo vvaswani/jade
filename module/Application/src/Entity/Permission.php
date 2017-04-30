@@ -10,7 +10,7 @@ use Zend\Form\Annotation;
  * @ORM\Table(name="permission")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="entity_type", type="string")
- * @ORM\DiscriminatorMap({"JOB" = "Application\Entity\Job\Permission", "LABEL" = "Application\Entity\Label\Permission"})
+ * @ORM\DiscriminatorMap({"JOB" = "Application\Entity\Job\Permission", "LABEL" = "Application\Entity\Label\Permission", "TEMPLATE" = "Application\Entity\Template\Permission"})
  */
  abstract class Permission
  {
@@ -18,6 +18,7 @@ use Zend\Form\Annotation;
     const ENTITY_TYPE_JOB = 'JOB';
     const ENTITY_TYPE_LABEL = 'LABEL';
     const ENTITY_TYPE_FILE = 'FILE';
+    const ENTITY_TYPE_TEMPLATE = 'TEMPLATE';
 
     /**
      * @ORM\Id 

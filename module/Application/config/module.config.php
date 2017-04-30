@@ -132,6 +132,20 @@ return [
                         'action'     => 'logout',
                     ],
                 ],
+            ],
+            'templates' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/templates[/:action][/:id]',
+                    'defaults' => [
+                        'controller' => Controller\TemplateController::class,
+                        'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                    ],
+                ],
             ],            
         ],
     ],
@@ -164,6 +178,7 @@ return [
             Controller\Job\PermissionController::class => ApplicationControllerFactory::class,
             Controller\UserController::class => ApplicationControllerFactory::class,
             Controller\ConfigController::class => ApplicationControllerFactory::class,
+            Controller\TemplateController::class => ApplicationControllerFactory::class,
         ]
     ],
     'controller_plugins' => [
