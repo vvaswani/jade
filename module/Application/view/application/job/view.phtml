@@ -10,7 +10,7 @@ $form->prepare();
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
-                        Case #<?php echo $this->escapeHtml($this->job->getId()); ?>: <?php echo $this->escapeHtml($this->job->getTitle()); ?>
+                        <?php echo $this->translate('job.entity'); ?> #<?php echo $this->escapeHtml($this->job->getId()); ?>: <?php echo $this->escapeHtml($this->job->getTitle()); ?>
                         <?php foreach ($this->job->getLabels() as $label): ?>
                             <span class="label label-default pull-right" style="background-color: <?php echo $this->escapeHtml($label->getColour()); ?>"><?php echo $this->escapeHtml($label->getName()); ?></span> 
                         <?php endforeach; ?>

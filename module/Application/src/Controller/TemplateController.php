@@ -112,7 +112,6 @@ class TemplateController extends AbstractActionController
                         unlink($file);
                     }                    
                     $template->setFilename($post['file']['name']); 
-                    $template->setStoredFilename('PENDING'); 
                 }
                 $this->em->persist($template); 
                 $this->em->flush();

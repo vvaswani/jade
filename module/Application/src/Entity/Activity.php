@@ -75,6 +75,11 @@ class Activity
      */
     protected $data;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $sourceAddress;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -165,4 +170,13 @@ class Activity
         $this->data = $data;
     }
 
+    public function getSourceAddress()
+    {
+        return $this->sourceAddress;
+    }
+
+    public function setSourceAddress($sourceAddress)
+    {
+        $this->sourceAddress = $sourceAddress;
+    }
 }

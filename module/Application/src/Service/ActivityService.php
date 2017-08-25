@@ -79,7 +79,7 @@ class ActivityService
                     new \DateTime("now"),
                     $entity,
                     null, 
-                    array('name' => $entity->getFilename())
+                    array('name' => $entity->getName(), 'filename' => $entity->getFilename())
                 ); 
             }            
             if ($entity instanceof Permission) {
@@ -273,6 +273,8 @@ class ActivityService
             $activity->setAssociatedEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($associatedEntityClass)));
         }
         $activity->setData(json_encode($data));
+        $server = new \Zend\Http\PhpEnvironment\RemoteAddress;
+        $activity->setSourceAddress($server->getIpAddress());
         $this->em->persist($activity); 
         $this->em->flush();
     }
