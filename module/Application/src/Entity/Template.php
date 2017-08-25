@@ -30,9 +30,9 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"template.title"})     
+     * @Annotation\Options({"label":"template.name"})     
      */
-    protected $title;
+    protected $name;
 
     /**
      * @ORM\Column(type="string")
@@ -45,13 +45,18 @@ use Zend\Form\Annotation;
 
     /**
      * @ORM\Column(type="string")
-     * @Annotation\Filter({"name":"FileRenameUpload", "options":{"use_upload_name":true, "use_upload_extension":true}})
      * @Annotation\Validator({"name":"FileExtension", "options":{"extension":"pdf,jpeg,jpg,png,doc,docx,xls,xlsx,ppt,pptx,ods,odt,odp"} })
      * @Annotation\Type("Zend\Form\Element\File")
      * @Annotation\Name("file")
-     * @Annotation\Options({"label":"template.name"})     
+     * @Annotation\Options({"label":"template.filename"})     
      */
-    protected $name;
+    protected $filename;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Annotation\Exclude()
+     */
+    protected $storedFilename;
     
     /**
      * @ORM\Column(type="datetime")
@@ -81,14 +86,14 @@ use Zend\Form\Annotation;
         return $this->id;
     }
 
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
     }
 
     public function getDescription()
@@ -101,14 +106,24 @@ use Zend\Form\Annotation;
         $this->description = $description;
     }
 
-    public function getName()
+    public function getFilename()
     {
-        return $this->name;
+        return $this->filename;
     }
 
-    public function setName($name)
+    public function setFilename($filename)
     {
-        $this->name = $name;
+        $this->filename = $filename;
+    }
+
+    public function getStoredFilename()
+    {
+        return $this->storedFilename;
+    }
+
+    public function setStoredFilename($storedFilename)
+    {
+        $this->storedFilename = $storedFilename;
     }
 
     public function getCreationTime()

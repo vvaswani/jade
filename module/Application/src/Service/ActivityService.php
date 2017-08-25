@@ -8,6 +8,7 @@ use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Job;
 use Application\Entity\Label;
+use Application\Entity\Template;
 use Application\Entity\Permission;
 use Application\Entity\Job\File;
 
@@ -72,6 +73,15 @@ class ActivityService
                     array('name' => $entity->getName())
                 ); 
             }
+            if ($entity instanceof Template) {
+                $this->queue[] = array(
+                    Activity::OPERATION_CREATE, 
+                    new \DateTime("now"),
+                    $entity,
+                    null, 
+                    array('name' => $entity->getFilename())
+                ); 
+            }            
             if ($entity instanceof Permission) {
                 $this->queue[] = array(
                     Activity::OPERATION_GRANT, 
@@ -88,7 +98,7 @@ class ActivityService
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User) {
+            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User || $entity instanceof Template) {
                 $diff = $uow->getEntityChangeSet($entity);
                 if (!empty($diff)) {
                     $this->queue[] = array(
@@ -139,6 +149,15 @@ class ActivityService
                     array('name' => $entity->getName())
                 ); 
             }
+            if ($entity instanceof Template) {
+                $this->queue[] = array(
+                    Activity::OPERATION_DELETE, 
+                    new \DateTime("now"),
+                    serialize($entity),
+                    null, 
+                    array('name' => $entity->getName(), 'filename' => $entity->getFilename())
+                );
+            }            
             if ($entity instanceof Permission) {
                 $this->queue[] = array(
                     Activity::OPERATION_REVOKE, 

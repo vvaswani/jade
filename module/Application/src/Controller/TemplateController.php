@@ -38,9 +38,30 @@ class TemplateController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('template.entity'), $this->url()->fromRoute('templates'));
         }  
 
-        $labels = $this->em->getRepository(Template::class)->findBy(array(), array('creationTime' => 'DESC'));
+        $templates = $this->em->getRepository(Template::class)->findBy(array(), array('creationTime' => 'DESC'));
         return new ViewModel(array('templates' => $templates));
     }
+
+    public function viewAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('templates');
+        }
+
+        $template = $this->em->getRepository(Template::class)->find($id);
+        if (!$template) {
+            return $this->redirect()->toRoute('templates');
+        }
+
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $template) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('template.entity'), $this->url()->fromRoute('templates'));
+        }
+
+        return new ViewModel(array(
+            'template' => $template, 
+        ));
+    }    
 
     public function saveAction()
     {   
@@ -66,6 +87,14 @@ class TemplateController extends AbstractActionController
         $form = $builder->createForm($template);
         $form->setHydrator($hydrator);
         $form->bind($template);
+
+        // for update operations
+        // a new file upload is not mandatory
+        if (!empty($template->getFilename())) {
+            $storedFilename = $template->getStoredFilename();
+            $form->getInputFilter()->get('file')->setRequired(false);
+        }
+
         $request = $this->getRequest();
         if ($request->isPost()){
             $post = array_merge_recursive(
@@ -73,19 +102,32 @@ class TemplateController extends AbstractActionController
                 $request->getFiles()->toArray()
             );
             $form->setData($post);
+
             if ($form->isValid()) { 
-                $data = $form->getData();
-                $template->setCreationTime(new \DateTime("now"));
-                $template->setName($post['file']['name']); 
+                // for update operations
+                // if a new file is uploaded, delete the old file
+                if (!empty($post['file']['name'])) {
+                    $file = Template::UPLOAD_PATH . '/' . $storedFilename;
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }                    
+                    $template->setFilename($post['file']['name']); 
+                    $template->setStoredFilename('PENDING'); 
+                }
                 $this->em->persist($template); 
                 $this->em->flush();
-                if (!file_exists(Template::UPLOAD_PATH . '/' . (int)$template->getId())) {
-                    mkdir (Template::UPLOAD_PATH . '/' . (int)$template->getId());
-                }            
-                $filter = $form->getInputFilter()->get('file')->getFilterChain()->getFilters()->extract('FileRenameUpload');
-                $filter->setTarget(Template::UPLOAD_PATH . '/' . (int)$template->getId());
-                $form->setInputFilter($form->getInputFilter()); 
-                $data = $form->getData();
+                // for update operations
+                // if a new file is uploaded, save the new file to disk
+                // and update the database with the new filename
+                if (!empty($post['file']['name'])) {
+                    $storedFilename = (int)$template->getId() . '_' . md5($post['file']['name'] . microtime());
+                    $filter = new \Zend\Filter\File\RenameUpload();
+                    $filter->setTarget(Template::UPLOAD_PATH . '/' . $storedFilename);
+                    $filter->filter($post['file']);
+                    $template->setStoredFilename($storedFilename); 
+                    $this->em->persist($template); 
+                    $this->em->flush();
+                }
                 $this->ams->flush();
                 return $this->redirect()->toRoute('templates');
             } 
@@ -94,98 +136,48 @@ class TemplateController extends AbstractActionController
 
         return new ViewModel(array(
             'form' => $form,
-            'id'  => $template->getId()
+            'id'  => $template->getId(),
+            'filename' => $template->getFilename()
         ));        
     }
 
-    public function deleteAction()
-    {   
-        $id = (int) $this->params()->fromRoute('id', 0);
-        if (!$id) {
-            return $this->redirect()->toRoute('jobs');
-        }
-
-        $file = $this->em->getRepository(File::class)->find($id);
-        if (!$file) {
-            return $this->redirect()->toRoute('jobs');
-        }
-
-        $job = $file->getJob();
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job.file', null, $job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
-        }
-
-        $builder = new AnnotationBuilder();
-        $form = $builder->createForm(new ConfirmationForm());
-        $form->setAttribute('action', $this->url()->fromRoute('jobs.files', array('action' => 'delete', 'id' => $id, 'jid' => $file->getJob()->getId())));
-        
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setData($request->getPost());
-            if ($form->isValid()) {
-                $data = $form->getData();
-                if ($data['confirm'] == 1) {
-                    $fileObject = File::UPLOAD_PATH . '/' . $file->getJob()->getId() . '/' . $file->getName();
-                    if (file_exists($fileObject)) {
-                        unlink($fileObject);
-                    }
-                    $this->em->remove($file);
-                    $this->em->flush(); 
-                    $this->ams->flush();
-                    return $this->redirect()->toRoute('jobs', array('action' => 'view', 'id' => $file->getJob()->getId()));
-                }
-            } 
-            return $this->redirect()->toRoute('jobs');
-        }
-
-        return $this->confirmationPlugin()->confirm(
-            'common.confirm-delete', 
-            array (
-                array('file.entity', 'lower', 'false'),
-                array($file->getName(), 'none', 'true'),
-            ), 
-            $form,
-            $this->url()->fromRoute('jobs')
-        );
-    }
 
     public function downloadAction() 
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('jobs');
+            return $this->redirect()->toRoute('templates');
         }
 
-        $file = $this->em->getRepository(File::class)->find($id);
-        if (!$file) {
-            return $this->redirect()->toRoute('jobs');
+        $template = $this->em->getRepository(Template::class)->find($id);
+        if (!$template) {
+            return $this->redirect()->toRoute('templates');
         }
 
-        $job = $file->getJob();
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job.file', null, $job) === false) {
-            return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $template) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('template.entity'), $this->url()->fromRoute('templates'));
         }
-        
-        $fileObject = File::UPLOAD_PATH . '/' . $file->getJob()->getId() . '/' . $file->getName();
-        if (file_exists($fileObject)) {
+
+        $file = Template::UPLOAD_PATH . '/' . $template->getStoredFilename();
+        if (file_exists($file)) {
             $queue[] = array(
                 Activity::OPERATION_REQUEST, 
                 new \DateTime("now"),
-                $file->getJob(),
-                $file, 
-                array('name' => $file->getName())
+                $template,
+                null, 
+                array('name' => $template->getFilename())
             );
             $this->ams->setQueue($queue); 
             $this->ams->flush();
             $response = new Stream();
-            $response->setStream(fopen($fileObject, 'r'));
+            $response->setStream(fopen($file, 'r'));
             $response->setStatusCode(200);
-            $response->setStreamName($file->getName());
+            $response->setStreamName($template->getFilename());
             $headers = new Headers();
             $headers->addHeaders(array(
-                'Content-Disposition' => 'attachment; filename="' . $file->getName() .'"',
+                'Content-Disposition' => 'attachment; filename="' . $template->getFilename() .'"',
                 'Content-Type' => 'application/octet-stream',
-                'Content-Length' => filesize($fileObject),
+                'Content-Length' => filesize($file),
                 'Expires' => '@0', 
                 'Cache-Control' => 'must-revalidate',
                 'Pragma' => 'public'
@@ -193,6 +185,57 @@ class TemplateController extends AbstractActionController
             $response->setHeaders($headers);
             return $response;
         } 
-        return $this->redirect()->toRoute('jobs');
-    }    
+        return $this->redirect()->toRoute('templates');
+    }
+
+    public function deleteAction()
+    {   
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('templates');
+        }
+
+        $template = $this->em->getRepository(Template::class)->find($id);
+        if (!$template) {
+            return $this->redirect()->toRoute('templates');
+        }
+
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $template) === false) {
+            return $this->alertPlugin()->alert('common.alert-access-denied', array('template.entity'), $this->url()->fromRoute('templates'));
+        }
+
+        $builder = new AnnotationBuilder();
+        $form = $builder->createForm(new ConfirmationForm());
+        $form->setAttribute('action', $this->url()->fromRoute('templates', array('action' => 'delete', 'id' => $id)));
+
+        $request = $this->getRequest();
+        if ($request->isPost()){
+            $form->setData($request->getPost());
+            if ($form->isValid()) { 
+                $data = $form->getData();
+                if ($data['confirm'] == 1) {
+                    $file = Template::UPLOAD_PATH . '/' . $template->getStoredFilename();
+                    if (file_exists($file)) {
+                        unlink($file);
+                    }
+                    $this->em->remove($template);
+                    $this->em->flush(); 
+                    $this->ams->flush();
+                } 
+            }
+            return $this->redirect()->toRoute('templates');
+        } 
+
+        return $this->confirmationPlugin()->confirm(
+            'common.confirm-delete', 
+            array (
+                array('template.entity', 'lower', 'false'),
+                array($template->getName(), 'none', 'true'),
+            ),            
+            $form,
+            $this->url()->fromRoute('templates')
+        );
+
+    }
+
 }

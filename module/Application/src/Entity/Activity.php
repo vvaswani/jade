@@ -26,6 +26,7 @@ class Activity
     const ENTITY_TYPE_LABEL = 'LABEL';
     const ENTITY_TYPE_FILE = 'FILE';
     const ENTITY_TYPE_USER = 'USER';
+    const ENTITY_TYPE_TEMPLATE = 'TEMPLATE';
     
     /**
      * @ORM\Id 

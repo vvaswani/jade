@@ -49,6 +49,7 @@ class FileController extends AbstractActionController
         }
         
         $file = new File();
+        $file->setCreationTime(new \DateTime("now"));
         $builder = new AnnotationBuilder();
         $form = $builder->createForm($file);
         $request = $this->getRequest();
@@ -66,7 +67,6 @@ class FileController extends AbstractActionController
             $form->setData($post);
             if ($form->isValid()) { 
                 $data = $form->getData();
-                $file->setCreationTime(new \DateTime("now"));
                 $file->setName($data['file']['name']); 
                 $file->setJob($job);                      
                 $this->em->persist($file); 

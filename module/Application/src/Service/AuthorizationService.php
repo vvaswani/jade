@@ -60,7 +60,7 @@ class AuthorizationService
 
         /* templates */
         $systemAcl->addResource('template');
-        $systemAcl->allow($systemEmployee, 'template', array('index', 'save', 'download'));  // employees can create templates
+        $systemAcl->allow($systemEmployee, 'template', array('index', 'save', 'download', 'view'));  // employees can create templates
 
             $templateOwner = new Role(Template::PERMISSION_MANAGE);
             $systemAcl->addRole($templateOwner, $systemEmployee);
