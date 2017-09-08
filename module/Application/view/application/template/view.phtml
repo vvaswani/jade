@@ -1,0 +1,50 @@
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo $this->translate('template.entity'); ?> #<?php echo $this->escapeHtml($this->template->getId()); ?>: <?php echo $this->escapeHtml($this->template->getName()); ?>
+
+                    </span>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table class="table">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong><?php echo $this->translate('template.creation-time'); ?></strong></td>
+                                <td><?php echo $this->template->getCreationTime()->format('d M Y h:i T'); ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong><?php echo $this->translate('template.description'); ?></strong></td>
+                                <td><?php echo ($this->template->getDescription()) ? $this->escapeHtml($this->template->getDescription()) : 'None'; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong><?php echo $this->translate('template.filename'); ?></strong></td>
+                                <td><?php echo ($this->template->getFilename()) ? $this->escapeHtml($this->template->getFilename()) : 'None'; ?></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="pull-right">
+                                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'save', $this->template)): ?>
+                                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'save', 'id' => $this->escapeHtml($this->template->getId()))); ?>">
+                                            <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
+                                        </a>
+                                        <?php endif; ?>
+                                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'download', $this->template)): ?>
+                                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'download', 'id' => $this->escapeHtml($this->template->getId()))); ?>">
+                                            <span class="glyphicon glyphicon-download"></span> <?php echo $this->translate('common.download'); ?>
+                                        </a>
+                                        <?php endif; ?>
+                                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'delete', $this->template)): ?>
+                                        <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('templates', array('action' => 'delete', 'id' => $this->escapeHtml($this->template->getId()))); ?>">
+                                            <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
+                                        </a>
+                                        <?php endif; ?>                                    
+                                    </div>                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>

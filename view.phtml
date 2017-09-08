@@ -10,7 +10,7 @@ $form->prepare();
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
-                        <?php echo $this->translate('job.entity'); ?> #<?php echo $this->escapeHtml($this->job->getId()); ?>: <?php echo $this->escapeHtml($this->job->getTitle()); ?>
+                        Case #<?php echo $this->escapeHtml($this->job->getId()); ?>: <?php echo $this->escapeHtml($this->job->getTitle()); ?>
                         <?php foreach ($this->job->getLabels() as $label): ?>
                             <span class="label label-default pull-right" style="background-color: <?php echo $this->escapeHtml($label->getColour()); ?>"><?php echo $this->escapeHtml($label->getName()); ?></span> 
                         <?php endforeach; ?>
@@ -86,7 +86,7 @@ $form->prepare();
                         <tbody>
                             <?php foreach ($this->job->getFiles() as $file): ?>
                             <tr> 
-                                <td><?php echo $this->escapeHtml($file->getFilename()); ?></td>
+                                <td><?php echo $this->escapeHtml($file->getName()); ?></td>
                                 <td><?php echo $file->getCreationTime()->format('d M Y h:i T'); ?></td>
                                 <td>
                                     <?php if ($this->authorize()->isAuthorized($this->identity(), 'job.file', 'download', $this->job)): ?>
@@ -221,7 +221,7 @@ $form->prepare();
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.associated'), 
                                     '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
-                                    '<strong>' . $properties['filename'] . '</strong>',
+                                    '<strong>' . $properties['name'] . '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
                                 </td>
@@ -243,7 +243,7 @@ $form->prepare();
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.dissociated'), 
                                     '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
-                                    '<strong>' . $properties['filename'] . '</strong>',
+                                    '<strong>' . $properties['name'] . '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
                                 </td>
@@ -299,7 +299,7 @@ $form->prepare();
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.requested'), 
                                     '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
-                                    '<strong>' .  $properties['filename']. '</strong>',
+                                    '<strong>' .  $properties['name']. '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
                                 </td>

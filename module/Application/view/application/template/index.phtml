@@ -1,0 +1,65 @@
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title"> <?php echo $this->translate('template.current-templates'); ?></span>
+                    <div class="pull-right">
+                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'save')): ?>
+                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'save')); ?>">
+                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
+                        </a>
+                        <?php endif; ?>
+                    </div>                    
+                </div>
+                <div class="panel-body table-responsive">
+                    <?php if (count($this->templates)): ?>
+                    <table class="table table-striped job-list">
+                        <thead>
+                            <tr>
+                                <th><?php echo $this->translate('template.id'); ?></th>
+                                <th><?php echo $this->translate('template.name'); ?></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($this->templates as $t): ?>
+                            <tr>
+                                <td><?php echo $this->escapeHtml($t->getId()); ?></td>
+                                <td><?php echo $this->escapeHtml($t->getName()); ?></td>
+                                <td>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'view', $t)): ?>
+                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'view', 'id' => $this->escapeHtml($t->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('common.view'); ?>
+                                    </a>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'save', $t)): ?>
+                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'save', 'id' => $this->escapeHtml($t->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
+                                    </a>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'download', $t)): ?>
+                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'download', 'id' => $this->escapeHtml($t->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-download"></span> <?php echo $this->translate('common.download'); ?>
+                                    </a>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'delete', $t)): ?>
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('templates', array('action' => 'delete', 'id' => $this->escapeHtml($t->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
+                                    </a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>            
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?php endif; ?>
+                </div>
+            </div>

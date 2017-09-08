@@ -26,6 +26,7 @@ class Activity
     const ENTITY_TYPE_LABEL = 'LABEL';
     const ENTITY_TYPE_FILE = 'FILE';
     const ENTITY_TYPE_USER = 'USER';
+    const ENTITY_TYPE_TEMPLATE = 'TEMPLATE';
     
     /**
      * @ORM\Id 
@@ -73,6 +74,11 @@ class Activity
      * @ORM\Column(type="text", nullable=true)
      */
     protected $data;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $sourceAddress;
 
     public function setId($id)
     {
@@ -164,4 +170,13 @@ class Activity
         $this->data = $data;
     }
 
+    public function getSourceAddress()
+    {
+        return $this->sourceAddress;
+    }
+
+    public function setSourceAddress($sourceAddress)
+    {
+        $this->sourceAddress = $sourceAddress;
+    }
 }

@@ -75,6 +75,17 @@ namespace Application;
 		'file.name' => 'Name',
 		'file.creation-time' => 'Date',
 		'file.add' => 'Add File',
+
+		// template entity
+		'template.entity' => 'Template',
+		'template.templates' => 'Templates',
+		'template.current-templates' => 'Current Templates',
+		'template.id' => '#', 
+		'template.description' => 'Description', 
+		'template.name' => 'Name',
+		'template.filename' => 'File',
+		'template.creation-time' => 'Date',
+		'template.add' => 'Add Template',
     
     	// user entity
 		'user.entity' => 'User',

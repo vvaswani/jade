@@ -61,7 +61,7 @@ class UserController extends AbstractActionController
                         new \DateTime("now"),
                         $user,
                         null, 
-                        array('source' => $source, 'result' => (string)$result->getCode())
+                        array('result' => (string)$result->getCode())
                     );
                     $this->ams->setQueue($queue);
                     $this->ams->flush($this->ams->getQueue());
@@ -93,7 +93,7 @@ class UserController extends AbstractActionController
                 new \DateTime("now"),
                 $clone,
                 null, 
-                array('source' => $request->getServer('REMOTE_ADDR'))
+                null
             );
             $this->ams->setQueue($queue);
             $this->ams->flush();            

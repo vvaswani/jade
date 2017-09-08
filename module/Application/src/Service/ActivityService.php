@@ -8,6 +8,7 @@ use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Job;
 use Application\Entity\Label;
+use Application\Entity\Template;
 use Application\Entity\Permission;
 use Application\Entity\Job\File;
 
@@ -69,9 +70,18 @@ class ActivityService
                     new \DateTime("now"),
                     $entity->getJob(),
                     $entity, 
-                    array('name' => $entity->getName())
+                    array('filename' => $entity->getFilename())
                 ); 
             }
+            if ($entity instanceof Template) {
+                $this->queue[] = array(
+                    Activity::OPERATION_CREATE, 
+                    new \DateTime("now"),
+                    $entity,
+                    null, 
+                    array('name' => $entity->getName(), 'filename' => $entity->getFilename())
+                ); 
+            }            
             if ($entity instanceof Permission) {
                 $this->queue[] = array(
                     Activity::OPERATION_GRANT, 
@@ -88,7 +98,7 @@ class ActivityService
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User) {
+            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User || $entity instanceof Template || $entity instanceof File) {
                 $diff = $uow->getEntityChangeSet($entity);
                 if (!empty($diff)) {
                     $this->queue[] = array(
@@ -136,9 +146,18 @@ class ActivityService
                     new \DateTime("now"),
                     serialize($entity->getJob()),
                     serialize($entity), 
-                    array('name' => $entity->getName())
+                    array('filename' => $entity->getFilename())
                 ); 
             }
+            if ($entity instanceof Template) {
+                $this->queue[] = array(
+                    Activity::OPERATION_DELETE, 
+                    new \DateTime("now"),
+                    serialize($entity),
+                    null, 
+                    array('name' => $entity->getName(), 'filename' => $entity->getFilename())
+                );
+            }            
             if ($entity instanceof Permission) {
                 $this->queue[] = array(
                     Activity::OPERATION_REVOKE, 
@@ -254,6 +273,8 @@ class ActivityService
             $activity->setAssociatedEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($associatedEntityClass)));
         }
         $activity->setData(json_encode($data));
+        $server = new \Zend\Http\PhpEnvironment\RemoteAddress;
+        $activity->setSourceAddress($server->getIpAddress());
         $this->em->persist($activity); 
         $this->em->flush();
     }

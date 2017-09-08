@@ -13,7 +13,7 @@ use Zend\Form\Annotation;
  class File
  {
 
-    const UPLOAD_PATH = 'data/upload';
+    const UPLOAD_PATH = 'data/upload/jobs';
 
     /**
      * @ORM\Id 
@@ -23,16 +23,27 @@ use Zend\Form\Annotation;
      */
     protected $id;
     
+    // in other cases, the form property and ORM property are separate
+    // because the form is bound with the entity and this is the only 
+    // option to access uploaded file data after validation
+    // in this case, the form is not bound with the entity
+    // and uploaded file data can be accessed directly after validation 
+    // therefore the form and ORM properties need not be separate
     /**
      * @ORM\Column(type="string")
-     * @Annotation\Filter({"name":"FileRenameUpload", "options":{"use_upload_name":true, "use_upload_extension":true}})
      * @Annotation\Validator({"name":"FileExtension", "options":{"extension":"pdf,jpeg,jpg,png,doc,docx,xls,xlsx,ppt,pptx,ods,odt,odp"} })
      * @Annotation\Type("Zend\Form\Element\File")
      * @Annotation\Name("file")
      * @Annotation\Options({"label":"file.name"})     
      */
-    protected $name;
-    
+    protected $filename;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Annotation\Exclude()
+     */
+    protected $filenameHash;
+
     /**
      * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
@@ -61,14 +72,24 @@ use Zend\Form\Annotation;
         return $this->id;
     }
 
-    public function getName()
+    public function getFilename()
     {
-        return $this->name;
+        return $this->filename;
     }
 
-    public function setName($name)
+    public function setFilename($filename)
     {
-        $this->name = $name;
+        $this->filename = $filename;
+    }
+
+    public function getFilenameHash()
+    {
+        return $this->filenameHash;
+    }
+
+    public function setFilenameHash($filenameHash)
+    {
+        $this->filenameHash = $filenameHash;
     }
 
     public function getCreationTime()
