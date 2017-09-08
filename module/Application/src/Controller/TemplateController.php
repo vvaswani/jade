@@ -91,7 +91,7 @@ class TemplateController extends AbstractActionController
         // for update operations
         // a new file upload is not mandatory
         if (!empty($template->getFilename())) {
-            $storedFilename = $template->getStoredFilename();
+            $filenameHash = $template->getFilenameHash();
             $form->getInputFilter()->get('file')->setRequired(false);
         }
 
@@ -104,26 +104,29 @@ class TemplateController extends AbstractActionController
             $form->setData($post);
 
             if ($form->isValid()) { 
+                $file = $template->getFile();
+                $filename = $file['name'];
+
                 // for update operations
                 // if a new file is uploaded, delete the old file
-                if (!empty($post['file']['name'])) {
-                    $file = Template::UPLOAD_PATH . '/' . $storedFilename;
-                    if (file_exists($file)) {
-                        unlink($file);
+                if (!empty($filename)) {
+                    $fileObj = Template::UPLOAD_PATH . '/' . $filenameHash;
+                    if (file_exists($fileObj)) {
+                        unlink($fileObj);
                     }                    
-                    $template->setFilename($post['file']['name']); 
+                    $template->setFilename($filename); 
                 }
                 $this->em->persist($template); 
                 $this->em->flush();
                 // for update operations
                 // if a new file is uploaded, save the new file to disk
                 // and update the database with the new filename
-                if (!empty($post['file']['name'])) {
-                    $storedFilename = (int)$template->getId() . '_' . md5($post['file']['name'] . microtime());
+                if (!empty($filename)) {
+                    $filenameHash = (int)$template->getId() . '_' . md5($filename . microtime());
                     $filter = new \Zend\Filter\File\RenameUpload();
-                    $filter->setTarget(Template::UPLOAD_PATH . '/' . $storedFilename);
-                    $filter->filter($post['file']);
-                    $template->setStoredFilename($storedFilename); 
+                    $filter->setTarget(Template::UPLOAD_PATH . '/' . $filenameHash);
+                    $filter->filter($file);
+                    $template->setFilenameHash($filenameHash); 
                     $this->em->persist($template); 
                     $this->em->flush();
                 }
@@ -157,14 +160,14 @@ class TemplateController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('template.entity'), $this->url()->fromRoute('templates'));
         }
 
-        $file = Template::UPLOAD_PATH . '/' . $template->getStoredFilename();
+        $file = Template::UPLOAD_PATH . '/' . $template->getFilenameHash();
         if (file_exists($file)) {
             $queue[] = array(
                 Activity::OPERATION_REQUEST, 
                 new \DateTime("now"),
                 $template,
                 null, 
-                array('name' => $template->getFilename())
+                array('name' => $template->getName(), 'filename' => $template->getFilename())
             );
             $this->ams->setQueue($queue); 
             $this->ams->flush();
@@ -213,9 +216,9 @@ class TemplateController extends AbstractActionController
             if ($form->isValid()) { 
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
-                    $file = Template::UPLOAD_PATH . '/' . $template->getStoredFilename();
-                    if (file_exists($file)) {
-                        unlink($file);
+                    $fileObject = Template::UPLOAD_PATH . '/' . $template->getFilenameHash();
+                    if (file_exists($fileObject)) {
+                        unlink($fileObject);
                     }
                     $this->em->remove($template);
                     $this->em->flush(); 

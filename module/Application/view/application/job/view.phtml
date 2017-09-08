@@ -86,7 +86,7 @@ $form->prepare();
                         <tbody>
                             <?php foreach ($this->job->getFiles() as $file): ?>
                             <tr> 
-                                <td><?php echo $this->escapeHtml($file->getName()); ?></td>
+                                <td><?php echo $this->escapeHtml($file->getFilename()); ?></td>
                                 <td><?php echo $file->getCreationTime()->format('d M Y h:i T'); ?></td>
                                 <td>
                                     <?php if ($this->authorize()->isAuthorized($this->identity(), 'job.file', 'download', $this->job)): ?>
@@ -221,7 +221,7 @@ $form->prepare();
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.associated'), 
                                     '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
-                                    '<strong>' . $properties['name'] . '</strong>',
+                                    '<strong>' . $properties['filename'] . '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
                                 </td>
@@ -243,7 +243,7 @@ $form->prepare();
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.dissociated'), 
                                     '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
-                                    '<strong>' . $properties['name'] . '</strong>',
+                                    '<strong>' . $properties['filename'] . '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
                                 </td>
@@ -299,7 +299,7 @@ $form->prepare();
                                 <?php echo sprintf(
                                     $this->translate('activity-stream.requested'), 
                                     '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
-                                    '<strong>' .  $properties['name']. '</strong>',
+                                    '<strong>' .  $properties['filename']. '</strong>',
                                     strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                 ); ?>.
                                 </td>

@@ -78,6 +78,7 @@ namespace Application;
 
 		// template entity
 		'template.entity' => 'Template',
+		'template.templates' => 'Templates',
 		'template.current-templates' => 'Current Templates',
 		'template.id' => '#', 
 		'template.description' => 'Description', 

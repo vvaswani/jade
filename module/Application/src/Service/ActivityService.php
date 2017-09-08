@@ -70,7 +70,7 @@ class ActivityService
                     new \DateTime("now"),
                     $entity->getJob(),
                     $entity, 
-                    array('name' => $entity->getName())
+                    array('filename' => $entity->getFilename())
                 ); 
             }
             if ($entity instanceof Template) {
@@ -98,7 +98,7 @@ class ActivityService
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User || $entity instanceof Template) {
+            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User || $entity instanceof Template || $entity instanceof File) {
                 $diff = $uow->getEntityChangeSet($entity);
                 if (!empty($diff)) {
                     $this->queue[] = array(
@@ -146,7 +146,7 @@ class ActivityService
                     new \DateTime("now"),
                     serialize($entity->getJob()),
                     serialize($entity), 
-                    array('name' => $entity->getName())
+                    array('filename' => $entity->getFilename())
                 ); 
             }
             if ($entity instanceof Template) {

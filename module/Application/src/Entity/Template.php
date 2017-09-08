@@ -44,11 +44,16 @@ use Zend\Form\Annotation;
     protected $description;
 
     /**
-     * @ORM\Column(type="string")
      * @Annotation\Validator({"name":"FileExtension", "options":{"extension":"pdf,jpeg,jpg,png,doc,docx,xls,xlsx,ppt,pptx,ods,odt,odp"} })
      * @Annotation\Type("Zend\Form\Element\File")
      * @Annotation\Name("file")
      * @Annotation\Options({"label":"template.filename"})     
+     */
+    protected $file;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Annotation\Exclude()
      */
     protected $filename;
 
@@ -56,7 +61,7 @@ use Zend\Form\Annotation;
      * @ORM\Column(type="string", nullable=true)
      * @Annotation\Exclude()
      */
-    protected $storedFilename;
+    protected $filenameHash;
     
     /**
      * @ORM\Column(type="datetime")
@@ -106,6 +111,16 @@ use Zend\Form\Annotation;
         $this->description = $description;
     }
 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
     public function getFilename()
     {
         return $this->filename;
@@ -116,14 +131,14 @@ use Zend\Form\Annotation;
         $this->filename = $filename;
     }
 
-    public function getStoredFilename()
+    public function getFilenameHash()
     {
-        return $this->storedFilename;
+        return $this->filenameHash;
     }
 
-    public function setStoredFilename($storedFilename)
+    public function setFilenameHash($filenameHash)
     {
-        $this->storedFilename = $storedFilename;
+        $this->filenameHash = $filenameHash;
     }
 
     public function getCreationTime()

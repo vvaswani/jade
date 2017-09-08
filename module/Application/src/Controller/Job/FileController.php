@@ -58,17 +58,18 @@ class FileController extends AbstractActionController
                 $request->getPost()->toArray(),
                 $request->getFiles()->toArray()
             );
-            if (!file_exists(File::UPLOAD_PATH . '/' . (int)$job->getId())) {
-                mkdir (File::UPLOAD_PATH . '/' . (int)$job->getId());
-            }            
-            $filter = $form->getInputFilter()->get('file')->getFilterChain()->getFilters()->extract('FileRenameUpload');
-            $filter->setTarget(File::UPLOAD_PATH . '/' . $job->getId());
-            $form->setInputFilter($form->getInputFilter()); 
             $form->setData($post);
             if ($form->isValid()) { 
                 $data = $form->getData();
-                $file->setName($data['file']['name']); 
+                $file->setFilename($data['file']['name']);                      
                 $file->setJob($job);                      
+                $this->em->persist($file); 
+                $this->em->flush();
+                $filenameHash = (int)$job->getId() . '_' . (int)$file->getId() . '_' . md5($data['file']['name'] . microtime());
+                $filter = new \Zend\Filter\File\RenameUpload();
+                $filter->setTarget(File::UPLOAD_PATH . '/' . $filenameHash);
+                $filter->filter($data['file']);
+                $file->setFilenameHash($filenameHash); 
                 $this->em->persist($file); 
                 $this->em->flush();
                 $this->ams->flush();
@@ -109,7 +110,7 @@ class FileController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
-                    $fileObject = File::UPLOAD_PATH . '/' . $file->getJob()->getId() . '/' . $file->getName();
+                    $fileObject = File::UPLOAD_PATH . '/' . $file->getFilenameHash();
                     if (file_exists($fileObject)) {
                         unlink($fileObject);
                     }
@@ -126,7 +127,7 @@ class FileController extends AbstractActionController
             'common.confirm-delete', 
             array (
                 array('file.entity', 'lower', 'false'),
-                array($file->getName(), 'none', 'true'),
+                array($file->getFilename(), 'none', 'true'),
             ), 
             $form,
             $this->url()->fromRoute('jobs')
@@ -150,24 +151,24 @@ class FileController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
         
-        $fileObject = File::UPLOAD_PATH . '/' . $file->getJob()->getId() . '/' . $file->getName();
+        $fileObject = File::UPLOAD_PATH . '/' . $file->getFilenameHash();
         if (file_exists($fileObject)) {
             $queue[] = array(
                 Activity::OPERATION_REQUEST, 
                 new \DateTime("now"),
                 $file->getJob(),
                 $file, 
-                array('name' => $file->getName())
+                array('filename' => $file->getFilename())
             );
             $this->ams->setQueue($queue); 
             $this->ams->flush();
             $response = new Stream();
             $response->setStream(fopen($fileObject, 'r'));
             $response->setStatusCode(200);
-            $response->setStreamName($file->getName());
+            $response->setStreamName($file->getFilename());
             $headers = new Headers();
             $headers->addHeaders(array(
-                'Content-Disposition' => 'attachment; filename="' . $file->getName() .'"',
+                'Content-Disposition' => 'attachment; filename="' . $file->getFilename() .'"',
                 'Content-Type' => 'application/octet-stream',
                 'Content-Length' => filesize($fileObject),
                 'Expires' => '@0', 
