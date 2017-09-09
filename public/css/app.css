@@ -87,3 +87,26 @@ input, textarea {
     visibility: hidden;
     overflow: hidden;
 }
+
+.menu-card-item {
+}
+
+.menu-card {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  margin: 10px;
+  margin-bottom: 20px;
+}
+
+.menu-card a {
+    color: black;
+}
+
+.menu-card-body {
+  padding: 1.25rem;
+}
+
+.menu-card-title {
+  margin-bottom: 0.75rem;
+}

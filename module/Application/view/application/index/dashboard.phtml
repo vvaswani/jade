@@ -1,37 +1,75 @@
 <div class="panel panel-default">
     <div class="panel-heading clearfix">
-        <span class="panel-title"> <?php echo $this->translate('common.dashboard'); ?></span>
+        <span class="panel-title"> <?php echo $this->escapeHtml($this->identity()->getName()); ?>'s <?php echo $this->translate('common.dashboard'); ?></span>
     </div>
-    <div class="panel-body table-responsive">
-    	<table class="table table-striped">
-    		<tr>
-    			<td>
-					<a href="<?php echo $this->url('jobs'); ?>">
-						<h4><?php echo $this->translate('job.jobs'); ?></h4>
-					</a>    				
-    			</td>
-    		</tr>
-    		<tr>
-    			<td>
-					<a href="<?php echo $this->url('users'); ?>">
-						<h4><?php echo $this->translate('user.users'); ?></h4>
-					</a>
-    			</td>
-    		</tr>
-    		<tr>
-    			<td>
-					<a href="<?php echo $this->url('labels'); ?>">
-						<h4><?php echo $this->translate('label.labels'); ?></h4>
-					</a>
-    			</td>
-    		</tr>
-    		<tr>
-    			<td>
-					<a href="<?php echo $this->url('templates'); ?>">
-						<h4><?php echo $this->translate('template.templates'); ?></h4>
-					</a>
-    			</td>
-    		</tr>
-    	</table>
+    <div class="panel-body">
+
+        <div class="row">
+
+            <?php $identity = $this->identity(); ?>
+            <?php if ($this->authorize()->isAuthorized($identity, 'job', 'index')): ?>
+            <div class="col-md-6">
+                <div class="menu-card">
+                    <div class="menu-card-body">
+                          <h4 class="menu-card-title">
+                                <span class="glyphicon glyphicon-th"></span>
+                                <a href="<?php echo $this->url('jobs'); ?>"><?php echo $this->translate('job.jobs'); ?></a>
+                          </h4>
+                          <p class="menu-card-text">Manage and update cases and documents.</p>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($this->authorize()->isAuthorized($identity, 'template', 'index')): ?>
+            <div class="col-md-6">
+                <div class="menu-card">
+                    <div class="menu-card-body">
+                          <h4 class="menu-card-title">
+                                <span class="glyphicon glyphicon-duplicate"></span>
+                                <a href="<?php echo $this->url('templates'); ?>"><?php echo $this->translate('template.templates'); ?></a>
+                          </h4>
+                          <p class="menu-card-text">Share and use company-wide templates.</p>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($this->authorize()->isAuthorized($identity, 'label', 'index')): ?>
+            <div class="col-md-6">
+                <div class="menu-card">
+                    <div class="menu-card-body">
+                          <h4 class="menu-card-title">
+                                <span class="glyphicon glyphicon-tag"></span>
+                                <a href="<?php echo $this->url('labels'); ?>"><?php echo $this->translate('label.labels'); ?></a>
+                          </h4>
+                          <p class="menu-card-text">Manage case labels.</p>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+            
+            <div class="col-md-6">
+                <div class="menu-card">
+                    <div class="menu-card-body">
+                            <?php if ($identity->getRole() == $identity::ROLE_ADMINISTRATOR): ?>
+                            <h4 class="menu-card-title">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <a href="<?php echo $this->url('users'); ?>"><?php echo $this->translate('user.users'); ?></a>
+                            </h4>
+                            <p class="menu-card-text">Manage and update user records.</p>
+                            <?php else: ?>
+                            <h4 class="menu-card-title">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <a href="<?php echo $this->url('users'); ?>"><?php echo $this->translate('user.my-user-account'); ?></a>
+                            </h4>
+                            <p class="menu-card-text">Manage and update your user record.</p>
+
+                            <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>

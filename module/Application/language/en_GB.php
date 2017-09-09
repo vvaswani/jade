@@ -91,7 +91,7 @@ namespace Application;
 		'user.entity' => 'User',
 		'user.users' => 'Users',
 		'user.current-users' => 'Current Users',
-		'user.my-profile' => 'Profile',
+		'user.my-user-account' => 'My Account',
 		'user.id' => '#', 
 		'user.name' => 'Name', 
 		'user.username' => 'Email address',

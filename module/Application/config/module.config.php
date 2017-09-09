@@ -171,7 +171,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\IndexController::class => InvokableFactory::class,
+            Controller\IndexController::class => ApplicationControllerFactory::class,
             Controller\JobController::class  => ApplicationControllerFactory::class,
             Controller\LabelController::class => ApplicationControllerFactory::class,
             Controller\Job\FileController::class => ApplicationControllerFactory::class,
