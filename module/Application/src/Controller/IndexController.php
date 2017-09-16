@@ -47,39 +47,39 @@ class IndexController extends AbstractActionController
             'templates' => [],
         ];
 
-        // count open jobs to which user has access 
+        // count open jobs to which user has access
     	if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job', 'index')) {
-		    $results = $this->em->getRepository(Job::class)->findBy(array('status' => Job::STATUS_OPEN), array('creationTime' => 'DESC'));
+		    $results = $this->em->getRepository(Job::class)->findBy(array(), array('creationTime' => 'DESC'));
 		    foreach ($results as $job) {
 	            if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job', 'view', $job) !== false) {
 	                $counts['jobs']++;
                     $grants['jobs'][] = $job->getId();
-	            }		    	
+	            }
 		    }
 		}
 
-        // count templates to which user has access 
+        // count templates to which user has access
     	if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'template', 'index')) {
 		    $results = $this->em->getRepository(Template::class)->findBy(array(), array('creationTime' => 'DESC'));
 	        $counts['templates'] = count($results);
             foreach ($results as $template) {
                 $grants['templates'][] = $template->getId();
             }
-    	}		
+    	}
 
-        // count labels to which user has access 
+        // count labels to which user has access
     	if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'label', 'index')) {
 		    $results = $this->em->getRepository(Label::class)->findBy(array(), array('creationTime' => 'DESC'));
 	        $counts['labels'] = count($results);
             foreach ($results as $label) {
                 $grants['labels'][] = $label->getId();
-            }        
+            }
     	}
 
-        // count user accounts if user is administrator 
+        // count user accounts if user is administrator
     	$identity = $this->as->getIdentity();
 		if ($identity->getRole() == $identity::ROLE_ADMINISTRATOR) {
-            $results = $this->em->getRepository(User::class)->findBy(array(), 
+            $results = $this->em->getRepository(User::class)->findBy(array(),
                 array('creationTime' => 'DESC'));
 	        $counts['users'] = count($results);
 		}
@@ -99,7 +99,7 @@ class IndexController extends AbstractActionController
                                ->getRecentActivities($resultOffset, $resultBatchSize);
             if (count($activities) == 0) {
                 break;
-            } 
+            }
             foreach($activities as $activity) {
                 // check if activity/entity is excluded
                 $entityType = $activity->getEntityType();
@@ -113,25 +113,25 @@ class IndexController extends AbstractActionController
                     case Activity::ENTITY_TYPE_JOB:
                         if (in_array($activity->getEntityId(), $grants['jobs'])) {
                             $recentActivities[] = $activity;
-                            $counts['activities']++;                            
+                            $counts['activities']++;
                         }
                         break;
                     case Activity::ENTITY_TYPE_FILE:
                         if (in_array($activity->getAssociatedEntityId(), $grants['jobs'])) {
                             $recentActivities[] = $activity;
-                            $counts['activities']++;                            
+                            $counts['activities']++;
                         }
                         break;
                     case Activity::ENTITY_TYPE_LABEL:
                         if (in_array($activity->getEntityId(), $grants['labels'])) {
                             $recentActivities[] = $activity;
-                            $counts['activities']++;                            
+                            $counts['activities']++;
                         }
                         break;
                     case Activity::ENTITY_TYPE_TEMPLATE:
                         if (in_array($activity->getEntityId(), $grants['templates'])) {
                             $recentActivities[] = $activity;
-                            $counts['activities']++;                            
+                            $counts['activities']++;
                         }
                         break;
                 }
@@ -144,5 +144,5 @@ class IndexController extends AbstractActionController
         }
 
         return new ViewModel(array('counts' => $counts, 'activities' => $recentActivities));
-    }    
+    }
 }

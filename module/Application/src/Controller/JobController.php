@@ -78,10 +78,8 @@ class JobController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
-        $activities = $this->em->getRepository(Activity::class)->findBy(
-            array('entityId' => $job->getId(), 'entityType' => Activity::ENTITY_TYPE_JOB),
-            array('id' => 'DESC')
-        );
+        $activities = $this->em->getRepository(Activity::class)
+                           ->getRecentActivitiesByJob($job->getId(), 10);
 
         $file = new File();
         $builder = new AnnotationBuilder();

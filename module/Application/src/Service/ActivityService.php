@@ -68,8 +68,8 @@ class ActivityService
                 $this->queue[] = array(
                     Activity::OPERATION_CREATE, 
                     new \DateTime("now"),
-                    $entity->getJob(),
-                    $entity, 
+                    $entity,
+                    $entity->getJob(), 
                     array('filename' => $entity->getFilename())
                 ); 
             }
@@ -98,8 +98,8 @@ class ActivityService
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User || $entity instanceof Template || $entity instanceof File) {
-                $diff = $uow->getEntityChangeSet($entity);
+            $diff = $uow->getEntityChangeSet($entity);
+            if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User || $entity instanceof Template) {
                 if (!empty($diff)) {
                     $this->queue[] = array(
                         Activity::OPERATION_UPDATE, 
@@ -110,6 +110,15 @@ class ActivityService
                     ); 
                 }
             }
+            if ($entity instanceof File) {
+                $this->queue[] = array(
+                    Activity::OPERATION_UPDATE, 
+                    new \DateTime("now"),
+                    $entity,
+                    $entity->getJob(), 
+                    $diff
+                ); 
+            }            
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
@@ -144,8 +153,8 @@ class ActivityService
                 $this->queue[] = array(
                     Activity::OPERATION_DELETE, 
                     new \DateTime("now"),
-                    serialize($entity->getJob()),
                     serialize($entity), 
+                    serialize($entity->getJob()),
                     array('filename' => $entity->getFilename())
                 ); 
             }

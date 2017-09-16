@@ -156,8 +156,8 @@ class FileController extends AbstractActionController
             $queue[] = array(
                 Activity::OPERATION_REQUEST, 
                 new \DateTime("now"),
-                $file->getJob(),
                 $file, 
+                $file->getJob(),
                 array('filename' => $file->getFilename())
             );
             $this->ams->setQueue($queue); 

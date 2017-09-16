@@ -9,6 +9,7 @@ ini_set('display_errors', true);
 
 return [
     // Additional modules to include when in development mode
+    // for ZDT, see instructions at https://packagist.org/packages/zendframework/zend-developer-tools
     'modules' => [
     ],
     // Configuration overrides during development mode
