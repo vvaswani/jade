@@ -43,7 +43,7 @@ class ActivityService
                     new \DateTime("now"),
                     $entity,
                     null, 
-                    array('name' => $entity->getTitle())
+                    array('name' => $entity->getName())
                 ); 
             }
             if ($entity instanceof Label) {
@@ -119,7 +119,7 @@ class ActivityService
                     new \DateTime("now"),
                     serialize($entity),
                     null, 
-                    array('name' => $entity->getTitle())
+                    array('name' => $entity->getName())
                 );
             }
             if ($entity instanceof Label) {

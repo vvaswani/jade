@@ -14,8 +14,9 @@
                           <h4 class="menu-card-title">
                                 <span class="glyphicon glyphicon-th"></span>
                                 <a href="<?php echo $this->url('jobs'); ?>"><?php echo $this->translate('job.jobs'); ?></a>
+                                <span class="label label-default pull-right"><?php echo $this->counts['jobs']; ?></span>
                           </h4>
-                          <p class="menu-card-text">Manage and update cases and documents.</p>
+                          <p class="menu-card-text"><?php echo $this->translate('dashboard.menu-card-job-description'); ?></p>
                     </div>
                 </div>
             </div>
@@ -28,8 +29,9 @@
                           <h4 class="menu-card-title">
                                 <span class="glyphicon glyphicon-duplicate"></span>
                                 <a href="<?php echo $this->url('templates'); ?>"><?php echo $this->translate('template.templates'); ?></a>
+                                <span class="label label-default pull-right"><?php echo $this->counts['templates']; ?></span>
                           </h4>
-                          <p class="menu-card-text">Share and use company-wide templates.</p>
+                          <p class="menu-card-text"><?php echo $this->translate('dashboard.menu-card-template-description'); ?></p>
                     </div>
                 </div>
             </div>
@@ -39,11 +41,12 @@
             <div class="col-md-6">
                 <div class="menu-card">
                     <div class="menu-card-body">
-                          <h4 class="menu-card-title">
+                            <h4 class="menu-card-title menu-card-title-label">
                                 <span class="glyphicon glyphicon-tag"></span>
                                 <a href="<?php echo $this->url('labels'); ?>"><?php echo $this->translate('label.labels'); ?></a>
-                          </h4>
-                          <p class="menu-card-text">Manage case labels.</p>
+                                <span class="label label-default pull-right"><?php echo $this->counts['labels']; ?></span>                          
+                            </h4>
+                            <p class="menu-card-text"><?php echo $this->translate('dashboard.menu-card-label-description'); ?></p>
                     </div>
                 </div>
             </div>
@@ -56,20 +59,227 @@
                             <h4 class="menu-card-title">
                                 <span class="glyphicon glyphicon-user"></span>
                                 <a href="<?php echo $this->url('users'); ?>"><?php echo $this->translate('user.users'); ?></a>
+                                <span class="label label-default pull-right"><?php echo $this->counts['users']; ?></span>
                             </h4>
-                            <p class="menu-card-text">Manage and update user records.</p>
+                            <p class="menu-card-text"><?php echo $this->translate('dashboard.menu-card-user-description'); ?></p>
                             <?php else: ?>
                             <h4 class="menu-card-title">
                                 <span class="glyphicon glyphicon-user"></span>
-                                <a href="<?php echo $this->url('users'); ?>"><?php echo $this->translate('user.my-user-account'); ?></a>
+                                <a href="<?php echo $this->url('users'); ?>"><?php echo $this->translate('user.my-user-account'); ?></a> 
                             </h4>
-                            <p class="menu-card-text">Manage and update your user record.</p>
-
+                            <p class="menu-card-text"><?php echo $this->translate('dashboard.menu-card-my-account-description'); ?></p>
                             <?php endif; ?>
                     </div>
                 </div>
             </div>
 
         </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <span class="panel-title">
+            <?php echo $this->translate('activity-stream.recent-activity'); ?>
+        </span>
+    </div>
+    <div class="panel-body table-responsive activity-stream">
+        <table class="table">
+            <thead>
+            </thead>
+            <tbody>
+            <?php if (count($this->activities)): ?> 
+                <?php foreach ($this->activities as $activity): ?>
+                    <?php
+                    switch ($activity->getEntityType()) {
+                        case $activity::ENTITY_TYPE_JOB:
+                            $url = $this->url('jobs', array('action' => 'view', 'id' => $activity->getEntityId()));
+                            break;
+                        case $activity::ENTITY_TYPE_LABEL:
+                            $url = $this->url('labels', array('action' => 'index'));
+                            break;
+                        case $activity::ENTITY_TYPE_TEMPLATE:
+                            $url = $this->url('templates', array('action' => 'view', 'id' => $activity->getEntityId()));
+                            break;
+                        case $activity::ENTITY_TYPE_FILE:
+                            $url = $this->url('jobs', array('action' => 'view', 'id' => $activity->getAssociatedEntityId()));
+                            break;
+                    };
+                    ?>
+                    <?php if ($activity->getOperation() == $activity::OPERATION_UPDATE): ?>
+                        <?php $properties = json_decode($activity->getData(), true); ?>
+                        <?php foreach ($properties as $propertyName => $propertyValues): ?>
+                            <?php if (in_array($propertyName, ['filenameHash'])) {
+                                continue;
+                            };
+                            ?>
+                <tr> 
+                    <td>
+                            <?php echo sprintf(
+                                '<a href="%s">%s #%d</a>:', 
+                                $url,
+                                $this->translate(strtolower($activity->getEntityType()).'.entity'), 
+                                $activity->getEntityId()
+                            );
+                            ?>
+                            <?php
+                            if ($propertyName == 'status') {
+                                if ($propertyValues[1] == 0) { 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.closed'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        strtolower($this->translate(strtolower($activity->getEntityType()) . '.' . $propertyName)),
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))  
+                                    );
+                                } else if ($propertyValues[1] == 1) {
+                                    echo sprintf(
+                                        $this->translate('activity-stream.opened'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        strtolower($this->translate(strtolower($activity->getEntityType()) . '.' . $propertyName)),
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))
+                                    );  
+                                }
+                            } else { 
+                                echo sprintf(
+                                    $this->translate('activity-stream.updated'), 
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                    strtolower($this->translate(strtolower($activity->getEntityType()) . '.' . $propertyName)),
+                                    !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>', 
+                                    !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>' 
+                                );
+                            }
+                            ?> 
+                    </td>
+                    <td><?php echo \Carbon\Carbon::instance($activity->getCreationTime())->diffForHumans(); ?></td>
+                </tr>
+                        <?php endforeach; ?>
+                        <?php continue; ?>
+                    <?php else: ?>
+                <tr> 
+                    <td>
+                    <?php echo sprintf(
+                        '<a href="%s">%s #%d</a>:', 
+                        $url,
+                        $this->translate(strtolower($activity->getEntityType()).'.entity'), 
+                        $activity->getEntityId()
+                    );
+                    ?>
+                    <?php
+                        if ($activity->getOperation() == $activity::OPERATION_CREATE) { 
+                            switch ($activity->getAssociatedEntityType()) {
+                                case $activity::ENTITY_TYPE_FILE: 
+                                    $properties = json_decode($activity->getData(), true); 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.associated'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        '<strong>' . $properties['filename'] . '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity')),
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))
+                                    );
+                                    break; 
+                                default: 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.created'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))
+                                    );
+                                    break;
+                            }
+                        } else if ($activity->getOperation() == $activity::OPERATION_DELETE) {   
+                            switch ($activity->getAssociatedEntityType()) {
+                                case $activity::ENTITY_TYPE_FILE: 
+                                    $properties = json_decode($activity->getData(), true); 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.dissociated'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        '<strong>' . $properties['filename'] . '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity')),
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))  
+                                    );                                              
+                                    break; 
+                                default: 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.deleted'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))  
+                                    );   
+                                    break;  
+                            }
+                        } else if ($activity->getOperation() == $activity::OPERATION_ASSOCIATE) { 
+                            switch ($activity->getAssociatedEntityType()) { 
+                                case $activity::ENTITY_TYPE_LABEL: 
+                                    $properties = json_decode($activity->getData(), true); 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.associated'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        '<span class="label label-default" style="background-color: ' . $properties['colour'] . '">' .  $properties['name']. '</span>',
+                                        strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity')),
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))  
+                                    );
+                                    break; 
+                            }
+                        } else if ($activity->getOperation() == $activity::OPERATION_DISSOCIATE) {  
+                            switch ($activity->getAssociatedEntityType()) {
+                                case $activity::ENTITY_TYPE_LABEL: 
+                                    $properties = json_decode($activity->getData(), true); 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.dissociated'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        '<span class="label label-default" style="background-color: ' . $properties['colour'] . '">' .  $properties['name']. '</span>',
+                                        strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity')),
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))  
+                                    );
+                                    break; 
+                            } 
+                        } else if ($activity->getOperation() == $activity::OPERATION_REQUEST) {
+                            switch ($activity->getAssociatedEntityType()) {
+                                case $activity::ENTITY_TYPE_FILE: 
+                                    $properties = json_decode($activity->getData(), true); 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.requested'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        '<strong>' .  $properties['filename']. '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
+                                    );
+                                    break; 
+                            } 
+                        } elseif ($activity->getOperation() == $activity::OPERATION_GRANT) { 
+                            switch ($activity->getAssociatedEntityType()) {
+                                case $activity::ENTITY_TYPE_USER:      
+                                    $properties = json_decode($activity->getData(), true); 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.granted'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        '<strong>' .  $properties['user']['name']. '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))  
+                                    );
+                                    break; 
+                            } 
+                        } else if ($activity->getOperation() == $activity::OPERATION_REVOKE) {   
+                            switch ($activity->getAssociatedEntityType()) {
+                                case $activity::ENTITY_TYPE_USER:                                     
+                                    $properties = json_decode($activity->getData(), true); 
+                                    echo sprintf(
+                                        $this->translate('activity-stream.revoked'), 
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>', 
+                                        '<strong>' .  $properties['user']['name']. '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))  
+                                    );
+                                    break; 
+                            } 
+                        }
+                    ?>
+                    <?php endif; ?>
+                    </td>
+                    <td><?php echo \Carbon\Carbon::instance($activity->getCreationTime())->diffForHumans(); ?></td>
+                </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>                               
+                    <td colspan="2">No recent activity to report.</td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 </div>

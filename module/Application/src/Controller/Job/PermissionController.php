@@ -166,7 +166,7 @@ class PermissionController extends AbstractActionController
                 array('user.entity', 'lower', 'false'),
                 array($permission->getUser()->getName(), 'none', 'true'),
                 array('job.entity', 'lower', 'false'),
-                array($job->getTitle(), 'none', 'true')
+                array($job->getName(), 'none', 'true')
             ), 
             $form,
             $this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId()))

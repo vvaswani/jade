@@ -34,9 +34,9 @@ class Job
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"job.title"})     
+     * @Annotation\Options({"label":"job.name"})     
      */
-    protected $title;
+    protected $name;
     
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -119,14 +119,14 @@ class Job
         return $this->id;
     }
 
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
     }
 
     public function getDescription()

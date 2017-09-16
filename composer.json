@@ -11,7 +11,8 @@
         "doctrine/doctrine-orm-module": "^1.0",
         "doctrine/doctrine-module": "^1.0",
         "doctrine/data-fixtures": "^1.0",
-        "dkorsak/doctrine-data-fixture-module": "^1.0"
+        "dkorsak/doctrine-data-fixture-module": "^1.0",
+        "nesbot/carbon": "^1.22"
     },
     "autoload": {
         "psr-4": {

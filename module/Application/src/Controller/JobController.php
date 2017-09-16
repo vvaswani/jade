@@ -202,7 +202,7 @@ class JobController extends AbstractActionController
             'common.confirm-delete', 
             array (
                 array('job.entity', 'lower', 'false'),
-                array($job->getTitle(), 'none', 'true'),
+                array($job->getName(), 'none', 'true'),
             ),            
             $form,
             $this->url()->fromRoute('jobs')
@@ -249,7 +249,7 @@ class JobController extends AbstractActionController
             'job.confirm-close', 
             array (
                 array('job.entity', 'lower', 'false'),
-                array($job->getTitle(), 'none', 'true'),
+                array($job->getName(), 'none', 'true'),
             ),            
             $form,
             $this->url()->fromRoute('jobs')
@@ -296,7 +296,7 @@ class JobController extends AbstractActionController
             'job.confirm-open', 
             array (
                 array('job.entity', 'lower', 'false'),
-                array($job->getTitle(), 'none', 'true'),
+                array($job->getName(), 'none', 'true'),
             ),            
             $form,
             $this->url()->fromRoute('jobs')

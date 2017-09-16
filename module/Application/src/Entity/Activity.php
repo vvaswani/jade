@@ -1,14 +1,15 @@
 <?php
 namespace Application\Entity;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Application\Repository\ActivityRepository")
  * @ORM\Table(name="activity")
  */
-class Activity
+class Activity 
 {
 
     const OPERATION_CREATE = 'CREATE';

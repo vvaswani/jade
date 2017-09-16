@@ -31,17 +31,17 @@ namespace Application;
 		'common.confirm-permissions-revoke' => 'This operation will revoke %s %s\'s privileges to the %s %s.',
 		'common.confirm-permissions-grant' => 'This operation will grant %s %s privileges to the %s %s.',
 
-		'activity-stream.created' => '%s created this case', 
-		'activity-stream.deleted' => '%s deleted this case', 
-		'activity-stream.updated' => '%s modified the %s from %s to %s', 
-		'activity-stream.associated' => '%s added the %s %s to this case', 
-		'activity-stream.dissociated' => '%s removed the %s %s from this case', 
-		'activity-stream.requested' => '%s requested the %s %s', 
+		'activity-stream.created' => '%s created this %s.', 
+		'activity-stream.deleted' => '%s deleted this %s.', 
+		'activity-stream.updated' => '%s modified the %s from %s to %s.', 
+		'activity-stream.associated' => '%s added the %s %s to this %s.', 
+		'activity-stream.dissociated' => '%s removed the %s %s from this %s.', 
+		'activity-stream.requested' => '%s requested the %s %s.', 
 		'activity-stream.empty' => 'empty', 
-		'activity-stream.opened' => '%s opened this case', 
-		'activity-stream.closed' => '%s closed this case', 
-		'activity-stream.granted' => '%s granted %s access to this case', 
-		'activity-stream.revoked' => '%s revoked %s\'s access to this case', 
+		'activity-stream.opened' => '%s opened this %s.', 
+		'activity-stream.closed' => '%s closed this %s.', 
+		'activity-stream.granted' => '%s granted %s access to this %s.', 
+		'activity-stream.revoked' => '%s revoked %s\'s access to this %s.', 
 		'activity-stream.recent-activity' => 'Recent Activity', 
 
 		// job entity
@@ -49,7 +49,7 @@ namespace Application;
 		'job.jobs' => 'Cases',
 		'job.open-jobs' => 'Open Cases',
 		'job.id' => '#', 
-		'job.title' => 'Title',
+		'job.name' => 'Title',
 		'job.creation-time' => 'Created on',
 		'job.description' => 'Description', 
 		'job.comments' => 'Comments', 
@@ -116,5 +116,11 @@ namespace Application;
 		'permission.revoke' => 'Remove Collaborator', 
 		'permission.collaborators' => 'Collaborators', 
     
+    	// dashboard
+    	'dashboard.menu-card-user-description' => 'Manage and update user accounts.',
+    	'dashboard.menu-card-my-account-description' => 'Manage and update your user account.',
+    	'dashboard.menu-card-label-description' => 'Manage case labels.',
+    	'dashboard.menu-card-job-description' => 'Manage and update cases and documents.',
+    	'dashboard.menu-card-template-description' => 'Share and use company-wide templates.',
 	);
 ?>

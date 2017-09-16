@@ -110,3 +110,16 @@ input, textarea {
 .menu-card-title {
   margin-bottom: 0.75rem;
 }
+
+.menu-card .label {
+    font-size: 80%;
+}
+
+.menu-card-title .label, .menu-card-title .glyphicon, .menu-card-title a {
+    color: green;
+    font-style: bold;
+}
+
+.menu-card-title .label {
+    background-color: #ddd;    
+}

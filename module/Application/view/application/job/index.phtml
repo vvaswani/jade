@@ -16,7 +16,7 @@
                         <thead>
                             <tr>
                                 <th><?php echo $this->translate('job.id'); ?></th>
-                                <th><?php echo $this->translate('job.title'); ?></th>
+                                <th><?php echo $this->translate('job.name'); ?></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -28,7 +28,7 @@
                             <tr>
                                 <td><?php echo $this->escapeHtml($j->getId()); ?></td>
                                 <td>
-                                    <?php echo $this->escapeHtml($j->getTitle()); ?>
+                                    <?php echo $this->escapeHtml($j->getName()); ?>
                                     <?php $labels = $j->getLabels(); ?>
                                     <?php if (count($labels) >= 1): ?>
                                         <span class="label label-default" style="background-color: <?php echo $this->escapeHtml($labels[0]->getColour()); ?>">
