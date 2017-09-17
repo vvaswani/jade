@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Application\Repository\UserRepository")
  * @ORM\Table(name="user")
  */
 class User

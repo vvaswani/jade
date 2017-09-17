@@ -62,18 +62,17 @@ class PermissionController extends AbstractActionController
 
         $form->get('cancelUrl')->setValue($this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId())));
 
-        // set options for user selector
-        $userOptions = array();
-        $users = $this->em->getRepository(User::class)->findBy(array('status' => User::STATUS_ACTIVE), array('name' => 'ASC'));
-        foreach ($users as $u) {
-            if (count($job->getUserPermissions($u)) == 0) {
-                $userOptions[] = array(
-                    'value' => $u->getId(),
-                    'label' => $u->getName(),
-                );
-            }
-        }
-        $form->get('user')->setValueOptions($userOptions);
+        $form->get('user')->setOptions(array(
+            'object_manager' => $this->em,
+            'target_class' => 'Application\Entity\User',
+            'property' => 'name',
+            'find_method' => [
+                'name'   => 'getPotentialCollaboratorsByJob',
+                'params' => [
+                    'jid' => $job->getId()
+                ]
+            ]
+        ));
 
         // set options for permission selector
         $permissionOptions = array();

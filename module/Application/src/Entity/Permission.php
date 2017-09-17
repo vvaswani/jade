@@ -21,20 +21,20 @@ use Zend\Form\Annotation;
     const ENTITY_TYPE_TEMPLATE = 'TEMPLATE';
 
     /**
-     * @ORM\Id 
+     * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @Annotation\Exclude()
      */
     protected $id;
-    
+
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="permissions")
+     * @ORM\ManyToOne(targetEntity="\Application\Entity\User", inversedBy="permissions")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
-     * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Attributes({"multiple":"multiple"})
-     * @Annotation\Options({"label":"permission.collaborators", "use_hidden_element":"true"})     
+     * @Annotation\Options({"label":"permission.collaborators", "use_hidden_element":"true"})
      */
      protected $user;
 
@@ -43,18 +43,19 @@ use Zend\Form\Annotation;
      * @Annotation\Type("Zend\Form\Element\Select")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
-     * @Annotation\Options({"label":"permission.permissions", "use_hidden_element":"true"})     
+     * @Annotation\Options({"label":"permission.permissions", "use_hidden_element":"true"})
      */
     protected $name;
 
     // overridden in child classes
     protected $entity;
+    protected $entityType;
 
     /**
      * @Annotation\Type("Zend\Form\Element\Hidden")
      * @Annotation\Required(false)
      * @Annotation\Filter({"name":"StringTrim"})
-     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Filter({"name":"StripTags"})
      */
     protected $cancelUrl;
 
@@ -62,13 +63,13 @@ use Zend\Form\Annotation;
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.confirm"})
      */
-    public $submit;    
+    public $submit;
 
     public function setId($id)
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;
