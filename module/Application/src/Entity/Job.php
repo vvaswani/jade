@@ -96,11 +96,11 @@ class Job
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
-     * @Annotation\Options({"label":"job.customer", "use_hidden_element":"true"})
+     * @Annotation\Options({"label":"job.billing-user", "use_hidden_element":"true"})
      * @Annotation\Required(false)
      * @see http://www.itgo.me/a/x1674750047556883894/calculate-changeset-for-object-that-have-proxy-entity-in-property-for-logging-pu
      */
-    protected $customer;
+    protected $billingUser;
 
     /**
      * @ORM\OneToMany(targetEntity="\Application\Entity\Job\Permission", mappedBy="entity", cascade={"remove", "persist"})
@@ -262,13 +262,13 @@ class Job
         return $permissions;
     }
 
-    public function getCustomer()
+    public function getBillingUser()
     {
-        return $this->customer;
+        return $this->billingUser;
     }
 
-    public function setCustomer($customer)
+    public function setBillingUser($billingUser)
     {
-        $this->customer = $customer;
+        $this->billingUser = $billingUser;
     }
 }

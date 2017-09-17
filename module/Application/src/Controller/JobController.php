@@ -127,12 +127,12 @@ class JobController extends AbstractActionController
             'object_manager' => $this->em,
             'target_class' => 'Application\Entity\Label'
         ));
-        $form->get('customer')->setOptions(array(
+        $form->get('billingUser')->setOptions(array(
             'object_manager' => $this->em,
             'target_class' => 'Application\Entity\User',
             'property' => 'name',
             'display_empty_item' => true,
-            'empty_item_label' => 'common.selector-empty-item-label',
+            'empty_item_label' => 'common.select-empty-item-title',
             'find_method' => [
                 'name'   => 'findBy',
                 'params' => [

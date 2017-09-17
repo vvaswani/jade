@@ -36,6 +36,10 @@ $form->prepare();
                                 <td><?php echo ($job->getComments()) ? $this->escapeHtml($job->getComments()) : 'None'; ?></td>
                             </tr>
                             <tr>
+                                <td><strong><?php echo $this->translate('job.billing-user'); ?></strong></td>
+                                <td><?php echo ($job->getBillingUser()) ? $this->escapeHtml($job->getBillingUser()->getName()) : 'None'; ?></td>
+                            </tr>
+                            <tr>
                                 <td colspan="2">
                                     <div class="pull-right">
                                         <?php if ($job->getStatus() == $job::STATUS_OPEN && $this->authorize()->isAuthorized($this->identity(), 'job', 'save', $job)): ?>

@@ -1,10 +1,10 @@
-<?php        
+<?php
 $form = $this->form;
 $form->setAttribute('method', 'POST');
 $form->setAttribute('novalidate', 'true');
 $form->prepare();
 ?>
-            
+
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
@@ -14,22 +14,22 @@ $form->prepare();
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->escapeHtml($form->get('cancelUrl')->getValue()); ?>">
                             <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.cancel'); ?>
                         </a>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="panel-body">
                     <?php echo $this->form()->openTag($form); ?>
 
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <?php echo $this->formLabel($form->get('user')) ?>
-                            <?php echo $this->formSelect($form->get('user')->setAttributes(array('class' => 'selectpicker'))) ?>
+                            <?php echo $this->formSelect($form->get('user')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
                             <span class="form-errors">
                                 <?php echo $this->formElementErrors($form->get('user')) ?>
                             </span>
                         </div>
 
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <?php echo $this->formLabel($form->get('name')) ?>
-                            <?php echo $this->formSelect($form->get('name')->setAttributes(array('class' => 'selectpicker'))) ?>
+                            <?php echo $this->formSelect($form->get('name')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
                             <span class="form-errors">
                                 <?php echo $this->formElementErrors($form->get('name')) ?>
                             </span>
@@ -37,9 +37,9 @@ $form->prepare();
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>
-                            </button> 
-                        </div>	 
+                            </button>
+                        </div>
                     <?php echo $this->form()->closeTag($form); ?>
                 </div>
             </div>
-            
+
