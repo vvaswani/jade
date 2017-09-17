@@ -22,7 +22,7 @@ class PermissionController extends AbstractActionController
 {
 
     private $em;
-    
+
     private $ams;
 
     private $as;
@@ -35,7 +35,7 @@ class PermissionController extends AbstractActionController
     }
 
     public function grantAction()
-    {   
+    {
         $jid = (int) $this->params()->fromRoute('jid', 0);
         if (!$jid) {
             return $this->redirect()->toRoute('jobs');
@@ -50,6 +50,10 @@ class PermissionController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
+        if ($job->getStatus() == Job::STATUS_CLOSED) {
+            return $this->alertPlugin()->alert('job.alert-action-closed-job', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'index', 'id' => false, 'status' => Job::STATUS_CLOSED)));
+        }
+
         $builder = new AnnotationBuilder();
         $permission = new JobPermission();
         $form = $builder->createForm($permission);
@@ -58,35 +62,35 @@ class PermissionController extends AbstractActionController
 
         $form->get('cancelUrl')->setValue($this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId())));
 
-        // set options for user selector 
+        // set options for user selector
         $userOptions = array();
         $users = $this->em->getRepository(User::class)->findBy(array('status' => User::STATUS_ACTIVE), array('name' => 'ASC'));
         foreach ($users as $u) {
             if (count($job->getUserPermissions($u)) == 0) {
                 $userOptions[] = array(
-                    'value' => $u->getId(), 
-                    'label' => $u->getName(), 
-                );                
+                    'value' => $u->getId(),
+                    'label' => $u->getName(),
+                );
             }
         }
         $form->get('user')->setValueOptions($userOptions);
 
-        // set options for permission selector 
+        // set options for permission selector
         $permissionOptions = array();
         $permissionOptions[] = array(
-            'value' => Job::PERMISSION_EDIT, 
-            'label' => 'job.permission-edit', 
+            'value' => Job::PERMISSION_EDIT,
+            'label' => 'job.permission-edit',
         );
         $permissionOptions[] = array(
-            'value' => Job::PERMISSION_VIEW, 
-            'label' => 'job.permission-view', 
-        );        
+            'value' => Job::PERMISSION_VIEW,
+            'label' => 'job.permission-view',
+        );
         $form->get('name')->setValueOptions($permissionOptions);
 
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 $name = null;
                 switch ($data['name']) {
@@ -105,13 +109,13 @@ class PermissionController extends AbstractActionController
                         $permission->setName($name);
                         $permission->setJob($job);
                         $this->em->persist($permission);
-                        $this->em->flush();                        
-                        $this->ams->flush();                        
-                    }               
+                        $this->em->flush();
+                        $this->ams->flush();
+                    }
                 }
-                return $this->redirect()->toRoute('jobs', array('action' => 'view', 'id' => $job->getId())); 
+                return $this->redirect()->toRoute('jobs', array('action' => 'view', 'id' => $job->getId()));
             }
-        } 
+        }
 
         $viewModel = new ViewModel(array(
             'form' => $form,
@@ -122,7 +126,7 @@ class PermissionController extends AbstractActionController
     }
 
     public function revokeAction()
-    {   
+    {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
@@ -140,38 +144,42 @@ class PermissionController extends AbstractActionController
 
         if ($permission->getName() == Job::PERMISSION_MANAGE) {
             return $this->alertPlugin()->alert('job.alert-owner-permissions-revoke', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId())));
-        }        
+        }
+
+        if ($job->getStatus() == Job::STATUS_CLOSED) {
+            return $this->alertPlugin()->alert('job.alert-action-closed-job', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'index', 'id' => false, 'status' => Job::STATUS_CLOSED)));
+        }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('jobs.permissions', array('action' => 'revoke', 'jid' => $job->getId(), 'id' => $permission->getId())));
-        
+
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
-                    $this->em->remove($permission); 
-                    $this->em->flush(); 
+                    $this->em->remove($permission);
+                    $this->em->flush();
                     $this->ams->flush();
-                } 
+                }
             }
             return $this->redirect()->toRoute('jobs', array('action' => 'view', 'id' => $job->getId()));
-        } 
+        }
 
         return $this->confirmationPlugin()->confirm(
-            'common.confirm-permissions-revoke', 
+            'common.confirm-permissions-revoke',
             array (
                 array('user.entity', 'lower', 'false'),
                 array($permission->getUser()->getName(), 'none', 'true'),
                 array('job.entity', 'lower', 'false'),
                 array($job->getName(), 'none', 'true')
-            ), 
+            ),
             $form,
             $this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId()))
         );
 
     }
- 
+
 }

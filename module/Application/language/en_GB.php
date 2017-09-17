@@ -48,6 +48,7 @@ namespace Application;
 		'job.entity' => 'Case',
 		'job.jobs' => 'Cases',
 		'job.open-jobs' => 'Open Cases',
+		'job.closed-jobs' => 'Closed Cases',
 		'job.id' => '#',
 		'job.name' => 'Title',
 		'job.creation-time' => 'Created on',
@@ -61,6 +62,8 @@ namespace Application;
 		'job.confirm-close' => 'This operation will close the %s %s and hide all related data in the system.',
 		'job.confirm-open' => 'This operation will open the %s %s and make all related data visible in the system.',
 		'job.alert-owner-permissions-revoke' => 'This %s owner\'s privileges cannot be revoked.',
+		'job.alert-action-closed-job' => 'This operation cannot be performed on a closed %s.',
+		'job.alert-action-open-job' => 'This operation cannot be performed on an open %s.',
 
 		// label entity
 		'label.entity' => 'Label',

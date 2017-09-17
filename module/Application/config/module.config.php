@@ -7,6 +7,7 @@ use Zend\ServiceManager\Factory\InvokableFactory;
 use Application\Factory\Controller\ApplicationControllerFactory;
 use Application\Factory\Controller\Plugin\AuthorizationControllerPluginFactory;
 use Application\Factory\View\Helper\AuthorizationViewHelperFactory;
+use Application\Entity\Job;
 
 return [
     'router' => [
@@ -34,14 +35,16 @@ return [
             'jobs' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/jobs[/:action][/:id]',
+                    'route'    => '/jobs[/:action][/:id][/:status]',
                     'defaults' => [
                         'controller' => Controller\JobController::class,
                         'action'     => 'index',
+                        'status'     => Job::STATUS_OPEN,
                     ],
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]*',
+                        'status' => '[0-1]',
                     ],
                 ],
             ],
@@ -88,7 +91,7 @@ return [
                         'jid'    => '[0-9]*',
                     ],
                 ],
-            ],            
+            ],
             'users' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -112,7 +115,7 @@ return [
                         'action'     => 'index',
                     ],
                 ],
-            ],                       
+            ],
             'login' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -122,7 +125,7 @@ return [
                         'action'     => 'login',
                     ],
                 ],
-            ],            
+            ],
             'logout' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -146,7 +149,7 @@ return [
                         'id'     => '[0-9]*',
                     ],
                 ],
-            ],            
+            ],
         ],
     ],
     'service_manager' => [
@@ -157,7 +160,7 @@ return [
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
-        ],        
+        ],
     ],
     'translator' => [
         'locale' => 'en_GB',
@@ -195,12 +198,12 @@ return [
     ],
     'view_helpers' => [
         'factories' => [
-            View\Helper\Authorize::class => AuthorizationViewHelperFactory::class,                    
+            View\Helper\Authorize::class => AuthorizationViewHelperFactory::class,
         ],
        'aliases' => [
             'authorize' => View\Helper\Authorize::class
        ]
-    ],      
+    ],
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,

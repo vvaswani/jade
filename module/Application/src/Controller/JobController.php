@@ -34,6 +34,8 @@ class JobController extends AbstractActionController
 
     public function indexAction()
     {
+        $status = (int) $this->params()->fromRoute('status', Job::STATUS_OPEN);
+
         if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
@@ -43,7 +45,7 @@ class JobController extends AbstractActionController
         $qb = $this->em->createQueryBuilder();
         $qb->select('j')
            ->from(Privilege::class, 'p')
-           ->leftJoin(Job::class, 'j', 
+           ->leftJoin(Job::class, 'j',
                 \Doctrine\ORM\Query\Expr\Join::WITH, 'p.job = j.id')
            ->where("j.status = :status")
            ->andWhere("p.user = :user")
@@ -52,18 +54,18 @@ class JobController extends AbstractActionController
            ->setParameter('user', $this->as->getIdentity());
         $jobs = $qb->getQuery()->getResult();
         */
-        $results = $this->em->getRepository(Job::class)->findBy(array('status' => Job::STATUS_OPEN), array('creationTime' => 'DESC'));
+        $results = $this->em->getRepository(Job::class)->findBy(array('status' => $status), array('creationTime' => 'DESC'));
         $jobs = array();
         foreach ($results as $job) {
             if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job', 'view', $job) !== false) {
                 $jobs[] = $job;
             }
         }
-        return new ViewModel(array('jobs' => $jobs));
+        return new ViewModel(array('jobs' => $jobs, 'status' => $status));
     }
-    
+
     public function viewAction()
-    {   
+    {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
@@ -79,26 +81,30 @@ class JobController extends AbstractActionController
         }
 
         $activities = $this->em->getRepository(Activity::class)
-                           ->getRecentActivitiesByJob($job->getId(), 10);
+                           ->getRecentActivitiesByJob($job->getId(), 10, 720);
 
         $file = new File();
         $builder = new AnnotationBuilder();
         $form = $builder->createForm($file);
 
         return new ViewModel(array(
-            'job' => $job, 
-            'form' => $form, 
+            'job' => $job,
+            'form' => $form,
             'activities' => $activities
         ));
-    }    
-    
+    }
+
     public function saveAction()
-    {   
+    {
         $id = (int) $this->params()->fromRoute('id', 0);
-        $job = $this->em->getRepository(Job::class)->find($id); 
+        $job = $this->em->getRepository(Job::class)->find($id);
 
         if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
+        }
+
+        if ($job->getStatus() == Job::STATUS_CLOSED) {
+            return $this->alertPlugin()->alert('job.alert-action-closed-job', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'index', 'id' => false, 'status' => Job::STATUS_CLOSED)));
         }
 
         if (!$job) {
@@ -121,24 +127,24 @@ class JobController extends AbstractActionController
         );
         $form->bind($job);
 
-        // set options for label selector 
+        // set options for label selector
         // include the colour as an attribute
         // for further processing in the view script
         $labelOptions = array();
         $labels = $this->em->getRepository(Label::class)->findBy(array(), array('name' => 'ASC'));
         foreach ($labels as $l) {
             $labelOptions[] = array(
-                'value' => $l->getId(), 
-                'label' => $l->getName(), 
+                'value' => $l->getId(),
+                'label' => $l->getName(),
                 'attributes' => array('data-colour' => $l->getColour())
             );
         }
-        $form->get('labels')->setValueOptions($labelOptions);  
+        $form->get('labels')->setValueOptions($labelOptions);
 
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()){  
+            if ($form->isValid()){
                 $job->setStatus(Job::STATUS_OPEN);
                 $this->em->persist($job);
                 $this->em->flush();
@@ -146,18 +152,18 @@ class JobController extends AbstractActionController
                     mkdir (File::UPLOAD_PATH . '/' . (int)$job->getId());
                 }
                 $this->ams->flush();
-                return $this->redirect()->toRoute('jobs');
+                return $this->redirect()->toRoute('jobs', array('action' => 'view', 'id' => $job->getId()));
             }
         }
-         
+
         return new ViewModel(array(
             'form' => $form,
             'id' => $job->getId(),
         ));
     }
-    
+
     public function deleteAction()
-    {   
+    {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
@@ -170,6 +176,10 @@ class JobController extends AbstractActionController
 
         if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
+        }
+
+        if ($job->getStatus() == Job::STATUS_OPEN) {
+            return $this->alertPlugin()->alert('job.alert-action-open-job', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
         $builder = new AnnotationBuilder();
@@ -179,11 +189,11 @@ class JobController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
                     $this->em->remove($job);
-                    $this->em->flush(); 
+                    $this->em->flush();
                     if (file_exists(File::UPLOAD_PATH . '/' . (int)$id)) {
                         foreach(glob(File::UPLOAD_PATH . '/' . (int)$id . '/*') as $file) {
                             unlink($file);
@@ -191,17 +201,17 @@ class JobController extends AbstractActionController
                         rmdir (File::UPLOAD_PATH . '/' . (int)$id);
                     }
                     $this->ams->flush();
-                } 
+                }
             }
             return $this->redirect()->toRoute('jobs');
-        } 
+        }
 
         return $this->confirmationPlugin()->confirm(
-            'common.confirm-delete', 
+            'common.confirm-delete',
             array (
                 array('job.entity', 'lower', 'false'),
                 array($job->getName(), 'none', 'true'),
-            ),            
+            ),
             $form,
             $this->url()->fromRoute('jobs')
         );
@@ -209,7 +219,7 @@ class JobController extends AbstractActionController
     }
 
     public function closeAction()
-    {   
+    {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
@@ -222,41 +232,45 @@ class JobController extends AbstractActionController
 
         if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), null, null, $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
+        }
+
+        if ($job->getStatus() == Job::STATUS_CLOSED) {
+            return $this->alertPlugin()->alert('job.alert-action-closed-job', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'index', 'id' => false, 'status' => Job::STATUS_CLOSED)));
         }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'close', 'id' => $id)));
-        
+
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
                     $job->setStatus(Job::STATUS_CLOSED);
-                    $this->em->persist($job); 
-                    $this->em->flush(); 
+                    $this->em->persist($job);
+                    $this->em->flush();
                     $this->ams->flush();
-                } 
+                }
             }
             return $this->redirect()->toRoute('jobs');
-        } 
+        }
 
         return $this->confirmationPlugin()->confirm(
-            'job.confirm-close', 
+            'job.confirm-close',
             array (
                 array('job.entity', 'lower', 'false'),
                 array($job->getName(), 'none', 'true'),
-            ),            
+            ),
             $form,
             $this->url()->fromRoute('jobs')
         );
 
-    }    
+    }
 
     public function openAction()
-    {   
+    {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('jobs');
@@ -271,34 +285,38 @@ class JobController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
+        if ($job->getStatus() == Job::STATUS_OPEN) {
+            return $this->alertPlugin()->alert('job.alert-action-open-job', array('job.entity'), $this->url()->fromRoute('jobs'));
+        }
+
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('jobs', array('action' => 'open', 'id' => $id)));
-        
+
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
                     $job->setStatus(Job::STATUS_OPEN);
-                    $this->em->persist($job); 
-                    $this->em->flush(); 
+                    $this->em->persist($job);
+                    $this->em->flush();
                     $this->ams->flush();
-                } 
+                }
             }
             return $this->redirect()->toRoute('jobs');
-        } 
+        }
 
         return $this->confirmationPlugin()->confirm(
-            'job.confirm-open', 
+            'job.confirm-open',
             array (
                 array('job.entity', 'lower', 'false'),
                 array($job->getName(), 'none', 'true'),
-            ),            
+            ),
             $form,
             $this->url()->fromRoute('jobs')
         );
-    }    
+    }
 
 }
