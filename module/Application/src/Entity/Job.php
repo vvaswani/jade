@@ -21,31 +21,31 @@ class Job
     const PERMISSION_VIEW = 'JOB.VIEW';
 
     /**
-     * @ORM\Id 
+     * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @Annotation\Exclude()
      */
     protected $id;
- 
+
     /**
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":255}})
      * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"job.name"})     
+     * @Annotation\Options({"label":"job.name"})
      */
     protected $name;
-    
+
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Annotation\Required(false)
      * @Annotation\Filter({"name":"StringTrim"})
-     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Type("Zend\Form\Element\Textarea")
-     * @Annotation\Options({"label":"job.description"})     
+     * @Annotation\Options({"label":"job.description"})
      */
     protected $description;
 
@@ -53,10 +53,10 @@ class Job
      * @ORM\Column(type="text", nullable=true)
      * @Annotation\Required(false)
      * @Annotation\Filter({"name":"StringTrim"})
-     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1}})
      * @Annotation\Type("Zend\Form\Element\Textarea")
-     * @Annotation\Options({"label":"job.comments"})     
+     * @Annotation\Options({"label":"job.comments"})
      */
     protected $comments;
 
@@ -78,8 +78,8 @@ class Job
      * @Annotation\Required(false)
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Attributes({"multiple":"multiple"})
-     * @Annotation\Options({"label":"label.labels", "use_hidden_element":"true"})   
-     * @see https://github.com/zendframework/zendframework/issues/7298       
+     * @Annotation\Options({"label":"label.labels", "use_hidden_element":"true"})
+     * @see https://github.com/zendframework/zendframework/issues/7298
      */
     protected $labels;
 
@@ -90,6 +90,17 @@ class Job
      * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
      */
     protected $files;
+
+    /**
+     * @ORM\OneToOne(targetEntity="\Application\Entity\User")
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})
+     * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
+     * @Annotation\Options({"label":"job.customer", "use_hidden_element":"true"})
+     * @Annotation\Required(false)
+     * @see http://www.itgo.me/a/x1674750047556883894/calculate-changeset-for-object-that-have-proxy-entity-in-property-for-logging-pu
+     */
+    protected $customer;
 
     /**
      * @ORM\OneToMany(targetEntity="\Application\Entity\Job\Permission", mappedBy="entity", cascade={"remove", "persist"})
@@ -107,13 +118,13 @@ class Job
         $this->labels = new ArrayCollection();
         $this->files = new ArrayCollection();
         $this->privileges = new ArrayCollection();
-    }    
-    
+    }
+
     public function setId($id)
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;
@@ -157,7 +168,7 @@ class Job
     public function setCreationTime($creationTime)
     {
         $this->creationTime = $creationTime;
-    }  
+    }
 
     public function getStatus()
     {
@@ -211,7 +222,7 @@ class Job
     public function removeFile(\Application\Entity\Job\File $file)
     {
         $this->files->removeElement($file);
-    } 
+    }
 
     public function getPermissions()
     {
@@ -231,7 +242,7 @@ class Job
     public function removePermission(Permission $permission)
     {
         $this->permissions->removeElement($permission);
-    } 
+    }
 
     public function getUserPermissions(User $user)
     {
@@ -242,12 +253,22 @@ class Job
             $permission->setName(Job::PERMISSION_MANAGE);
             $permission->setJob($this);
             $permissions[] = $permission;
-        } 
+        }
         foreach ($this->permissions as $permission) {
             if ($permission->getUser()->getId() == $user->getId()) {
                 $permissions[] = $permission;
             }
-        }        
+        }
         return $permissions;
-    }     
+    }
+
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
+    }
 }

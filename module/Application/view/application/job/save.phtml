@@ -1,11 +1,11 @@
-<?php        
+<?php
 $form = $this->form;
 $form->setAttribute('action', $this->url('jobs', array('action' => 'save', 'id' => $this->id)));
 $form->setAttribute('method', 'POST');
 $form->setAttribute('novalidate', 'true');
 $form->prepare();
 ?>
-            
+
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
@@ -15,27 +15,27 @@ $form->prepare();
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs'); ?>">
                             <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.cancel'); ?>
                         </a>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="panel-body">
                     <?php echo $this->form()->openTag($form); ?>
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <?php echo $this->formLabel($form->get('name')) ?>
                             <?php echo $this->formInput($form->get('name')) ?>
                             <span class="form-errors">
                                 <?php echo $this->formElementErrors($form->get('name')) ?>
                             </span>
-                        </div> 
+                        </div>
 
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <?php echo $this->formLabel($form->get('description')) ?>
                             <?php echo $this->formTextarea($form->get('description')) ?>
                             <span class="form-errors">
                                 <?php echo $this->formElementErrors($form->get('description')) ?>
                             </span>
-                        </div> 
+                        </div>
 
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <?php echo $this->formLabel($form->get('comments')) ?>
                             <?php echo $this->formTextarea($form->get('comments')) ?>
                             <span class="form-errors">
@@ -43,10 +43,10 @@ $form->prepare();
                             </span>
                         </div>
 
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <?php
                             // process the 'data-colour' attribute
-                            $options = $form->get('labels')->getValueOptions(); 
+                            $options = $form->get('labels')->getValueOptions();
                             foreach ($options as &$option) {
                                 $option['attributes']['data-content'] = "<span class='label label-default' style='background-color:" . $option['attributes']['data-colour'] . "'>" . $option['label'] . "</span>";
                             }
@@ -60,11 +60,19 @@ $form->prepare();
                         </div>
 
                         <div class="form-group">
+                            <?php echo $this->formLabel($form->get('customer')) ?>
+                            <?php echo $this->formSelect($form->get('customer')->setAttributes(array('class' => 'selectpicker'))) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('customer')) ?>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>
-                            </button> 
-                        </div>	 
+                            </button>
+                        </div>
                     <?php echo $this->form()->closeTag($form); ?>
                 </div>
             </div>
-            
+

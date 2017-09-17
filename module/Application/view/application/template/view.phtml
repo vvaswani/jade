@@ -31,7 +31,7 @@
                                             <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
                                         </a>
                                         <?php endif; ?>
-                                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'download', $this->template)): ?>
+                                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'download')): ?>
                                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'download', 'id' => $this->escapeHtml($this->template->getId()))); ?>">
                                             <span class="glyphicon glyphicon-download"></span> <?php echo $this->translate('common.download'); ?>
                                         </a>
@@ -40,8 +40,8 @@
                                         <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('templates', array('action' => 'delete', 'id' => $this->escapeHtml($this->template->getId()))); ?>">
                                             <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
                                         </a>
-                                        <?php endif; ?>                                    
-                                    </div>                                    
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>

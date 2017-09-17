@@ -8,7 +8,7 @@
                             <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.create'); ?>
                         </a>
                         <?php endif; ?>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="panel-body table-responsive">
                     <?php if (count($this->templates)): ?>
@@ -29,7 +29,7 @@
                                 <td><?php echo $this->escapeHtml($t->getId()); ?></td>
                                 <td><?php echo $this->escapeHtml($t->getName()); ?></td>
                                 <td>
-                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'view', $t)): ?>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'view')): ?>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'view', 'id' => $this->escapeHtml($t->getId()))); ?>">
                                         <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('common.view'); ?>
                                     </a>
@@ -43,7 +43,7 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'download', $t)): ?>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'template', 'download')): ?>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates', array('action' => 'download', 'id' => $this->escapeHtml($t->getId()))); ?>">
                                         <span class="glyphicon glyphicon-download"></span> <?php echo $this->translate('common.download'); ?>
                                     </a>
@@ -56,7 +56,7 @@
                                     </a>
                                     <?php endif; ?>
                                 </td>
-                            </tr>            
+                            </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

@@ -26,7 +26,7 @@ class ActivityService
         $this->em = $em;
         $this->as = $as;
         $this->queue = array();
-    } 
+    }
 
     /**
     * @see http://stackoverflow.com/questions/15311083/whats-the-proper-use-of-unitofwork-getscheduledcollectiondeletions-in-doctr
@@ -39,145 +39,156 @@ class ActivityService
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
             if ($entity instanceof Job) {
                 $this->queue[] = array(
-                    Activity::OPERATION_CREATE, 
+                    Activity::OPERATION_CREATE,
                     new \DateTime("now"),
                     $entity,
-                    null, 
+                    null,
                     array('name' => $entity->getName())
-                ); 
+                );
             }
             if ($entity instanceof Label) {
                 $this->queue[] = array(
-                    Activity::OPERATION_CREATE, 
+                    Activity::OPERATION_CREATE,
                     new \DateTime("now"),
                     $entity,
-                    null, 
+                    null,
                     array('name' => $entity->getName())
-                ); 
+                );
             }
             if ($entity instanceof User) {
                 $this->queue[] = array(
-                    Activity::OPERATION_CREATE, 
+                    Activity::OPERATION_CREATE,
                     new \DateTime("now"),
                     $entity,
-                    null, 
+                    null,
                     array('name' => $entity->getName(), 'username' => $entity->getUsername())
-                ); 
-            }                        
+                );
+            }
             if ($entity instanceof File) {
                 $this->queue[] = array(
-                    Activity::OPERATION_CREATE, 
+                    Activity::OPERATION_CREATE,
                     new \DateTime("now"),
                     $entity,
-                    $entity->getJob(), 
+                    $entity->getJob(),
                     array('filename' => $entity->getFilename())
-                ); 
+                );
             }
             if ($entity instanceof Template) {
                 $this->queue[] = array(
-                    Activity::OPERATION_CREATE, 
+                    Activity::OPERATION_CREATE,
                     new \DateTime("now"),
                     $entity,
-                    null, 
+                    null,
                     array('name' => $entity->getName(), 'filename' => $entity->getFilename())
-                ); 
-            }            
+                );
+            }
             if ($entity instanceof Permission) {
                 $this->queue[] = array(
-                    Activity::OPERATION_GRANT, 
+                    Activity::OPERATION_GRANT,
                     new \DateTime("now"),
                     $entity->getEntity(),
-                    $entity->getUser(), 
+                    $entity->getUser(),
                     array(
-                        'name' => $entity->getName(), 
+                        'name' => $entity->getName(),
                         'user' => array('name' => $entity->getUser()->getName())
                     )
-                ); 
+                );
             }
 
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
             $diff = $uow->getEntityChangeSet($entity);
+            if ($entity instanceof Job) {
+                if (array_key_exists('customer', $diff)) {
+                    if ($diff['customer'][0] != null) {
+                        $diff['customer'][0] = $diff['customer'][0]->getName();
+                    }
+
+                    if ($diff['customer'][1] != null) {
+                       $diff['customer'][1] = $diff['customer'][1]->getName();
+                    }
+                }
+            }
             if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User || $entity instanceof Template) {
                 if (!empty($diff)) {
                     $this->queue[] = array(
-                        Activity::OPERATION_UPDATE, 
+                        Activity::OPERATION_UPDATE,
                         new \DateTime("now"),
                         $entity,
-                        null, 
+                        null,
                         $diff
-                    ); 
+                    );
                 }
             }
             if ($entity instanceof File) {
                 $this->queue[] = array(
-                    Activity::OPERATION_UPDATE, 
+                    Activity::OPERATION_UPDATE,
                     new \DateTime("now"),
                     $entity,
-                    $entity->getJob(), 
+                    $entity->getJob(),
                     $diff
-                ); 
-            }            
+                );
+            }
         }
 
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
             if ($entity instanceof Job) {
                 $this->queue[] = array(
-                    Activity::OPERATION_DELETE, 
+                    Activity::OPERATION_DELETE,
                     new \DateTime("now"),
                     serialize($entity),
-                    null, 
+                    null,
                     array('name' => $entity->getName())
                 );
             }
             if ($entity instanceof Label) {
                 $this->queue[] = array(
-                    Activity::OPERATION_DELETE, 
+                    Activity::OPERATION_DELETE,
                     new \DateTime("now"),
                     serialize($entity),
-                    null, 
+                    null,
                     array('name' => $entity->getName())
                 );
             }
             if ($entity instanceof User) {
                 $this->queue[] = array(
-                    Activity::OPERATION_DELETE, 
+                    Activity::OPERATION_DELETE,
                     new \DateTime("now"),
                     serialize($entity),
-                    null, 
+                    null,
                     array('name' => $entity->getName(), 'username' => $entity->getUsername())
                 );
-            }                        
+            }
             if ($entity instanceof File) {
                 $this->queue[] = array(
-                    Activity::OPERATION_DELETE, 
+                    Activity::OPERATION_DELETE,
                     new \DateTime("now"),
-                    serialize($entity), 
+                    serialize($entity),
                     serialize($entity->getJob()),
                     array('filename' => $entity->getFilename())
-                ); 
+                );
             }
             if ($entity instanceof Template) {
                 $this->queue[] = array(
-                    Activity::OPERATION_DELETE, 
+                    Activity::OPERATION_DELETE,
                     new \DateTime("now"),
                     serialize($entity),
-                    null, 
+                    null,
                     array('name' => $entity->getName(), 'filename' => $entity->getFilename())
                 );
-            }            
+            }
             if ($entity instanceof Permission) {
                 $this->queue[] = array(
-                    Activity::OPERATION_REVOKE, 
+                    Activity::OPERATION_REVOKE,
                     new \DateTime("now"),
                     serialize($entity->getEntity()),
-                    serialize($entity->getUser()), 
+                    serialize($entity->getUser()),
                     array(
-                        'name' => $entity->getName(), 
+                        'name' => $entity->getName(),
                         'user' => array('name' => $entity->getUser()->getName())
                     )
-                ); 
+                );
             }
 
         }
@@ -195,12 +206,12 @@ class ActivityService
                         $data = array(
                             'name' => $associatedEntity->getName(),
                             'colour' => $associatedEntity->getColour(),
-                        );                  
+                        );
                         $this->queue[] = array(
-                            Activity::OPERATION_ASSOCIATE, 
+                            Activity::OPERATION_ASSOCIATE,
                             new \DateTime("now"),
                             $entity,
-                            $associatedEntity, 
+                            $associatedEntity,
                             $data
                         );
                     }
@@ -212,19 +223,19 @@ class ActivityService
                         $data = array(
                             'name' => $associatedEntity->getName(),
                             'colour' => $associatedEntity->getColour(),
-                        );  
+                        );
                         $this->queue[] = array(
-                            Activity::OPERATION_DISSOCIATE, 
+                            Activity::OPERATION_DISSOCIATE,
                             new \DateTime("now"),
                             $entity,
-                            $associatedEntity, 
+                            $associatedEntity,
                             $data
-                        ); 
+                        );
                     }
                 }
-            }       
-        }   
-    }    
+            }
+        }
+    }
 
     public function getQueue()
     {
@@ -236,7 +247,7 @@ class ActivityService
         $this->queue = $queue;
     }
 
-    public function flush() 
+    public function flush()
     {
         $queue = $this->getQueue();
         if (count($queue)) {
@@ -256,7 +267,7 @@ class ActivityService
     * @param  array     $data               operation-related data (changes performed for updates, limited entity-specific data for associations)
     * @access private
     */
-    private function log($operation, $ts, $entity, $associatedEntity = null, $data = null) 
+    private function log($operation, $ts, $entity, $associatedEntity = null, $data = null)
     {
         $activity = new Activity();
         $user = $this->as->getIdentity();
@@ -265,7 +276,7 @@ class ActivityService
         }
         if (!is_null($associatedEntity) && !is_object($associatedEntity)) {
             $associatedEntity = unserialize($associatedEntity);
-        }        
+        }
         $activity->setCreationTime($ts);
         $activity->setOperation($operation);
         if (is_null($user) && $operation == Activity::OPERATION_LOGOUT) {
@@ -273,7 +284,7 @@ class ActivityService
         }
         $activity->setUser($user);
         $activity->setEntityId($entity->getId());
-        $entityClassSegments = explode('\\', get_class($entity));     
+        $entityClassSegments = explode('\\', get_class($entity));
         $entityClass = array_pop($entityClassSegments);
         $activity->setEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($entityClass)));
         if (!is_null($associatedEntity)) {
@@ -284,7 +295,7 @@ class ActivityService
         $activity->setData(json_encode($data));
         $server = new \Zend\Http\PhpEnvironment\RemoteAddress;
         $activity->setSourceAddress($server->getIpAddress());
-        $this->em->persist($activity); 
+        $this->em->persist($activity);
         $this->em->flush();
     }
 }

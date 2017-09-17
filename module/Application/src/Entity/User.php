@@ -19,7 +19,7 @@ class User
     const ROLE_CUSTOMER = 'CUSTOMER';
 
     /**
-     * @ORM\Id 
+     * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
@@ -30,15 +30,15 @@ class User
      * @Annotation\Validator({"name":"EmailAddress"})
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
-     * @Annotation\Options({"label":"user.username"})     
+     * @Annotation\Options({"label":"user.username"})
      */
     protected $username;
-    
+
     /**
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
-     * @Annotation\Options({"label":"user.password"})     
+     * @Annotation\Options({"label":"user.password"})
      */
     protected $password;
 
@@ -46,7 +46,7 @@ class User
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
-     * @Annotation\Options({"label":"user.name"})     
+     * @Annotation\Options({"label":"user.name"})
      */
     protected $name;
 
@@ -55,7 +55,7 @@ class User
      * @Annotation\Type("Zend\Form\Element\Select")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
-     * @Annotation\Options({"label":"user.role"})     
+     * @Annotation\Options({"label":"user.role"})
      * @Annotation\Required(false)
      */
     protected $role;
@@ -89,7 +89,7 @@ class User
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;
@@ -173,7 +173,7 @@ class User
     public function removeActivity(Activity $activity)
     {
         $this->activities->removeElement($activity);
-    }     
+    }
 
     public function getPermissions()
     {

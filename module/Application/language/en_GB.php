@@ -30,6 +30,7 @@ namespace Application;
 		'common.alert-access-denied' => 'You do not have sufficient privileges to perform this action.',
 		'common.confirm-permissions-revoke' => 'This operation will revoke %s %s\'s privileges to the %s %s.',
 		'common.confirm-permissions-grant' => 'This operation will grant %s %s privileges to the %s %s.',
+		'common.selector-empty-item-label' => 'Nothing',
 
 		'activity-stream.created' => '%s created this %s.',
 		'activity-stream.deleted' => '%s deleted this %s.',
@@ -53,6 +54,7 @@ namespace Application;
 		'job.name' => 'Title',
 		'job.creation-time' => 'Created on',
 		'job.description' => 'Description',
+		'job.customer' => 'Customer account',
 		'job.comments' => 'Comments',
 		'job.close' => 'Close',
 		'job.open' => 'Open',

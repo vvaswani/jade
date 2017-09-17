@@ -18,19 +18,19 @@ use Zend\Form\Annotation;
     const PERMISSION_MANAGE = 'TEMPLATE.MANAGE';
 
     /**
-     * @ORM\Id 
+     * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @Annotation\Exclude()
      */
     protected $id;
-    
+
     /**
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"template.name"})     
+     * @Annotation\Options({"label":"template.name"})
      */
     protected $name;
 
@@ -39,7 +39,7 @@ use Zend\Form\Annotation;
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"template.description"})     
+     * @Annotation\Options({"label":"template.description"})
      */
     protected $description;
 
@@ -47,7 +47,7 @@ use Zend\Form\Annotation;
      * @Annotation\Validator({"name":"FileExtension", "options":{"extension":"pdf,jpeg,jpg,png,doc,docx,xls,xlsx,ppt,pptx,ods,odt,odp"} })
      * @Annotation\Type("Zend\Form\Element\File")
      * @Annotation\Name("file")
-     * @Annotation\Options({"label":"template.filename"})     
+     * @Annotation\Options({"label":"template.filename"})
      */
     protected $file;
 
@@ -62,7 +62,7 @@ use Zend\Form\Annotation;
      * @Annotation\Exclude()
      */
     protected $filenameHash;
-    
+
     /**
      * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
@@ -79,13 +79,13 @@ use Zend\Form\Annotation;
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.save"})
      */
-    public $submit;  
+    public $submit;
 
     public function setId($id)
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;
@@ -169,7 +169,7 @@ use Zend\Form\Annotation;
     public function removePermission(Permission $permission)
     {
         $this->permissions->removeElement($permission);
-    } 
+    }
 
     public function getUserPermissions(User $user)
     {
@@ -180,13 +180,13 @@ use Zend\Form\Annotation;
             $permission->setName(Template::PERMISSION_MANAGE);
             $permission->setTemplate($this);
             $permissions[] = $permission;
-        } 
+        }
         foreach ($this->permissions as $permission) {
             if ($permission->getUser()->getId() == $user->getId()) {
                 $permissions[] = $permission;
             }
-        }        
+        }
         return $permissions;
-    }    
+    }
 
 }

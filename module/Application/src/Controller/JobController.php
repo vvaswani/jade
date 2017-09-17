@@ -103,13 +103,10 @@ class JobController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
-        if ($job->getStatus() == Job::STATUS_CLOSED) {
-            return $this->alertPlugin()->alert('job.alert-action-closed-job', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'index', 'id' => false, 'status' => Job::STATUS_CLOSED)));
-        }
-
         if (!$job) {
             $job = new Job();
             $job->setCreationTime(new \DateTime("now"));
+            $job->setStatus(Job::STATUS_OPEN);
             $permission = new JobPermission();
             $permission->setUser($this->as->getIdentity());
             $permission->setName(Job::PERMISSION_MANAGE);
@@ -117,14 +114,32 @@ class JobController extends AbstractActionController
             $job->setPermissions(array($permission));
         }
 
+        if ($job->getStatus() == Job::STATUS_CLOSED) {
+            return $this->alertPlugin()->alert('job.alert-action-closed-job', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'index', 'id' => false, 'status' => Job::STATUS_CLOSED)));
+        }
+
         $builder = new AnnotationBuilder();
         $hydrator = new DoctrineHydrator($this->em);
         $form = $builder->createForm($job);
 
         $form->setHydrator($hydrator);
-        $form->get('labels')->setOptions(
-            array('object_manager' => $this->em, 'target_class' => 'Application\Entity\Label')
-        );
+        $form->get('labels')->setOptions(array(
+            'object_manager' => $this->em,
+            'target_class' => 'Application\Entity\Label'
+        ));
+        $form->get('customer')->setOptions(array(
+            'object_manager' => $this->em,
+            'target_class' => 'Application\Entity\User',
+            'property' => 'name',
+            'display_empty_item' => true,
+            'empty_item_label' => 'common.selector-empty-item-label',
+            'find_method' => [
+                'name'   => 'findBy',
+                'params' => [
+                    'criteria' => ['status' => User::STATUS_ACTIVE, 'role' => User::ROLE_CUSTOMER],
+                ]
+            ]
+        ));
         $form->bind($job);
 
         // set options for label selector
@@ -145,7 +160,6 @@ class JobController extends AbstractActionController
         if ($request->isPost()){
             $form->setData($request->getPost());
             if ($form->isValid()){
-                $job->setStatus(Job::STATUS_OPEN);
                 $this->em->persist($job);
                 $this->em->flush();
                 if (!file_exists(File::UPLOAD_PATH . '/' . (int)$job->getId())) {
