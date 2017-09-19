@@ -20,6 +20,10 @@
                                 <td><?php echo ($this->template->getDescription()) ? $this->escapeHtml($this->template->getDescription()) : 'None'; ?></td>
                             </tr>
                             <tr>
+                                <td><strong><?php echo $this->translate('template.owner'); ?></strong></td>
+                                <td><?php echo $this->template->getOwner()->getName(); ?></td>
+                            </tr>
+                            <tr>
                                 <td><strong><?php echo $this->translate('template.filename'); ?></strong></td>
                                 <td><?php echo ($this->template->getFilename()) ? $this->escapeHtml($this->template->getFilename()) : 'None'; ?></td>
                             </tr>

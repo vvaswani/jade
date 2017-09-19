@@ -1,11 +1,13 @@
 <?php
 $form = $this->form;
+$this->id = $this->job->getId();
 $form->setAttribute('action', $this->url('jobs', array('action' => 'save', 'id' => $this->id)));
 $form->setAttribute('method', 'POST');
 $form->setAttribute('novalidate', 'true');
 $form->prepare();
 ?>
 
+            <?php echo $this->form()->openTag($form); ?>
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
@@ -18,61 +20,70 @@ $form->prepare();
                     </div>
                 </div>
                 <div class="panel-body">
-                    <?php echo $this->form()->openTag($form); ?>
-                        <div class="form-group">
-                            <?php echo $this->formLabel($form->get('name')) ?>
-                            <?php echo $this->formInput($form->get('name')) ?>
-                            <span class="form-errors">
-                                <?php echo $this->formElementErrors($form->get('name')) ?>
-                            </span>
-                        </div>
+                    <div class="form-group">
+                        <?php echo $this->formLabel($form->get('name')) ?>
+                        <?php echo $this->formInput($form->get('name')) ?>
+                        <span class="form-errors">
+                            <?php echo $this->formElementErrors($form->get('name')) ?>
+                        </span>
+                    </div>
 
-                        <div class="form-group">
-                            <?php echo $this->formLabel($form->get('description')) ?>
-                            <?php echo $this->formTextarea($form->get('description')) ?>
-                            <span class="form-errors">
-                                <?php echo $this->formElementErrors($form->get('description')) ?>
-                            </span>
-                        </div>
+                    <div class="form-group">
+                        <?php echo $this->formLabel($form->get('description')) ?>
+                        <?php echo $this->formTextarea($form->get('description')) ?>
+                        <span class="form-errors">
+                            <?php echo $this->formElementErrors($form->get('description')) ?>
+                        </span>
+                    </div>
 
-                        <div class="form-group">
-                            <?php echo $this->formLabel($form->get('comments')) ?>
-                            <?php echo $this->formTextarea($form->get('comments')) ?>
-                            <span class="form-errors">
-                                <?php echo $this->formElementErrors($form->get('comments')) ?>
-                            </span>
-                        </div>
+                    <div class="form-group">
+                        <?php echo $this->formLabel($form->get('comments')) ?>
+                        <?php echo $this->formTextarea($form->get('comments')) ?>
+                        <span class="form-errors">
+                            <?php echo $this->formElementErrors($form->get('comments')) ?>
+                        </span>
+                    </div>
 
-                        <div class="form-group">
-                            <?php
-                            // process the 'data-colour' attribute
-                            $options = $form->get('labels')->getValueOptions();
-                            foreach ($options as &$option) {
-                                $option['attributes']['data-content'] = "<span class='label label-default' style='background-color:" . $option['attributes']['data-colour'] . "'>" . $option['label'] . "</span>";
-                            }
-                            $form->get('labels')->setValueOptions($options);
-                            ?>
-                            <?php echo $this->formLabel($form->get('labels')) ?>
-                            <?php echo $this->formSelect($form->get('labels')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
-                            <span class="form-errors">
-                                <?php echo $this->formElementErrors($form->get('labels')) ?>
-                            </span>
-                        </div>
-
-                        <div class="form-group">
-                            <?php echo $this->formLabel($form->get('billingUser')) ?>
-                            <?php echo $this->formSelect($form->get('billingUser')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
-                            <span class="form-errors">
-                                <?php echo $this->formElementErrors($form->get('billingUser')) ?>
-                            </span>
-                        </div>
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>
-                            </button>
-                        </div>
-                    <?php echo $this->form()->closeTag($form); ?>
+                    <div class="form-group">
+                        <?php
+                        // process the 'data-colour' attribute
+                        $options = $form->get('labels')->getValueOptions();
+                        foreach ($options as &$option) {
+                            $option['attributes']['data-content'] = "<span class='label label-default' style='background-color:" . $option['attributes']['data-colour'] . "'>" . $option['label'] . "</span>";
+                        }
+                        $form->get('labels')->setValueOptions($options);
+                        ?>
+                        <?php echo $this->formLabel($form->get('labels')) ?>
+                        <?php echo $this->formSelect($form->get('labels')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
+                        <span class="form-errors">
+                            <?php echo $this->formElementErrors($form->get('labels')) ?>
+                        </span>
+                    </div>
                 </div>
             </div>
 
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo $this->translate('user.role-customer'); ?>
+                    </span>
+                </div>
+                <div class="panel-body">
+
+                        <?php if ($this->job->getOwner() == $this->identity()): ?>
+                        <div class="form-group">
+                            <?php echo $this->formLabel($form->get('customer')) ?>
+                            <?php echo $this->formSelect($form->get('customer')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
+                            <span class="form-errors">
+                                <?php echo $this->formElementErrors($form->get('customer')) ?>
+                            </span>
+                        </div>
+                        <?php endif; ?>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>
+            </button>
+
+            <?php echo $this->form()->closeTag($form); ?>

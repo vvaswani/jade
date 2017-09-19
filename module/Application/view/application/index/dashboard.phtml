@@ -121,6 +121,10 @@
                                 continue;
                             };
                             ?>
+                            <?php if (in_array($propertyName, ['customer'])) {
+                                $propertyName = 'customer-account';
+                            }
+                            ?>
                 <tr>
                     <td>
                             <?php echo sprintf(

@@ -189,4 +189,12 @@ use Zend\Form\Annotation;
         return $permissions;
     }
 
+    public function getOwner()
+    {
+        foreach ($this->permissions as $permission) {
+            if ($permission->getName() == Template::PERMISSION_MANAGE) {
+                return $permission->getUser();
+            }
+        }
+    }
 }

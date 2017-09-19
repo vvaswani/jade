@@ -54,7 +54,7 @@ namespace Application;
 		'job.name' => 'Title',
 		'job.creation-time' => 'Created on',
 		'job.description' => 'Description',
-		'job.billing-user' => 'Billing account',
+		'job.customer-account' => 'Customer account',
 		'job.comments' => 'Comments',
 		'job.close' => 'Close',
 		'job.open' => 'Open',
@@ -66,6 +66,7 @@ namespace Application;
 		'job.alert-owner-permissions-revoke' => 'This %s owner\'s privileges cannot be revoked.',
 		'job.alert-action-closed-job' => 'This operation cannot be performed on a closed %s.',
 		'job.alert-action-open-job' => 'This operation cannot be performed on an open %s.',
+		'job.owner' => 'Owner',
 
 		// label entity
 		'label.entity' => 'Label',
@@ -92,6 +93,7 @@ namespace Application;
 		'template.filename' => 'File',
 		'template.creation-time' => 'Date',
 		'template.add' => 'Add Template',
+		'template.owner' => 'Owner',
 
     	// user entity
 		'user.entity' => 'User',

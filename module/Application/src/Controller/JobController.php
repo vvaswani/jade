@@ -40,20 +40,6 @@ class JobController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
-        // this is more efficient but less consistent with the ACL approach
-        /*
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('j')
-           ->from(Privilege::class, 'p')
-           ->leftJoin(Job::class, 'j',
-                \Doctrine\ORM\Query\Expr\Join::WITH, 'p.job = j.id')
-           ->where("j.status = :status")
-           ->andWhere("p.user = :user")
-           ->orderBy("p.name", "ASC")
-           ->setParameter('status', Job::STATUS_OPEN)
-           ->setParameter('user', $this->as->getIdentity());
-        $jobs = $qb->getQuery()->getResult();
-        */
         $results = $this->em->getRepository(Job::class)->findBy(array('status' => $status), array('creationTime' => 'DESC'));
         $jobs = array();
         foreach ($results as $job) {
@@ -127,7 +113,7 @@ class JobController extends AbstractActionController
             'object_manager' => $this->em,
             'target_class' => 'Application\Entity\Label'
         ));
-        $form->get('billingUser')->setOptions(array(
+        $form->get('customer')->setOptions(array(
             'object_manager' => $this->em,
             'target_class' => 'Application\Entity\User',
             'property' => 'name',
@@ -172,7 +158,7 @@ class JobController extends AbstractActionController
 
         return new ViewModel(array(
             'form' => $form,
-            'id' => $job->getId(),
+            'job' => $job,
         ));
     }
 

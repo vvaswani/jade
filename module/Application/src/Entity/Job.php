@@ -92,15 +92,15 @@ class Job
     protected $files;
 
     /**
-     * @ORM\OneToOne(targetEntity="\Application\Entity\User")
+     * @ORM\ManyToOne(targetEntity="\Application\Entity\User")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
-     * @Annotation\Options({"label":"job.billing-user", "use_hidden_element":"true"})
+     * @Annotation\Options({"label":"user.role-customer", "use_hidden_element":"true"})
      * @Annotation\Required(false)
      * @see http://www.itgo.me/a/x1674750047556883894/calculate-changeset-for-object-that-have-proxy-entity-in-property-for-logging-pu
      */
-    protected $billingUser;
+    protected $customer;
 
     /**
      * @ORM\OneToMany(targetEntity="\Application\Entity\Job\Permission", mappedBy="entity", cascade={"remove", "persist"})
@@ -262,13 +262,22 @@ class Job
         return $permissions;
     }
 
-    public function getBillingUser()
+    public function getCustomer()
     {
-        return $this->billingUser;
+        return $this->customer;
     }
 
-    public function setBillingUser($billingUser)
+    public function setCustomer($customer)
     {
-        $this->billingUser = $billingUser;
+        $this->customer = $customer;
+    }
+
+    public function getOwner()
+    {
+        foreach ($this->permissions as $permission) {
+            if ($permission->getName() == Job::PERMISSION_MANAGE) {
+                return $permission->getUser();
+            }
+        }
     }
 }

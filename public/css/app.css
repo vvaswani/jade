@@ -23,12 +23,12 @@ body {
     background-color: black;
 }
 
-label { 
-    display: block; 
+label {
+    display: block;
 }
 
 input, textarea {
-    display: block; 
+    display: block;
     width: 100%;
     border: 1px solid #ccc;
     padding: 6px 12px;
@@ -37,8 +37,8 @@ input, textarea {
 }
 
 .form-errors ul {
-    list-style: none;       
-    padding-left: 0;       
+    list-style: none;
+    padding-left: 0;
 }
 
 .form-errors li {
@@ -47,15 +47,11 @@ input, textarea {
 }
 
 .btn {
-    border-radius: 24px;    
+    border-radius: 24px;
 }
 
 .bootstrap-select > .dropdown-toggle {
-    border-radius: 4px;    
-}
-
-.table > tbody > tr:first-child > td {
-    border: none;           
+    border-radius: 4px;
 }
 
 .label {
@@ -121,5 +117,5 @@ input, textarea {
 }
 
 .menu-card-title .label {
-    background-color: #ddd;    
+    background-color: #ddd;
 }
