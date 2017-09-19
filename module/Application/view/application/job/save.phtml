@@ -62,6 +62,7 @@ $form->prepare();
                 </div>
             </div>
 
+            <?php if ($this->identity()->getRole() != \Application\Entity\User::ROLE_CUSTOMER): ?>
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
@@ -69,8 +70,6 @@ $form->prepare();
                     </span>
                 </div>
                 <div class="panel-body">
-
-                        <?php if ($this->job->getOwner() == $this->identity()): ?>
                         <div class="form-group">
                             <?php echo $this->formLabel($form->get('customer')) ?>
                             <?php echo $this->formSelect($form->get('customer')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
@@ -78,9 +77,9 @@ $form->prepare();
                                 <?php echo $this->formElementErrors($form->get('customer')) ?>
                             </span>
                         </div>
-                        <?php endif; ?>
                 </div>
             </div>
+            <?php endif; ?>
 
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>

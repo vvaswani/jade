@@ -104,6 +104,7 @@ namespace Application;
 		'user.name' => 'Name',
 		'user.username' => 'Email address',
 		'user.password' => 'Password',
+		'user.address' => 'Address',
 		'user.role' => 'Role',
 		'user.self' => 'You',
 		'user.role-administrator' => 'Administrator',

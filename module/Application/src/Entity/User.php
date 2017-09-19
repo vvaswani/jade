@@ -51,6 +51,15 @@ class User
     protected $name;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Annotation\Filter({"name":"StringTrim"})
+     * @Annotation\Filter({"name":"StripTags"})
+     * @Annotation\Options({"label":"user.address"})
+     * @Annotation\Required(false)
+     */
+    protected $address;
+
+    /**
      * @ORM\Column(type="string")
      * @Annotation\Type("Zend\Form\Element\Select")
      * @Annotation\Filter({"name":"StringTrim"})
@@ -123,6 +132,16 @@ class User
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function setAddress($address)
+    {
+        $this->address = $address;
     }
 
     public function getRole()

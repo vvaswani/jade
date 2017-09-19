@@ -81,14 +81,16 @@ $form->prepare();
                 <div class="panel-body table-responsive">
                     <div>
                         <?php echo $this->escapeHtml($job->getCustomer()->getName()); ?>
+                        <br/>
+                        <?php echo nl2br($this->escapeHtml($job->getCustomer()->getAddress())); ?>
                     </div>
+                    <?php if ($this->identity()->getRole() != \Application\Entity\User::ROLE_CUSTOMER): ?>
                     <div class="pull-right">
-                        <?php if ($job->getStatus() == $job::STATUS_OPEN && $this->authorize()->isAuthorized($this->identity(), 'job', 'save', $job)): ?>
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'save', 'id' => $this->escapeHtml($job->getId()))); ?>">
                             <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
                         </a>
-                        <?php endif; ?>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
 

@@ -73,12 +73,12 @@ class AuthorizationService
 
         $this->systemAcl = $systemAcl;
 
-    } 
+    }
 
     public function getSystemAcl()
     {
         return $this->systemAcl;
-    }    
+    }
 
     public function isAuthorized($identity, $controller, $action, $entity = null)
     {
@@ -90,15 +90,15 @@ class AuthorizationService
 
         if (!is_null($entity)) {
 
-            $entityClassSegments = explode('\\', get_class($entity));     
-            $entityName = array_pop($entityClassSegments);            
- 
+            $entityClassSegments = explode('\\', get_class($entity));
+            $entityName = array_pop($entityClassSegments);
+
             $permissions = $entity->getUserPermissions($identity);
             foreach ($permissions as $permission) {
                 if ($systemAcl->isAllowed($permission->getName(), $aclResource, $aclPermission)) {
-                    return true; 
-                }                        
-            } 
+                    return true;
+                }
+            }
         }
 
         if (is_null($entity)) {
@@ -108,6 +108,6 @@ class AuthorizationService
         }
 
         // default deny
-        return false;        
-    }    
+        return false;
+    }
 }
