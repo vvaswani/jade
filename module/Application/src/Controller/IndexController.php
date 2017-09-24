@@ -122,6 +122,12 @@ class IndexController extends AbstractActionController
                             $counts['activities']++;
                         }
                         break;
+                    case Activity::ENTITY_TYPE_LOG:
+                        if (in_array($activity->getAssociatedEntityId(), $grants['jobs'])) {
+                            $recentActivities[] = $activity;
+                            $counts['activities']++;
+                        }
+                        break;
                     case Activity::ENTITY_TYPE_LABEL:
                         if (in_array($activity->getEntityId(), $grants['labels'])) {
                             $recentActivities[] = $activity;

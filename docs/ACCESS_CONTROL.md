@@ -7,10 +7,10 @@
  * Every user has a system role: administrator, employee or customer.
  * The user's system role defines access to user accounts.
  	* Administrators can manage all user accounts.
- 	* Employees and customers can only manage their own account. 
+ 	* Employees and customers can only manage their own account.
  * The user's system role also defines access to system resources.
-   	* Administrators can manage all system resources. 
- 	* Employees and customers can access system resources based on resource-specific permissions. 
+   	* Administrators can manage all system resources.
+ 	* Employees and customers can access system resources based on resource-specific permissions.
 
 ### Resources
 
@@ -20,7 +20,7 @@
  	* Administrators have all permissions to each resource.
  	* Employees and customers who create a resource have all permissions to it.
  	* Other employees and customers have limited or nil permissions to resources.
- * Resource permissions are defined automatically by the system in some cases (labels) and can be manually granted/revoked in others (jobs). 
+ * Resource permissions are defined automatically by the system in some cases (labels) and can be manually granted/revoked in others (jobs).
 
 ## Permissions and Permission Matrix
 
@@ -30,45 +30,62 @@
 
 Permissions for label resources are defined and managed by the system.
 
- * `LABEL.MANAGE`: All access. Automatically granted by the system to administrators and the label creator. 
+ * `LABEL.MANAGE`: All access. Automatically granted by the system to administrators and the label creator.
 
 #### Jobs
 
 Permissions for job resources are initially defined by the system and can be additionally granted/revoked by users.
 
- * `JOB.MANAGE`: All access. Automatically granted by the system to administrators and the job creator. 
+ * `JOB.MANAGE`: All access. Automatically granted by the system to administrators and the job creator.
  * `JOB.EDIT`: Limited write access. Manually granted by administrators and the job creator.
  * `JOB.VIEW`: Read access. Manually granted by administrators and the job creator.
 
+#### Templates
+
+Permissions for template resources are defined and managed by the system.
+
+ * `TEMPLATE.MANAGE`: All access. Automatically granted by the system to administrators and the template creator.
+
 ### Permission Matrix
 
-|                              | Administrator | Employee | Customer |
-|------------------------------|---------------|----------|----------|
-| Create user                  |       Y       |    Y     |    N     |
-| List all users               |       Y       |    N     |    N     |
-| Modify user data excl. role  |       Y       |    Y *1  |    Y *1  |
-| Activate/deactivate user     |       Y       |    N     |    N     |
-| Delete user                  |       Y       |    N     |    N     |
-|                              |               |          |          |
-| Create label                 |       Y       |    Y     |    N     |
-| List all labels              |       Y       |    Y     |    Y     |
-| Modify label data            |       Y       |    Y *2  |    N     |
-| Delete label                 |       Y       |    Y *2  |    N     |
-|                              |               |          |          |
-| Create job                   |       Y       |    Y     |    N     |
-| List jobs                    |       Y       |    Y *3  |    Y *3  |
-| Modify job data              |       Y       |    Y *4  |    Y *4  |
-| Open/close job               |       Y       |    Y *5  |    N     |
-| Delete job                   |       Y       |    Y *5  |    N     |
-| Grant access to job          |       Y       |    Y *5  |    N     |
-| Revoke access to job         |       Y       |    Y *5  |    N     |
-| Add file to job              |       Y       |    Y *4  |    Y *4  |
-| Remove file from job         |       Y       |    Y *4  |    Y *4  |
-| View file associated with job|       Y       |    Y *3  |    Y *3  |
+|                              		| Administrator | Employee | Customer |
+|-----------------------------------|---------------|----------|----------|
+| Create user                  		|       Y       |    Y     |    N     |
+| List all users               		|       Y       |    N     |    N     |
+| Modify user data excl. role  		|       Y       |    Y *1  |    Y *1  |
+| Activate/deactivate user     		|       Y       |    N     |    N     |
+| Delete user                  		|       Y       |    N     |    N     |
+|                              		|               |          |          |
+| Create label                 		|       Y       |    Y     |    N     |
+| List all labels              		|       Y       |    Y     |    Y     |
+| Modify label data            		|       Y       |    Y *2  |    N     |
+| Delete label                 		|       Y       |    Y *2  |    N     |
+|                              		|               |          |          |
+| Create template              		|       Y       |    Y     |    N     |
+| List all templates           		|       Y       |    Y     |    N     |
+| Modify template              		|       Y       |    Y *2  |    N     |
+| Delete template              		|       Y       |    Y *2  |    N     |
+|                              		|               |          |          |
+| Create job                   		|       Y       |    Y     |    N     |
+| List jobs                    		|       Y       |    Y *3  |    Y *3  |
+| Modify job data              		|       Y       |    Y *4  |    Y *4  |
+| Open/close job               		|       Y       |    Y *5  |    N     |
+| Delete job                   		|       Y       |    Y *5  |    N     |
+| Grant access to job          		|       Y       |    Y *5  |    N     |
+| Revoke access to job         		|       Y       |    Y *5  |    N     |
+| Add file to job              		|       Y       |    Y *4  |    Y *4  |
+| Remove file from job         		|       Y       |    Y *4  |    Y *4  |
+| View file associated with jobs 	|       Y       |    Y *3  |    Y *3  |
+| Add log entry to job          	|       Y       |    Y *3  |    N     |
+| View log entries for job      	|       Y       |    Y *3  |    Y *3  |
+| Modify own log entry          	|       Y       |    Y     |    N     |
+| Delete own log entry from job 	|       Y       |    Y     |    N     |
+| Modify other log entries          |       Y       |    Y *5  |    N     |
+| Delete other log entries from job |       Y       |    Y *5  |    N     |
 
  *1 = only for the user's own data
 
- *2 = only for labels created by the user
+ *2 = only for those created by the user
 
  *3 = only if the user has `JOB.VIEW` or higher permissions for the job
 

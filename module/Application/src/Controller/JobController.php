@@ -15,6 +15,7 @@ use Application\Entity\Activity;
 use Application\Entity\User;
 use Application\Entity\Label;
 use Application\Entity\Job\File;
+use Application\Entity\Job\Log;
 use Application\Form\ConfirmationForm;
 
 class JobController extends AbstractActionController
@@ -68,6 +69,9 @@ class JobController extends AbstractActionController
 
         $activities = $this->em->getRepository(Activity::class)
                            ->getRecentActivitiesByJob($job->getId(), 10, 720);
+
+        $logs = $this->em->getRepository(Log::class)->findBy(array('job' => $job->getId()), array('date' => 'DESC'));
+        $job->setLogs($logs);
 
         $file = new File();
         $builder = new AnnotationBuilder();
@@ -164,7 +168,7 @@ class JobController extends AbstractActionController
 
         return new ViewModel(array(
             'form' => $form,
-            'job' => $job,
+            'jid' => $job->getId(),
         ));
     }
 

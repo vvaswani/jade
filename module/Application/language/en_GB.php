@@ -32,10 +32,12 @@ namespace Application;
 		'common.confirm-permissions-revoke' => 'This operation will revoke %s %s\'s privileges to the %s %s.',
 		'common.confirm-permissions-grant' => 'This operation will grant %s %s privileges to the %s %s.',
 		'common.select-empty-item-title' => 'Nothing selected',
+		'common.total' => 'Total',
 
 		'activity-stream.created' => '%s created this %s.',
 		'activity-stream.deleted' => '%s deleted this %s.',
-		'activity-stream.updated' => '%s modified the %s from %s to %s.',
+		'activity-stream.updated-detailed' => '%s modified the %s %s from %s to %s.',
+		'activity-stream.updated-brief' => '%s modified a %s.',
 		'activity-stream.associated' => '%s added the %s %s to this %s.',
 		'activity-stream.dissociated' => '%s removed the %s %s from this %s.',
 		'activity-stream.requested' => '%s requested the %s %s.',
@@ -88,6 +90,15 @@ namespace Application;
 		'file.name' => 'Name',
 		'file.creation-time' => 'Date',
 		'file.add' => 'Add File',
+
+		// log entity
+		'log.entity' => 'Log Entry',
+		'log.date' => 'Date',
+		'log.description' => 'Description',
+		'log.effort' => 'Effort',
+		'log.hours' => 'Hours',
+		'log.add' => 'Add Log Entry',
+		'log.view-all' => 'View Complete Log',
 
 		// template entity
 		'template.entity' => 'Template',

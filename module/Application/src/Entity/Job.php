@@ -115,6 +115,14 @@ class Job
     protected $files;
 
     /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Job\Log", mappedBy="job", cascade={"remove"})
+     * @ORM\OrderBy({"creationTime" = "DESC"})
+     * @Annotation\Required(false)
+     * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
+     */
+    protected $logs;
+
+    /**
      * @ORM\ManyToOne(targetEntity="\Application\Entity\User")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
@@ -265,6 +273,26 @@ class Job
     public function removeFile(\Application\Entity\Job\File $file)
     {
         $this->files->removeElement($file);
+    }
+
+    public function getLogs()
+    {
+        return $this->logs;
+    }
+
+    public function setLogs($logs)
+    {
+        $this->logs = $logs;
+    }
+
+    public function addLog(\Application\Entity\Job\Log $logs)
+    {
+        $this->logs->add($logs);
+    }
+
+    public function removeLog(\Application\Entity\Job\Log $logs)
+    {
+        $this->logs->removeElement($logs);
     }
 
     public function getPermissions()

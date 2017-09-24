@@ -112,95 +112,132 @@
                             $entityType = $activity->getAssociatedEntityType();
                             $entityId = $activity->getAssociatedEntityId();
                             break;
+                        case $activity::ENTITY_TYPE_LOG:
+                            $url = $this->url('jobs', array('action' => 'view', 'id' => $activity->getAssociatedEntityId()));
+                            $entityType = $activity->getAssociatedEntityType();
+                            $entityId = $activity->getAssociatedEntityId();
+                            break;
                     };
+
+                    if ($activity->getOperation() == $activity::OPERATION_UPDATE) {
+                        switch ($activity->getEntityType()) {
+                            case $activity::ENTITY_TYPE_JOB:
+                                $properties = json_decode($activity->getData(), true);
+                                foreach ($properties as $propertyName => $propertyValues) {
+                                    if (in_array($propertyName, ['filenameHash'])) {
+                                            continue;
+                                    };
+
+                                    switch ($propertyName) {
+                                        case 'customer':
+                                            $propertyName = 'customer-account';
+                                            break;
+                                        case 'contractType':
+                                            $propertyName = 'contract-type';
+                                            break;
+                                        case 'contractRate':
+                                            $propertyName = 'contract-rate';
+                                            break;
+                                    }
                     ?>
-                    <?php if ($activity->getOperation() == $activity::OPERATION_UPDATE): ?>
-                        <?php $properties = json_decode($activity->getData(), true); ?>
-                        <?php foreach ($properties as $propertyName => $propertyValues): ?>
-                            <?php if (in_array($propertyName, ['filenameHash'])) {
-                                continue;
-                            };
-                            ?>
-                            <?php switch ($propertyName) {
-                                case 'customer':
-                                    $propertyName = 'customer-account';
-                                    break;
-                                case 'contractType':
-                                    $propertyName = 'contract-type';
-                                    break;
-                                case 'contractRate':
-                                    $propertyName = 'contract-rate';
-                                    break;
-                            }
-                            ?>
                 <tr>
                     <td>
-                            <?php echo sprintf(
-                                '<a href="%s">%s #%d</a>:',
-                                $url,
-                                $this->translate(strtolower($entityType).'.entity'),
-                                $entityId
-                            );
-                            ?>
-                            <?php
-                            if ($propertyName == 'status') {
-                                if ($propertyValues[1] == 0) {
+                    <?php
                                     echo sprintf(
-                                        $this->translate('activity-stream.closed'),
-                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
-                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))
+                                        '<a href="%s">%s #%d</a>:',
+                                        $url,
+                                        $this->translate(strtolower($entityType).'.entity'),
+                                        $entityId
                                     );
-                                } else if ($propertyValues[1] == 1) {
-                                    echo sprintf(
-                                        $this->translate('activity-stream.opened'),
-                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
-                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))
-                                    );
-                                }
-                            } else if ($propertyName == 'contract-type') {
-                                    if ($propertyValues[0] == \Application\Entity\Job::CONTRACT_TYPE_FIXED && $propertyValues[1] == \Application\Entity\Job::CONTRACT_TYPE_VARIABLE) {
+                    ?>
+                    <?php
+                                    if ($propertyName == 'status') {
+                                        if ($propertyValues[1] == 0) {
+                                            echo sprintf(
+                                                $this->translate('activity-stream.closed'),
+                                                '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                                strtolower($this->translate('job.entity'))
+                                            );
+                                        } else if ($propertyValues[1] == 1) {
+                                            echo sprintf(
+                                                $this->translate('activity-stream.opened'),
+                                                '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                                strtolower($this->translate('job.entity'))
+                                            );
+                                        }
+                                    } else if ($propertyName == 'contract-type') {
+                                            if ($propertyValues[0] == \Application\Entity\Job::CONTRACT_TYPE_FIXED && $propertyValues[1] == \Application\Entity\Job::CONTRACT_TYPE_VARIABLE) {
+                                                echo sprintf(
+                                                    $this->translate('activity-stream.updated-detailed'),
+                                                    strtolower($this->translate('job.entity')),
+                                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                                    strtolower($this->translate('job.contract-type')),
+                                                    '<strong>' . $this->translate('job.contract-type-fixed') . '</strong>',
+                                                    '<strong>' . $this->translate('job.contract-type-variable') . '</strong>'
+                                                );
+                                            } else if ($propertyValues[0] == \Application\Entity\Job::CONTRACT_TYPE_VARIABLE && $propertyValues[1] == \Application\Entity\Job::CONTRACT_TYPE_FIXED) {
+                                                echo sprintf(
+                                                    $this->translate('activity-stream.updated-detailed'),
+                                                    strtolower($this->translate('job.entity')),
+                                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                                    strtolower($this->translate('job.contract-type')),
+                                                    '<strong>' . $this->translate('job.contract-type-variable') . '</strong>',
+                                                    '<strong>' . $this->translate('job.contract-type-fixed') . '</strong>'
+                                                );
+                                            }
+                                    } else {
                                         echo sprintf(
-                                            $this->translate('activity-stream.updated'),
+                                            $this->translate('activity-stream.updated-detailed'),
                                             '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
-                                            strtolower($this->translate('job.contract-type')),
-                                            '<strong>' . $this->translate('job.contract-type-fixed') . '</strong>',
-                                            '<strong>' . $this->translate('job.contract-type-variable') . '</strong>'
-                                        );
-                                    } else if ($propertyValues[0] == \Application\Entity\Job::CONTRACT_TYPE_VARIABLE && $propertyValues[1] == \Application\Entity\Job::CONTRACT_TYPE_FIXED) {
-                                        echo sprintf(
-                                            $this->translate('activity-stream.updated'),
-                                            '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
-                                            strtolower($this->translate('job.contract-type')),
-                                            '<strong>' . $this->translate('job.contract-type-variable') . '</strong>',
-                                            '<strong>' . $this->translate('job.contract-type-fixed') . '</strong>'
+                                            strtolower($this->translate('job.entity')),
+                                            strtolower($this->translate('job.' . $propertyName)),
+                                            !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>',
+                                            !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>'
                                         );
                                     }
-                            } else {
-                                echo sprintf(
-                                    $this->translate('activity-stream.updated'),
-                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
-                                    strtolower($this->translate(strtolower($activity->getEntityType()) . '.' . $propertyName)),
-                                    !empty($propertyValues[0]) ? '<strong>' . $this->escapeHtml($propertyValues[0]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>',
-                                    !empty($propertyValues[1]) ? '<strong>' . $this->escapeHtml($propertyValues[1]) . '</strong>' : '<strong>(' . $this->translate('activity-stream.empty') . ')</strong>'
-                                );
-                            }
-                            ?>
+                                }
+                    ?>
                     </td>
                     <td><?php echo \Carbon\Carbon::instance($activity->getCreationTime())->diffForHumans(); ?></td>
                 </tr>
-                        <?php endforeach; ?>
-                        <?php continue; ?>
-                    <?php else: ?>
+                    <?php
+                                break;
+                            case $activity::ENTITY_TYPE_LOG:
+                    ?>
                 <tr>
                     <td>
-                    <?php echo sprintf(
-                        '<a href="%s">%s #%d</a>:',
-                        $url,
-                        $this->translate(strtolower($entityType).'.entity'),
-                        $entityId
-                    );
-                    ?>
                     <?php
+                                echo sprintf(
+                                    '<a href="%s">%s #%d</a>:',
+                                    $url,
+                                    $this->translate(strtolower($entityType).'.entity'),
+                                    $entityId
+                                );
+                                echo sprintf(
+                                    $this->translate('activity-stream.updated-brief'),
+                                    '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                    strtolower($this->translate('log.entity'))
+                                );
+                    ?>
+                    </td>
+                    <td><?php echo \Carbon\Carbon::instance($activity->getCreationTime())->diffForHumans(); ?></td>
+                </tr>
+                    <?php
+                                break;
+                        }
+                        continue;
+                    } else {
+                    ?>
+                <tr>
+                    <td>
+                    <?php
+                        echo sprintf(
+                            '<a href="%s">%s #%d</a>:',
+                            $url,
+                            $this->translate(strtolower($entityType).'.entity'),
+                            $entityId
+                        );
+
                         if ($activity->getOperation() == $activity::OPERATION_CREATE) {
                             switch ($activity->getEntityType()) {
                                 case $activity::ENTITY_TYPE_FILE:
@@ -209,6 +246,16 @@
                                         $this->translate('activity-stream.associated'),
                                         '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
                                         '<strong>' . $properties['filename'] . '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity')),
+                                        strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
+                                    );
+                                    break;
+                                case $activity::ENTITY_TYPE_LOG:
+                                    $properties = json_decode($activity->getData(), true);
+                                    echo sprintf(
+                                        $this->translate('activity-stream.associated'),
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                        '<strong>' . $properties['description'] . '</strong>',
                                         strtolower($this->translate(strtolower($activity->getEntityType()).'.entity')),
                                         strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                     );
@@ -229,6 +276,16 @@
                                         $this->translate('activity-stream.dissociated'),
                                         '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
                                         '<strong>' . $properties['filename'] . '</strong>',
+                                        strtolower($this->translate(strtolower($activity->getEntityType()).'.entity')),
+                                        strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
+                                    );
+                                    break;
+                                case $activity::ENTITY_TYPE_LOG:
+                                    $properties = json_decode($activity->getData(), true);
+                                    echo sprintf(
+                                        $this->translate('activity-stream.dissociated'),
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                        '<strong>' . $properties['description'] . '</strong>',
                                         strtolower($this->translate(strtolower($activity->getEntityType()).'.entity')),
                                         strtolower($this->translate(strtolower($activity->getAssociatedEntityType()).'.entity'))
                                     );
@@ -300,8 +357,8 @@
                                     break;
                             }
                         }
+                    }
                     ?>
-                    <?php endif; ?>
                     </td>
                     <td><?php echo \Carbon\Carbon::instance($activity->getCreationTime())->diffForHumans(); ?></td>
                 </tr>

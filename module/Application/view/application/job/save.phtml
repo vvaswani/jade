@@ -1,7 +1,6 @@
 <?php
 $form = $this->form;
-$this->id = $this->job->getId();
-$form->setAttribute('action', $this->url('jobs', array('action' => 'save', 'id' => $this->id)));
+$form->setAttribute('action', $this->url('jobs', array('action' => 'save', 'id' => $this->jid)));
 $form->setAttribute('method', 'POST');
 $form->setAttribute('novalidate', 'true');
 $form->prepare();

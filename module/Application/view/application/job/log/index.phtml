@@ -1,0 +1,108 @@
+        <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo $this->translate('job.entity'); ?> #<?php echo $this->escapeHtml($job->getId()); ?>: <?php echo $this->escapeHtml($job->getName()); ?>
+                        <?php foreach ($job->getLabels() as $label): ?>
+                            <span class="label label-default pull-right" style="background-color: <?php echo $this->escapeHtml($label->getColour()); ?>"><?php echo $this->escapeHtml($label->getName()); ?></span>
+                        <?php endforeach; ?>
+                    </span>
+                </div>
+                <div class="panel-body table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th></th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong><?php echo $this->translate('job.creation-time'); ?></strong></td>
+                                <td><?php echo $job->getCreationTime()->format('d M Y h:i T'); ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong><?php echo $this->translate('job.description'); ?></strong></td>
+                                <td><?php echo ($job->getDescription()) ? $this->escapeHtml($job->getDescription()) : $this->translate('common.unspecified'); ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong><?php echo $this->translate('job.comments'); ?></strong></td>
+                                <td><?php echo ($job->getComments()) ? $this->escapeHtml($job->getComments()) : $this->translate('common.unspecified'); ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong><?php echo $this->translate('job.owner'); ?></strong></td>
+                                <td><?php echo $job->getOwner()->getName(); ?></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="pull-right">
+                                        <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'view', $job)): ?>
+                                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs', array('action' => 'view', 'id' => $this->escapeHtml($job->getId()))); ?>">
+                                            <span class="glyphicon glyphicon-eye-open"></span> <?php echo $this->translate('common.view'); ?>
+                                        </a>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo $this->translate('log.effort'); ?>
+                    </span>
+                    <div class="pull-right">
+                        <?php if ($job->getStatus() == $job::STATUS_OPEN && $this->authorize()->isAuthorized($this->identity(), 'job', 'view', $job) && $this->identity()->getRole() != \Application\Entity\User::ROLE_CUSTOMER): ?>
+                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs.logs', array('action' => 'save', 'jid' => $this->escapeHtml($job->getId()))); ?>">
+                            <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('log.add'); ?>
+                        </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="panel-body table-responsive">
+                    <?php if (count($this->logs)): ?>
+                    <table class="table">
+                        <thead>
+                            <th><?php echo $this->translate('user.name'); ?></th>
+                            <th><?php echo $this->translate('log.date'); ?></th>
+                            <th><?php echo $this->translate('log.hours'); ?></th>
+                            <th><?php echo $this->translate('log.description'); ?></th>
+                            <th></th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <?php $totalEffort = 0; ?>
+                            <?php foreach ($this->logs as $log): ?>
+                                <?php $totalEffort += $log->getEffort(); ?>
+                            <tr>
+                                <td><?php echo $log->getUser()->getName(); ?></td>
+                                <td><?php echo $log->getDate()->format('d M Y'); ?></td>
+                                <td><?php echo $log->getEffort(); ?></td>
+                                <td><?php echo $log->getDescription(); ?></td>
+                                <td>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'view', $job) && $log->getUser() == $this->identity() || ($this->authorize()->isAuthorized($this->identity(), 'job', 'delete', $job))): ?>
+                                    <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs.logs', array('action' => 'save', 'id' => $this->escapeHtml($log->getId()), 'jid' => $this->escapeHtml($job->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-edit"></span> <?php echo $this->translate('common.edit'); ?>
+                                    </a>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'view', $job) && $log->getUser() == $this->identity()  || ($this->authorize()->isAuthorized($this->identity(), 'job', 'delete', $job))): ?>
+                                    <a role="button" class="btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-modal" href="<?php echo $this->url('jobs.logs', array('action' => 'delete', 'id' => $this->escapeHtml($log->getId()), 'jid' => $this->escapeHtml($job->getId()))); ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.delete'); ?>
+                                    </a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                            <tr>
+                                <td><strong><?php echo $this->translate('common.total'); ?></strong></td>
+                                <td></td>
+                                <td><strong><?php echo $totalEffort; ?></strong></td>
+                                <td colspan="3"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <?php endif; ?>
+                </div>
+            </div>

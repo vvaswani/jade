@@ -1,11 +1,11 @@
-<?php        
+<?php
 $form = $this->form;
 $form->setAttribute('action', $this->url('labels', array('action' => 'save', 'id' => $this->id)));
 $form->setAttribute('method', 'POST');
 $form->setAttribute('novalidate', 'true');
 $form->prepare();
 ?>
-            
+
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <span class="panel-title">
@@ -15,42 +15,42 @@ $form->prepare();
                         <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('labels'); ?>">
                             <span class="glyphicon glyphicon-remove"></span> <?php echo $this->translate('common.cancel'); ?>
                         </a>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="panel-body">
                     <?php echo $this->form()->openTag($form); ?>
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <?php echo $this->formLabel($form->get('name')) ?>
                             <?php echo $this->formInput($form->get('name')) ?>
                             <span class="form-errors">
                                 <?php echo $this->formElementErrors($form->get('name')) ?>
                             </span>
-                        </div> 
+                        </div>
 
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <?php echo $this->formLabel($form->get('colour')) ?>
-                            <?php echo $this->formColor($form->get('colour', array('id' => 'aa'))) ?>
+                            <?php echo $this->formColor($form->get('colour')) ?>
                             <span class="form-errors">
                                 <?php echo $this->formElementErrors($form->get('colour')) ?>
                             </span>
-                        </div> 
+                        </div>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>
-                            </button> 
-                        </div>	 
+                            </button>
+                        </div>
                     <?php echo $this->form()->closeTag($form); ?>
                 </div>
             </div>
-            
+
             <script>
-            if (!Modernizr.inputtypes.color) { 
+            if (!Modernizr.inputtypes.color) {
                 jQuery.getScript("<?php echo $this->basePath('public/js/polyfill/spectrum.js'); ?>");
                 $('<link>')
                     .appendTo('head')
                     .attr({type : 'text/css', rel : 'stylesheet'})
-                    .attr('href', '<?php echo $this->basePath('public/css/polyfill/spectrum.css'); ?>');  
-            }          
+                    .attr('href', '<?php echo $this->basePath('public/css/polyfill/spectrum.css'); ?>');
+            }
             </script>
 
