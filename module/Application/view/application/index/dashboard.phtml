@@ -121,8 +121,16 @@
                                 continue;
                             };
                             ?>
-                            <?php if (in_array($propertyName, ['customer'])) {
-                                $propertyName = 'customer-account';
+                            <?php switch ($propertyName) {
+                                case 'customer':
+                                    $propertyName = 'customer-account';
+                                    break;
+                                case 'contractType':
+                                    $propertyName = 'contract-type';
+                                    break;
+                                case 'contractRate':
+                                    $propertyName = 'contract-rate';
+                                    break;
                             }
                             ?>
                 <tr>
@@ -149,6 +157,24 @@
                                         strtolower($this->translate(strtolower($activity->getEntityType()).'.entity'))
                                     );
                                 }
+                            } else if ($propertyName == 'contract-type') {
+                                    if ($propertyValues[0] == \Application\Entity\Job::CONTRACT_TYPE_FIXED && $propertyValues[1] == \Application\Entity\Job::CONTRACT_TYPE_VARIABLE) {
+                                        echo sprintf(
+                                            $this->translate('activity-stream.updated'),
+                                            '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                            strtolower($this->translate('job.contract-type')),
+                                            '<strong>' . $this->translate('job.contract-type-fixed') . '</strong>',
+                                            '<strong>' . $this->translate('job.contract-type-variable') . '</strong>'
+                                        );
+                                    } else if ($propertyValues[0] == \Application\Entity\Job::CONTRACT_TYPE_VARIABLE && $propertyValues[1] == \Application\Entity\Job::CONTRACT_TYPE_FIXED) {
+                                        echo sprintf(
+                                            $this->translate('activity-stream.updated'),
+                                            '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                            strtolower($this->translate('job.contract-type')),
+                                            '<strong>' . $this->translate('job.contract-type-variable') . '</strong>',
+                                            '<strong>' . $this->translate('job.contract-type-fixed') . '</strong>'
+                                        );
+                                    }
                             } else {
                                 echo sprintf(
                                     $this->translate('activity-stream.updated'),

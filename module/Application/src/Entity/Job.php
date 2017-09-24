@@ -20,6 +20,9 @@ class Job
     const PERMISSION_EDIT = 'JOB.EDIT';
     const PERMISSION_VIEW = 'JOB.VIEW';
 
+    const CONTRACT_TYPE_VARIABLE = 1;
+    const CONTRACT_TYPE_FIXED = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -59,6 +62,26 @@ class Job
      * @Annotation\Options({"label":"job.comments"})
      */
     protected $comments;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Annotation\Required(false)
+     * @Annotation\Filter({"name":"Int"})
+     * @Annotation\Validator({"name":"Int"})
+     * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Options({"label":"job.contract-type"})
+     */
+    protected $contractType;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Annotation\Required(false)
+     * @Annotation\Filter({"name":"NumberParse"})
+     * @Annotation\Validator({"name":"Float"})
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"job.contract-rate"})
+     */
+    protected $contractRate;
 
     /**
      * @ORM\Column(type="datetime")
@@ -168,6 +191,26 @@ class Job
     public function setCreationTime($creationTime)
     {
         $this->creationTime = $creationTime;
+    }
+
+    public function getContractType()
+    {
+        return $this->contractType;
+    }
+
+    public function setContractType($contractType)
+    {
+        $this->contractType = $contractType;
+    }
+
+    public function getContractRate()
+    {
+        return $this->contractRate;
+    }
+
+    public function setContractRate($contractRate)
+    {
+        $this->contractRate = $contractRate;
     }
 
     public function getStatus()
