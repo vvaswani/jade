@@ -49,17 +49,6 @@ class AuthorizationService
             $systemAcl->allow($jobCollaboratorEditor, 'job', array('save'));
             $systemAcl->allow($jobOwner, 'job', array('delete', 'close', 'open'));
 
-                /*
-                $systemAcl->addResource('job.file');
-                $systemAcl->allow($jobCollaboratorViewer, 'job.file', array('download'));
-                $systemAcl->allow($jobCollaboratorEditor, 'job.file', array('save', 'delete'));
-
-                $systemAcl->addResource('job.permission');
-                $systemAcl->allow($jobOwner, 'job.permission', array('grant', 'revoke'));
-                */
-
-        $systemAcl->addRole($systemAdministrator, array($systemEmployee, $jobOwner, $labelOwner));
-
         /* templates */
         $systemAcl->addResource('template');
         $systemAcl->allow($systemEmployee, 'template', array('index', 'save', 'download', 'view'));  // employees can create templates
@@ -68,6 +57,7 @@ class AuthorizationService
             $systemAcl->addRole($templateOwner, $systemEmployee);
             $systemAcl->allow($templateOwner, 'template', array('delete', 'save'));
 
+        $systemAcl->addRole($systemAdministrator, array($systemEmployee, $jobOwner, $labelOwner, $templateOwner));
 
         /* config */
         $systemAcl->addResource('config');
