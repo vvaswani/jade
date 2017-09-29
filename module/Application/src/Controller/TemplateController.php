@@ -111,7 +111,7 @@ class TemplateController extends AbstractActionController
                 // if a new file is uploaded, delete the old file
                 if (!empty($filename)) {
                     $fileObj = Template::UPLOAD_PATH . '/' . $filenameHash;
-                    if (file_exists($fileObj)) {
+                    if (file_exists($fileObj) && is_file($fileObj)) {
                         unlink($fileObj);
                     }
                     $template->setFilename($filename);

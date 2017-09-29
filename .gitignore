@@ -12,3 +12,5 @@ vendor
 data/cache/*
 data/tmp/*
 data/upload/*
+error_log
+.htpasswd
