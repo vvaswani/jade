@@ -54,10 +54,10 @@ $form->prepare();
 
             <script>
             if (!Modernizr.inputtypes.date) {
-                jQuery.getScript("<?php echo $this->basePath('public/js/polyfill/html5-simple-date-input.min.js'); ?>");
+                jQuery.getScript("<?php echo $this->basePath('public/components/polyfill/html5-simple-date-input-polyfill/html5-simple-date-input-polyfill.min.js'); ?>");
                 $('<link>')
                     .appendTo('head')
                     .attr({type : 'text/css', rel : 'stylesheet'})
-                    .attr('href', '<?php echo $this->basePath('public/css/polyfill/html5-simple-date-input.css'); ?>');
+                    .attr('href', '<?php echo $this->basePath('public/components/polyfill/html5-simple-date-input-polyfill/html5-simple-date-input-polyfill.css'); ?>');
             }
             </script>

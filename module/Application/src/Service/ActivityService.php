@@ -318,7 +318,8 @@ class ActivityService
         $activity->setEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($entityClass)));
         if (!is_null($associatedEntity)) {
             $activity->setAssociatedEntityId($associatedEntity->getId());
-            $associatedEntityClass = array_pop(explode('\\', get_class($associatedEntity)));
+            $associatedEntityClassSegments = explode('\\', get_class($associatedEntity));
+            $associatedEntityClass = array_pop($associatedEntityClassSegments);
             $activity->setAssociatedEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($associatedEntityClass)));
         }
         $activity->setData(json_encode($data));

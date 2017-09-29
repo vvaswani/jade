@@ -46,11 +46,11 @@ $form->prepare();
 
             <script>
             if (!Modernizr.inputtypes.color) {
-                jQuery.getScript("<?php echo $this->basePath('public/js/polyfill/spectrum.js'); ?>");
+                jQuery.getScript("<?php echo $this->basePath('public/components/polyfill/spectrum/spectrum.js'); ?>");
                 $('<link>')
                     .appendTo('head')
                     .attr({type : 'text/css', rel : 'stylesheet'})
-                    .attr('href', '<?php echo $this->basePath('public/css/polyfill/spectrum.css'); ?>');
+                    .attr('href', '<?php echo $this->basePath('public/components/polyfill/spectrum/spectrum.css'); ?>');
             }
             </script>
 

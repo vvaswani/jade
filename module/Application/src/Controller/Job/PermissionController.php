@@ -46,7 +46,7 @@ class PermissionController extends AbstractActionController
             return $this->redirect()->toRoute('jobs');
         }
 
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job.permission', null, $job) === false) {
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job', 'delete', $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
@@ -137,7 +137,7 @@ class PermissionController extends AbstractActionController
         }
 
         $job = $permission->getJob();
-        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job.permission', null, $job) === false) {
+        if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job', 'delete', $job) === false) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs', array('action' => 'view', 'id' => $job->getId())));
         }
 
