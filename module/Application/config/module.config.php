@@ -92,6 +92,21 @@ return [
                     ],
                 ],
             ],
+            'jobs.logs' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/jobs/view/:jid/logs/:action[/:id]',
+                    'defaults' => [
+                        'controller' => Controller\Job\LogController::class,
+                        'action'     => 'save',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]*',
+                        'jid'    => '[0-9]*',
+                    ],
+                ],
+            ],
             'users' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -178,6 +193,7 @@ return [
             Controller\JobController::class  => ApplicationControllerFactory::class,
             Controller\LabelController::class => ApplicationControllerFactory::class,
             Controller\Job\FileController::class => ApplicationControllerFactory::class,
+            Controller\Job\LogController::class => ApplicationControllerFactory::class,
             Controller\Job\PermissionController::class => ApplicationControllerFactory::class,
             Controller\UserController::class => ApplicationControllerFactory::class,
             Controller\ConfigController::class => ApplicationControllerFactory::class,

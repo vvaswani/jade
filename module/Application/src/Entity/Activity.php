@@ -3,13 +3,12 @@ namespace Application\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Form\Annotation;
 
 /**
  * @ORM\Entity(repositoryClass="\Application\Repository\ActivityRepository")
  * @ORM\Table(name="activity")
  */
-class Activity 
+class Activity
 {
 
     const OPERATION_CREATE = 'CREATE';
@@ -28,9 +27,10 @@ class Activity
     const ENTITY_TYPE_FILE = 'FILE';
     const ENTITY_TYPE_USER = 'USER';
     const ENTITY_TYPE_TEMPLATE = 'TEMPLATE';
-    
+    const ENTITY_TYPE_LOG = 'LOG';
+
     /**
-     * @ORM\Id 
+     * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      */
@@ -40,22 +40,22 @@ class Activity
      * @ORM\Column(type="datetime")
      */
     protected $creationTime;
-        
+
     /**
      * @ORM\Column(type="string")
      */
     protected $operation;
-    
+
     /**
      * @ORM\Column(type="string")
      */
     protected $entityType;
-    
+
     /**
      * @ORM\Column(type="integer")
      */
     protected $entityId;
-    
+
     /**
      * @ORM\Column(type="string", nullable=true)
      */
@@ -70,7 +70,7 @@ class Activity
      * @ORM\ManyToOne(targetEntity="User", inversedBy="activities")
      */
     protected $user;
-    
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -85,7 +85,7 @@ class Activity
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;
@@ -99,7 +99,7 @@ class Activity
     public function setCreationTime($creationTime)
     {
         $this->creationTime = $creationTime;
-    }    
+    }
 
     public function getOperation()
     {
@@ -110,7 +110,7 @@ class Activity
     {
         $this->operation = $operation;
     }
-    
+
     public function getEntityType()
     {
         return $this->entityType;
@@ -119,7 +119,7 @@ class Activity
     public function setEntityType($entityType)
     {
         $this->entityType = $entityType;
-    }    
+    }
 
     public function getEntityId()
     {
@@ -130,7 +130,7 @@ class Activity
     {
         $this->entityId = $entityId;
     }
-    
+
     public function getAssociatedEntityId()
     {
         return $this->associatedEntityId;

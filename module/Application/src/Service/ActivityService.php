@@ -11,6 +11,7 @@ use Application\Entity\Label;
 use Application\Entity\Template;
 use Application\Entity\Permission;
 use Application\Entity\Job\File;
+use Application\Entity\Job\Log;
 
 class ActivityService
 {
@@ -94,7 +95,15 @@ class ActivityService
                     )
                 );
             }
-
+            if ($entity instanceof Log) {
+                $this->queue[] = array(
+                    Activity::OPERATION_CREATE,
+                    new \DateTime("now"),
+                    $entity,
+                    $entity->getJob(),
+                    array('description' => $entity->getDescription())
+                );
+            }
         }
 
         foreach ($uow->getScheduledEntityUpdates() as $entity) {
@@ -110,6 +119,16 @@ class ActivityService
                     }
                 }
             }
+            if ($entity instanceof Log) {
+                if (array_key_exists('date', $diff)) {
+                    if ($diff['date'][0]->format('Y-m-d') == $diff['date'][1]->format('Y-m-d')) {
+                        unset($diff['date']);
+                    } else {
+                        $diff['date'][0] = $diff['date'][0]->format('Y-m-d');
+                        $diff['date'][1] = $diff['date'][1]->format('Y-m-d');
+                    }
+                }
+            }
             if ($entity instanceof Job || $entity instanceof Label || $entity instanceof User || $entity instanceof Template) {
                 if (!empty($diff)) {
                     $this->queue[] = array(
@@ -121,14 +140,16 @@ class ActivityService
                     );
                 }
             }
-            if ($entity instanceof File) {
-                $this->queue[] = array(
-                    Activity::OPERATION_UPDATE,
-                    new \DateTime("now"),
-                    $entity,
-                    $entity->getJob(),
-                    $diff
-                );
+            if ($entity instanceof File || $entity instanceof Log) {
+                if (!empty($diff)) {
+                    $this->queue[] = array(
+                        Activity::OPERATION_UPDATE,
+                        new \DateTime("now"),
+                        $entity,
+                        $entity->getJob(),
+                        $diff
+                    );
+                }
             }
         }
 
@@ -190,7 +211,15 @@ class ActivityService
                     )
                 );
             }
-
+            if ($entity instanceof Log) {
+                $this->queue[] = array(
+                    Activity::OPERATION_DELETE,
+                    new \DateTime("now"),
+                    serialize($entity),
+                    serialize($entity->getJob()),
+                    array('description' => $entity->getDescription())
+                );
+            }
         }
 
         foreach ($uow->getScheduledCollectionDeletions() as $col) {
@@ -289,7 +318,8 @@ class ActivityService
         $activity->setEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($entityClass)));
         if (!is_null($associatedEntity)) {
             $activity->setAssociatedEntityId($associatedEntity->getId());
-            $associatedEntityClass = array_pop(explode('\\', get_class($associatedEntity)));
+            $associatedEntityClassSegments = explode('\\', get_class($associatedEntity));
+            $associatedEntityClass = array_pop($associatedEntityClassSegments);
             $activity->setAssociatedEntityType(constant('Application\Entity\Activity::ENTITY_TYPE_' . strtoupper($associatedEntityClass)));
         }
         $activity->setData(json_encode($data));

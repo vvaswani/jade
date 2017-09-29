@@ -20,6 +20,9 @@ class Job
     const PERMISSION_EDIT = 'JOB.EDIT';
     const PERMISSION_VIEW = 'JOB.VIEW';
 
+    const CONTRACT_TYPE_VARIABLE = 1;
+    const CONTRACT_TYPE_FIXED = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -61,6 +64,26 @@ class Job
     protected $comments;
 
     /**
+     * @ORM\Column(type="integer")
+     * @Annotation\Required(false)
+     * @Annotation\Filter({"name":"Int"})
+     * @Annotation\Validator({"name":"Int"})
+     * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Options({"label":"job.contract-type"})
+     */
+    protected $contractType;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Annotation\Required(false)
+     * @Annotation\Filter({"name":"NumberParse"})
+     * @Annotation\Validator({"name":"Float"})
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"job.contract-rate"})
+     */
+    protected $contractRate;
+
+    /**
      * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
      */
@@ -90,6 +113,14 @@ class Job
      * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
      */
     protected $files;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Job\Log", mappedBy="job", cascade={"remove"})
+     * @ORM\OrderBy({"creationTime" = "DESC"})
+     * @Annotation\Required(false)
+     * @see http://future500.nl/articles/2013/09/more-on-one-to-manymany-to-one-associations-in-doctrine-2/
+     */
+    protected $logs;
 
     /**
      * @ORM\ManyToOne(targetEntity="\Application\Entity\User")
@@ -170,6 +201,26 @@ class Job
         $this->creationTime = $creationTime;
     }
 
+    public function getContractType()
+    {
+        return $this->contractType;
+    }
+
+    public function setContractType($contractType)
+    {
+        $this->contractType = $contractType;
+    }
+
+    public function getContractRate()
+    {
+        return $this->contractRate;
+    }
+
+    public function setContractRate($contractRate)
+    {
+        $this->contractRate = $contractRate;
+    }
+
     public function getStatus()
     {
         return $this->status;
@@ -222,6 +273,26 @@ class Job
     public function removeFile(\Application\Entity\Job\File $file)
     {
         $this->files->removeElement($file);
+    }
+
+    public function getLogs()
+    {
+        return $this->logs;
+    }
+
+    public function setLogs($logs)
+    {
+        $this->logs = $logs;
+    }
+
+    public function addLog(\Application\Entity\Job\Log $logs)
+    {
+        $this->logs->add($logs);
+    }
+
+    public function removeLog(\Application\Entity\Job\Log $logs)
+    {
+        $this->logs->removeElement($logs);
     }
 
     public function getPermissions()

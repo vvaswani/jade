@@ -3,6 +3,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^5.6 || ^7.0",
+        "ext-intl": "*",
         "zendframework/zend-mvc": "^3.0",
         "zendframework/zend-mvc-form": "^1.0.0",
         "zendframework/zend-mvc-i18n": "^1.0.0",
@@ -12,23 +13,43 @@
         "doctrine/doctrine-module": "^1.0",
         "doctrine/data-fixtures": "^1.0",
         "dkorsak/doctrine-data-fixture-module": "^1.0",
-        "nesbot/carbon": "^1.22"
+        "nesbot/carbon": "^1.22",
+        "components/bootstrap": "^3.0",
+        "components/jquery": "^3.0",
+        "components/modernizr": "^2.8",
+        "bootstrap-select/bootstrap-select": "^1.11",
+        "bgrins/spectrum": "1.8.0",
+        "liorwohl/html5-simple-date-input-polyfill": "dev-master"
     },
     "autoload": {
         "psr-4": {
             "Application\\": "module/Application/src/"
         }
     },
-    "extra": [],
-    "scripts": {
-        "cs-check": "phpcs",
-        "cs-fix": "phpcbf",
-        "post-create-project-cmd": [
-            "@development-enable"
-        ],
-        "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php"
-    },
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^2.6.2"
-    }
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "bgrins/spectrum",
+                "version": "master",
+                "source": {
+                    "url": "https://github.com/bgrins/spectrum",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "liorwohl/html5-simple-date-input-polyfill",
+                "version": "master",
+                "source": {
+                    "url": "https://github.com/liorwohl/html5-simple-date-input-polyfill",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ]
 }
