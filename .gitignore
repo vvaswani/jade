@@ -11,4 +11,3 @@ composer.phar
 vendor
 data/cache/*
 data/tmp/*
-data/upload/*
