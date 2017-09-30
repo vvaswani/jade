@@ -115,7 +115,13 @@ class JobController extends AbstractActionController
         $form->setHydrator($hydrator);
         $form->get('labels')->setOptions(array(
             'object_manager' => $this->em,
-            'target_class' => 'Application\Entity\Label'
+            'target_class' => 'Application\Entity\Label',
+            'property' => 'name',
+            'option_attributes' => [
+                'data-colour' => function (Label $label) {
+                    return $label->getColour();
+                },
+            ],
         ));
         $form->get('customer')->setOptions(array(
             'object_manager' => $this->em,
@@ -131,20 +137,6 @@ class JobController extends AbstractActionController
             ]
         ));
         $form->bind($job);
-
-        // set options for label selector
-        // include the colour as an attribute
-        // for further processing in the view script
-        $labelOptions = array();
-        $labels = $this->em->getRepository(Label::class)->findBy(array(), array('name' => 'ASC'));
-        foreach ($labels as $l) {
-            $labelOptions[] = array(
-                'value' => $l->getId(),
-                'label' => $l->getName(),
-                'attributes' => array('data-colour' => $l->getColour())
-            );
-        }
-        $form->get('labels')->setValueOptions($labelOptions);
 
         // set options for contract type selector
         $form->get('contractType')->setValueOptions(array(
