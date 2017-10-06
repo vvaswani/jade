@@ -8,31 +8,32 @@
 namespace Application;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Mvc\MvcEvent;
 use Application\Controller\UserController;
 
-class Module 
+class Module
 {
     const VERSION = '3.0.2dev';
 
     public function getConfig()
     {
         return include __DIR__ . '/../config/module.config.php';
-    }  
+    }
 
     public function onBootstrap($event)
     {
         $eventManager = $event->getApplication()->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
-        $sharedEventManager->attach(AbstractActionController::class, 
+        $sharedEventManager->attach(AbstractActionController::class,
             $event::EVENT_DISPATCH, [$this, 'onDispatch'], 100);
     }
-    
+
     public function onDispatch($event)
     {
         $controller = $event->getTarget();
         $controllerName = $event->getRouteMatch()->getParam('controller', null);
         $actionName = $event->getRouteMatch()->getParam('action', null);
-        
+
         $actionName = str_replace('-', '', lcfirst(ucwords($actionName, '-')));
         $as = $event->getApplication()->getServiceManager()
         			->get('doctrine.authenticationservice.orm_default');
@@ -44,10 +45,10 @@ class Module
                 ->setPort(null)
                 ->setUserInfo(null);
             $redirectUri = $uri->toString();
-            return $controller->redirect()->toRoute('login', [], 
+            return $controller->redirect()->toRoute('login', [],
                     ['query' => ['continue' => $redirectUri]]);
         }
-    }  
+    }
 
     public function getServiceConfig()
     {

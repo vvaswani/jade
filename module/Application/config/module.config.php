@@ -107,6 +107,19 @@ return [
                     ],
                 ],
             ],
+            'jobs.reports' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/jobs/reports[/:action]',
+                    'defaults' => [
+                        'controller' => Controller\Job\ReportController::class,
+                        'action'     => 'effort',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                ],
+            ],
             'users' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -118,6 +131,19 @@ return [
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]*',
+                    ],
+                ],
+            ],
+            'users.reports' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/users/reports[/:action]',
+                    'defaults' => [
+                        'controller' => Controller\User\ReportController::class,
+                        'action'     => 'effort',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ],
                 ],
             ],
@@ -165,6 +191,19 @@ return [
                     ],
                 ],
             ],
+            'reports' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/reports[/:action]',
+                    'defaults' => [
+                        'controller' => Controller\ReportController::class,
+                        'action'     => 'index',
+                    ],
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                ],
+            ],
         ],
     ],
     'service_manager' => [
@@ -198,6 +237,9 @@ return [
             Controller\UserController::class => ApplicationControllerFactory::class,
             Controller\ConfigController::class => ApplicationControllerFactory::class,
             Controller\TemplateController::class => ApplicationControllerFactory::class,
+            Controller\ReportController::class => ApplicationControllerFactory::class,
+            Controller\Job\ReportController::class => ApplicationControllerFactory::class,
+            Controller\User\ReportController::class => ApplicationControllerFactory::class,
         ]
     ],
     'controller_plugins' => [

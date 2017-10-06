@@ -41,13 +41,7 @@ class JobController extends AbstractActionController
             return $this->alertPlugin()->alert('common.alert-access-denied', array('job.entity'), $this->url()->fromRoute('jobs'));
         }
 
-        $results = $this->em->getRepository(Job::class)->findBy(array('status' => $status), array('creationTime' => 'DESC'));
-        $jobs = array();
-        foreach ($results as $job) {
-            if ($this->authorizationPlugin()->isAuthorized($this->as->getIdentity(), 'job', 'view', $job) !== false) {
-                $jobs[] = $job;
-            }
-        }
+        $jobs = $this->em->getRepository(Job::class)->getAuthorizedJobs($this->as->getIdentity(), $status, 'job', 'view');
         return new ViewModel(array('jobs' => $jobs, 'status' => $status));
     }
 

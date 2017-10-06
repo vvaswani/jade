@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Zend\Form\Annotation;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Application\Repository\JobRepository")
  * @ORM\Table(name="job")
  * @Annotation\Name("job")
  */

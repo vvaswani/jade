@@ -1,0 +1,21 @@
+<?php
+if (count($this->logs)) {
+    printf('"%s","%s","%s","%d","%s"%s',
+        $this->translate('job.id'),
+        $this->translate('job.name'),
+        $this->translate('log.date'),
+        $this->translate('log.hours'),
+        $this->translate('log.description'),
+        PHP_EOL
+    );
+    foreach ($this->logs as $log) {
+        printf('"%s","%s","%s","%d","%s"%s',
+            $log->getJob()->getId(),
+            $log->getJob()->getName(),
+            $log->getDate()->format('d M Y'),
+            $log->getEffort(),
+            $log->getDescription(),
+            PHP_EOL
+        );
+    }
+}

@@ -1,0 +1,111 @@
+<?php
+$form = $this->form;
+$form->setAttribute('method', 'GET');
+$form->setAttribute('novalidate', 'true');
+$form->prepare();
+?>
+
+            <?php echo $this->form()->openTag($form); ?>
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo $this->translate('report.user-effort'); ?>
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <?php echo $this->formLabel($form->get('entity')) ?>
+                        <?php echo $this->formSelect($form->get('entity')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
+                        <span class="form-errors">
+                            <?php echo $this->formElementErrors($form->get('entity')) ?>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <?php echo $this->formLabel($form->get('from')) ?>
+                        <?php echo $this->formDate($form->get('from')) ?>
+                        <span class="form-errors">
+                            <?php echo $this->formElementErrors($form->get('from')) ?>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <?php echo $this->formLabel($form->get('to')) ?>
+                        <?php echo $this->formDate($form->get('to')) ?>
+                        <span class="form-errors">
+                            <?php echo $this->formElementErrors($form->get('to')) ?>
+                        </span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-search"></span> <?php echo $this->translate('common.generate'); ?>
+                    </button>
+
+                </div>
+            </div>
+            <?php echo $this->form()->closeTag($form); ?>
+
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <span class="panel-title">
+                        <?php echo $this->translate('log.effort'); ?>
+                    </span>
+                    <?php if (count($this->logs)): ?>
+                    <div class="pull-right">
+                        <?php echo $this->form()->openTag($form); ?>
+                        <?php echo $this->formHidden($form->get('entity')) ?>
+                        <?php echo $this->formHidden($form->get('to')) ?>
+                        <?php echo $this->formHidden($form->get('from')) ?>
+                        <?php echo $this->formHidden($form->get('format')->setValue('csv')) ?>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-download"></span> <?php echo $this->translate('common.download'); ?>
+                        </button>
+                        <?php echo $this->form()->closeTag($form); ?>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <div class="panel-body table-responsive">
+                    <?php if (count($this->logs)): ?>
+                    <table class="table">
+                        <thead>
+                            <th><?php printf('%s %s', $this->translate('job.entity'), $this->translate('job.id')); ?></th>
+                            <th><?php echo $this->translate('job.name'); ?></th>
+                            <th><?php echo $this->translate('log.date'); ?></th>
+                            <th><?php echo $this->translate('log.hours'); ?></th>
+                            <th><?php echo $this->translate('log.description'); ?></th>
+                        </thead>
+                        <tbody>
+                            <?php $totalEffort = 0; ?>
+                            <?php foreach ($this->logs as $log): ?>
+                                <?php $totalEffort += $log->getEffort(); ?>
+                            <tr>
+                                <td><?php echo $log->getJob()->getId(); ?></td>
+                                <td><?php echo $log->getJob()->getName(); ?></td>
+                                <td><?php echo $log->getDate()->format('d M Y'); ?></td>
+                                <td><?php echo $log->getEffort(); ?></td>
+                                <td><?php echo $log->getDescription(); ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                            <tr>
+                                <td><strong><?php echo $this->translate('common.total'); ?></strong></td>
+                                <td colspan="2"></td>
+                                <td><strong><?php echo $totalEffort; ?></strong></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <?php else: ?>
+                        <?php echo $this->translate('common.no-data'); ?>.
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <script>
+            if (!Modernizr.inputtypes.date) {
+                jQuery.getScript("<?php echo $this->basePath('public/components/polyfill/html5-simple-date-input-polyfill/html5-simple-date-input-polyfill.min.js'); ?>");
+                $('<link>')
+                    .appendTo('head')
+                    .attr({type : 'text/css', rel : 'stylesheet'})
+                    .attr('href', '<?php echo $this->basePath('public/components/polyfill/html5-simple-date-input-polyfill/html5-simple-date-input-polyfill.css'); ?>');
+            }
+            </script>

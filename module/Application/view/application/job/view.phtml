@@ -534,7 +534,7 @@ $form->prepare();
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="2">No recent activity to report.</td>
+                                <td colspan="2"><?php echo $this->translate('activity-stream.no-activity'); ?>.</td>
                             </tr>
                         <?php endif; ?>
                         </tbody>

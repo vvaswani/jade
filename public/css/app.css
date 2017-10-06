@@ -104,7 +104,8 @@ input, textarea {
 }
 
 .menu-card-title {
-  margin-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: green;
 }
 
 .menu-card .label {

@@ -1,0 +1,50 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <span class="panel-title">
+            <?php echo $this->translate('common.reports'); ?>
+        </span>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <?php $identity = $this->identity(); ?>
+            <?php if ($this->authorize()->isAuthorized($identity, 'job', 'index')): ?>
+            <div class="col-md-6">
+                <div class="menu-card">
+                    <div class="menu-card-body">
+                        <h4 class="menu-card-title">
+                            <span class="glyphicon glyphicon-th"></span>
+                            <?php echo $this->translate('job.jobs'); ?>
+                        </h4>
+                        <table class="table table-responsive">
+                            <tr>
+                                <td>
+                                    <a href="<?php echo $this->url('jobs.reports', array('action' => 'effort')); ?>"><?php echo $this->translate('report.job-effort'); ?></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <div class="col-md-6">
+                <div class="menu-card">
+                    <div class="menu-card-body">
+                            <h4 class="menu-card-title">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <?php echo $this->translate('user.users'); ?>
+                            </h4>
+                            <table class="table table-responsive">
+                                <tr>
+                                    <td>
+                                        <a href="<?php echo $this->url('users.reports', array('action' => 'effort')); ?>"><?php echo $this->translate('report.user-effort'); ?></a>
+                                    </td>
+                                </tr>
+                            </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

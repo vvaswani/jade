@@ -12,6 +12,7 @@ namespace Application;
 		'common.save' => 'Save',
 		'common.download' => 'Download',
 		'common.cancel' => 'Cancel',
+		'common.generate' => 'Generate',
 
 		'common.dashboard' => 'Dashboard',
 		'common.reports' => 'Reports',
@@ -33,6 +34,9 @@ namespace Application;
 		'common.confirm-permissions-grant' => 'This operation will grant %s %s privileges to the %s %s.',
 		'common.select-empty-item-title' => 'Nothing selected',
 		'common.total' => 'Total',
+		'common.to' => 'To',
+		'common.from' => 'From',
+		'common.no-data' => 'No data available',
 
 		'activity-stream.created' => '%s created this %s.',
 		'activity-stream.deleted' => '%s deleted this %s.',
@@ -47,6 +51,7 @@ namespace Application;
 		'activity-stream.granted' => '%s granted %s access to this %s.',
 		'activity-stream.revoked' => '%s revoked %s\'s access to this %s.',
 		'activity-stream.recent-activity' => 'Recent Activity',
+		'activity-stream.no-activity' => 'No recent activity to report',
 
 		// job entity
 		'job.entity' => 'Case',
@@ -148,5 +153,9 @@ namespace Application;
     	'dashboard.menu-card-label-description' => 'Manage case labels.',
     	'dashboard.menu-card-job-description' => 'Manage and update cases and documents.',
     	'dashboard.menu-card-template-description' => 'Share and use company-wide templates.',
+
+    	// reports
+    	'report.job-effort' => 'Case Effort Report',
+    	'report.user-effort' => 'User Effort Report',
 	);
 ?>
