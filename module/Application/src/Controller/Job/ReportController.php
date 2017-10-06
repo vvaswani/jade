@@ -81,11 +81,31 @@ class ReportController extends AbstractActionController
         ));
 
         if (isset($format) && $format == 'csv') {
+            $header = array();
+            $data = array();
+            if (count($logs)) {
+
+                $header = [
+                    'user.name',
+                    'log.date',
+                    'log.effort',
+                    'log.description'
+                ];
+                foreach ($logs as $log) {
+                    $data[] = [
+                        $log->getUser()->getName(),
+                        $log->getDate()->format('d M Y'),
+                        $log->getEffort(),
+                        $log->getDescription()
+                    ];
+                }
+            }
             $view = new CsvModel(array(
                 'form' => $form,
-                'logs' => $logs
+                'header' => $header,
+                'data' => $data
             ));
-            $view->setTemplate('application/job/report/effort.csv');
+            //$view->setTemplate('application/job/report/effort.csv');
             return $view;
         }
 

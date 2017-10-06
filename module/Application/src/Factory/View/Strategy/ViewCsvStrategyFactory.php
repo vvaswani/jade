@@ -9,7 +9,7 @@ class ViewCsvStrategyFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $viewRenderer = $container->get('ViewCsvRenderer');
-        return new CsvStrategy($viewRenderer);
+        $csvRenderer = $container->get('ViewCsvRenderer');
+        return new CsvStrategy($csvRenderer);
     }
 }

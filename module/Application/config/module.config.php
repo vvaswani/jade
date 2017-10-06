@@ -208,7 +208,7 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            'Translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
             'Application\Service\AuthorizationService' => 'Application\Factory\Service\AuthorizationServiceFactory',
             'Application\Service\ActivityService' => 'Application\Factory\Service\ActivityServiceFactory',
             'ViewCsvStrategy' => 'Application\Factory\View\Strategy\ViewCsvStrategyFactory',

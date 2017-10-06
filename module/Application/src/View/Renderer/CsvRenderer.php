@@ -2,20 +2,17 @@
 
 namespace Application\View\Renderer;
 
-use Traversable;
 use Zend\Stdlib\ArrayUtils;
 use Zend\View\Exception;
-use Zend\View\Model\CsvModel;
-use Zend\View\Model\ModelInterface as Model;
+use Zend\View\Model\ModelInterface;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\Resolver\ResolverInterface;
-use Zend\View\Renderer\PhpRenderer;
+use Application\View\Model\CsvModel;
 
-/**
- * CSV renderer
- */
 class CsvRenderer implements RendererInterface
 {
+
+    private $__helpers;    
 	public function getEngine()
     {
         return $this;
@@ -26,24 +23,16 @@ class CsvRenderer implements RendererInterface
         $this->resolver = $resolver;
     }
 
-    public function render($model, $values = null)
+    public function render($nameOrModel, $values = null)
     {
-        if (! $model instanceof CsvModel) {
-            return 'aaf';
+        if ($nameOrModel instanceof ModelInterface && $nameOrModel instanceof CsvModel) {
+            return $nameOrModel->serialize();
         }
-
-        $result = 'oo';
-
-        $values = $model->getVariables();
-
-        if ($model->hasChildren()) {
-            // recursively render all children
-            foreach ($model->getChildren() as $child) {
-                $result .= $this->render($child, $values);
-            }
-        }
-
-        return $result;
+ 
+        throw new Exception\DomainException(sprintf(
+            '%s: Do not know how to handle operation when both $nameOrModel and $values are populated',
+            __METHOD__
+        ));
     }
 
 }

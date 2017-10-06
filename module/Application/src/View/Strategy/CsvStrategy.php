@@ -6,6 +6,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\View\Model;
 use Zend\View\ViewEvent;
 use Application\View\Renderer\CsvRenderer;
+use Application\View\Model\CsvModel;
 
 class CsvStrategy extends AbstractListenerAggregate
 {
@@ -26,6 +27,10 @@ class CsvStrategy extends AbstractListenerAggregate
 
     public function selectRenderer(ViewEvent $e)
     {
+        $model = $e->getModel();
+        if (!$model instanceof CsvModel) {
+            return;
+        }
         return $this->renderer;
     }
 
@@ -36,12 +41,16 @@ class CsvStrategy extends AbstractListenerAggregate
             return;
         }
 
-        $result   = $e->getResult();
+        $result = $e->getResult();
+
+        if (empty($result)) {
+            return;
+        }
 
         $response = $e->getResponse();
         $response->setContent($result);
         $headers = $response->getHeaders();
-        //$headers->addHeaderLine('Content-Type', 'application/csv');
+        $headers->addHeaderLine('Content-Type', 'application/csv');
         $headers->addHeaderLine('Pragma', 'no-cache');
     }
 
