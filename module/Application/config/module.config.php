@@ -211,10 +211,15 @@ return [
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
             'Application\Service\AuthorizationService' => 'Application\Factory\Service\AuthorizationServiceFactory',
             'Application\Service\ActivityService' => 'Application\Factory\Service\ActivityServiceFactory',
+            'ViewCsvStrategy' => 'Application\Factory\View\Strategy\ViewCsvStrategyFactory',
+            'View\Renderer\CsvRenderer' => 'Application\Factory\View\Renderer\CsvRendererFactory',
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
         ],
+        'aliases' => [
+            'ViewCsvRenderer' => 'View\Renderer\CsvRenderer',
+        ]
     ],
     'translator' => [
         'locale' => 'en_GB',
@@ -259,7 +264,7 @@ return [
             View\Helper\Authorize::class => AuthorizationViewHelperFactory::class,
         ],
        'aliases' => [
-            'authorize' => View\Helper\Authorize::class
+            'authorize' => View\Helper\Authorize::class,
        ]
     ],
     'view_manager' => [
@@ -277,6 +282,9 @@ return [
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
+        'strategies' => [
+            'ViewCsvStrategy'
+        ]
     ],
     'doctrine' => [
         'configuration' => [

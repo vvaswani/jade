@@ -13,6 +13,7 @@ use Application\Entity\Job;
 use Application\Entity\Job\Log;
 use Application\Entity\Activity;
 use Application\Form\EffortReportForm;
+use Application\View\Model\CsvModel;
 
 class ReportController extends AbstractActionController
 {
@@ -80,7 +81,10 @@ class ReportController extends AbstractActionController
         ));
 
         if (isset($format) && $format == 'csv') {
-            $view->setTerminal(true);
+            $view = new CsvModel(array(
+                'form' => $form,
+                'logs' => $logs
+            ));
             $view->setTemplate('application/job/report/effort.csv');
             return $view;
         }

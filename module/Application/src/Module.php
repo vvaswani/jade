@@ -26,6 +26,8 @@ class Module
         $sharedEventManager = $eventManager->getSharedManager();
         $sharedEventManager->attach(AbstractActionController::class,
             $event::EVENT_DISPATCH, [$this, 'onDispatch'], 100);
+        $sharedEventManager->attach(AbstractActionController::class,
+            $event::EVENT_RENDER, [$this, 'registerCsvStrategy'], 100);
     }
 
     public function onDispatch($event)
@@ -48,6 +50,15 @@ class Module
             return $controller->redirect()->toRoute('login', [],
                     ['query' => ['continue' => $redirectUri]]);
         }
+    }
+
+    public function registerCsvStrategy(MvcEvent $e)
+    {
+        $app          = $e->getTarget();
+        $locator      = $app->getServiceManager();
+        $view         = $locator->get('Zend\View\View');
+        $csvStrategy  = $locator->get('ViewCsvStrategy');
+        $view->getEventManager()->attach($csvStrategy, 100);
     }
 
     public function getServiceConfig()
