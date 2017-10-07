@@ -11,8 +11,8 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Application\Service\ActivityService;
 use Application\Entity\Activity;
 use Application\Entity\User;
-use Application\View\CsvModel;
 use Application\Form\EffortReportForm;
+use Application\View\Model\CsvModel;
 
 class ReportController extends AbstractActionController
 {
@@ -83,9 +83,21 @@ class ReportController extends AbstractActionController
         ));
 
         if (isset($format) && $format == 'csv') {
-            $view->setTerminal(true);
-            $view->setTemplate('application/user/report/effort.csv');
-            return $view;
+            $data = array();
+            if (count($logs)) {
+                foreach ($logs as $log) {
+                    $data[] = [
+                        $log->getUser()->getName(),
+                        $log->getDate()->format('d-m-Y'),
+                        $log->getEffort(),
+                        $log->getDescription()
+                    ];
+                }
+            }
+            $view = new CsvModel(array(
+                'form' => $form,
+                'data' => $data
+            ));
         }
 
         return $view;

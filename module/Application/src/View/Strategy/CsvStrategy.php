@@ -50,8 +50,14 @@ class CsvStrategy extends AbstractListenerAggregate
         $response = $e->getResponse();
         $response->setContent($result);
         $headers = $response->getHeaders();
-        $headers->addHeaderLine('Content-Type', 'application/csv');
+        $date = new \DateTime('now');
+        $dateStr = $date->format('d_m_Y_H_i');
+        $headers->addHeaderLine('Content-Disposition', 'attachment; filename=report_' . $dateStr . '.csv');
+        $headers->addHeaderLine('Content-Length', strlen($response->getContent()));
+        $headers->addHeaderLine('Content-Type', 'text/csv');
         $headers->addHeaderLine('Pragma', 'no-cache');
+        $headers->addHeaderLine('Cache-Control', 'must-revalidate');
+        $headers->addHeaderLine('Expires', '@0');
     }
 
 }

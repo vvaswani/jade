@@ -57,7 +57,7 @@ class Module
         $app          = $e->getTarget();
         $locator      = $app->getServiceManager();
         $view         = $locator->get('Zend\View\View');
-        $csvStrategy  = $locator->get('ViewCsvStrategy');
+        $csvStrategy  = $locator->get('Application\View\Csv\Strategy');
         $view->getEventManager()->attach($csvStrategy, 100);
     }
 
