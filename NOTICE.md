@@ -1,5 +1,3 @@
-# License
-
 # Notice
 
 Copyright 2017, Vikram Vaswani.
