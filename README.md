@@ -9,6 +9,8 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
  * Consolidated time recording and reporting system
  * Desktop and mobile access
 
+[Screenshots and more information](https://www.slideshare.net/vvaswani/jade-10-2017/)
+
 ## Installation and Configuration
 
 ### Prerequisites
@@ -82,3 +84,4 @@ If you are interested in the future direction of this project, please contribute
 ## Useful Resources
  * [Project status](https://waffle.io/vvaswani/jade)
  * [User stories](https://github.com/vvaswani/jade/issues?q=is%3Aopen+is%3Aissue+label%3Astory)
+ * [Screenshots](https://www.slideshare.net/vvaswani/jade-10-2017/)

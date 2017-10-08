@@ -259,14 +259,16 @@ $form->prepare();
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="panel-body table-responsive">
+                <div class="panel-body">
                     <?php if (count($job->getLogs())): ?>
-                    <table class="table">
+                    <table class="table table-responsive">
                         <thead>
-                            <th><?php echo $this->translate('user.name'); ?></th>
-                            <th><?php echo $this->translate('log.date'); ?></th>
-                            <th><?php echo $this->translate('log.hours'); ?></th>
-                            <th><?php echo $this->translate('log.description'); ?></th>
+                            <tr>
+                                <th><?php echo $this->translate('user.name'); ?></th>
+                                <th><?php echo $this->translate('log.date'); ?></th>
+                                <th><?php echo $this->translate('log.hours'); ?></th>
+                                <th><?php echo $this->translate('log.description'); ?></th>
+                            </tr>
                         </thead>
                         <tbody>
                             <?php $logCount = 0; ?>
@@ -300,8 +302,8 @@ $form->prepare();
                         <?php echo $this->translate('activity-stream.recent-activity'); ?>
                     </span>
                 </div>
-                <div class="panel-body table-responsive activity-stream">
-                    <table class="table">
+                <div class="panel-body activity-stream">
+                    <table class="table table-responsive">
                         <thead>
                         </thead>
                         <tbody>

@@ -83,8 +83,8 @@
             <?php echo $this->translate('activity-stream.recent-activity'); ?>
         </span>
     </div>
-    <div class="panel-body table-responsive activity-stream">
-        <table class="table">
+    <div class="panel-body activity-stream">
+        <table class="table table-responsive">
             <thead>
             </thead>
             <tbody>
@@ -144,7 +144,7 @@
                     <td>
                     <?php
                                     echo sprintf(
-                                        '<a href="%s">%s #%d</a>:',
+                                        '<a href="%s">%s #%d</a>: ',
                                         $url,
                                         $this->translate(strtolower($entityType).'.entity'),
                                         $entityId
@@ -208,7 +208,7 @@
                     <td>
                     <?php
                                 echo sprintf(
-                                    '<a href="%s">%s #%d</a>:',
+                                    '<a href="%s">%s #%d</a>: ',
                                     $url,
                                     $this->translate(strtolower($entityType).'.entity'),
                                     $entityId
@@ -232,7 +232,7 @@
                     <td>
                     <?php
                         echo sprintf(
-                            '<a href="%s">%s #%d</a>:',
+                            '<a href="%s">%s #%d</a>: ',
                             $url,
                             $this->translate(strtolower($entityType).'.entity'),
                             $entityId
