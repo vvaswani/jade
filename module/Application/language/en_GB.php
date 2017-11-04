@@ -68,6 +68,7 @@ namespace Application;
 		'job.contract-type-fixed' => 'Fixed amount',
 		'job.contract-type-variable' => 'Variable rate',
 		'job.contract-rate' => 'Contract rate',
+		'job.contract-currency' => 'Contract currency',
 		'job.comments' => 'Comments',
 		'job.close' => 'Close',
 		'job.open' => 'Open',

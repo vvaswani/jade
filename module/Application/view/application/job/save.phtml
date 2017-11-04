@@ -94,6 +94,13 @@ $form->prepare();
                         </span>
                     </div>
                     <div class="form-group">
+                        <?php echo $this->formLabel($form->get('contractCurrency')) ?>
+                        <?php echo $this->formSelect($form->get('contractCurrency')->setAttributes(array('class' => 'selectpicker', 'title' => 'common.select-empty-item-title'))) ?>
+                        <span class="form-errors">
+                            <?php echo $this->formElementErrors($form->get('contractCurrency')) ?>
+                        </span>
+                    </div>
+                    <div class="form-group">
                         <?php echo $this->formLabel($form->get('contractRate')) ?>
                         <?php echo $this->formInput($form->get('contractRate')) ?>
                         <span class="form-errors">

@@ -17,6 +17,11 @@ $form->prepare();
                             <span class="label label-default pull-right" style="background-color: <?php echo $this->escapeHtml($label->getColour()); ?>"><?php echo $this->escapeHtml($label->getName()); ?></span>
                         <?php endforeach; ?>
                     </span>
+                    <div class="pull-right">
+                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs'); ?>">
+                            <span class="glyphicon glyphicon-th"></span> <?php echo $this->translate('job.jobs'); ?>
+                        </a>
+                    </div>
                 </div>
                 <div class="panel-body table-responsive">
                     <table class="table">
@@ -121,7 +126,7 @@ $form->prepare();
                             </tr>
                             <tr>
                                 <td><strong><?php echo $this->translate('job.contract-rate'); ?></strong></td>
-                                <td><?php echo ($job->getContractRate()) ? $this->escapeHtml($job->getContractRate()) : $this->translate('common.unspecified'); ?></td>
+                                <td><?php echo ($job->getContractCurrency()) ? $this->escapeHtml($job->getContractCurrency()) : null; ?> <?php echo ($job->getContractRate()) ? $this->escapeHtml($job->getContractRate()) : $this->translate('common.unspecified'); ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -328,6 +333,9 @@ $form->prepare();
                                                     break;
                                                 case 'contractRate':
                                                     $propertyName = 'contract-rate';
+                                                    break;
+                                                case 'contractCurrency':
+                                                    $propertyName = 'contract-currency';
                                                     break;
                                             }
                             ?>

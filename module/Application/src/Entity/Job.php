@@ -23,6 +23,13 @@ class Job
     const CONTRACT_TYPE_VARIABLE = 1;
     const CONTRACT_TYPE_FIXED = 2;
 
+    const CONTRACT_CURRENCIES = [
+        'INR' => 'INR',
+        'EUR' => 'EUR',
+        'USD' => 'USD',
+        'GBP' => 'GBP'
+    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -66,8 +73,7 @@ class Job
     /**
      * @ORM\Column(type="integer")
      * @Annotation\Required(false)
-     * @Annotation\Filter({"name":"Int"})
-     * @Annotation\Validator({"name":"Int"})
+     * @Annotation\AllowEmpty(true)
      * @Annotation\Type("Zend\Form\Element\Select")
      * @Annotation\Options({"label":"job.contract-type"})
      */
@@ -76,12 +82,20 @@ class Job
     /**
      * @ORM\Column(type="float")
      * @Annotation\Required(false)
-     * @Annotation\Filter({"name":"NumberParse"})
      * @Annotation\Validator({"name":"Float"})
      * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"job.contract-rate"})
      */
     protected $contractRate;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Annotation\Required(false)
+     * @Annotation\AllowEmpty(true)
+     * @Annotation\Type("Zend\Form\Element\Select")
+     * @Annotation\Options({"label":"job.contract-currency"})
+     */
+    protected $contractCurrency;
 
     /**
      * @ORM\Column(type="datetime")
@@ -208,7 +222,17 @@ class Job
 
     public function setContractType($contractType)
     {
-        $this->contractType = $contractType;
+        $this->contractType = (int)$contractType;
+    }
+
+    public function getContractCurrency()
+    {
+        return $this->contractCurrency;
+    }
+
+    public function setContractCurrency($contractCurrency)
+    {
+        $this->contractCurrency = $contractCurrency;
     }
 
     public function getContractRate()
@@ -218,7 +242,7 @@ class Job
 
     public function setContractRate($contractRate)
     {
-        $this->contractRate = $contractRate;
+        $this->contractRate = (float)$contractRate;
     }
 
     public function getStatus()

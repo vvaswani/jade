@@ -133,10 +133,15 @@ class JobController extends AbstractActionController
         $form->bind($job);
 
         // set options for contract type selector
+        // this also creates an InArray validator
         $form->get('contractType')->setValueOptions(array(
             Job::CONTRACT_TYPE_FIXED => 'job.contract-type-fixed',
             Job::CONTRACT_TYPE_VARIABLE => 'job.contract-type-variable',
         ));
+
+        // set options for contract currency selector
+        // this also creates an InArray validator
+        $form->get('contractCurrency')->setValueOptions(Job::CONTRACT_CURRENCIES);
 
         $request = $this->getRequest();
         if ($request->isPost()){

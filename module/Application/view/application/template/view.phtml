@@ -5,6 +5,11 @@
                         <?php echo $this->translate('template.entity'); ?> #<?php echo $this->escapeHtml($this->template->getId()); ?>: <?php echo $this->escapeHtml($this->template->getName()); ?>
 
                     </span>
+                    <div class="pull-right">
+                        <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('templates'); ?>">
+                            <span class="glyphicon glyphicon-duplicate"></span> <?php echo $this->translate('template.templates'); ?>
+                        </a>
+                    </div>
                 </div>
                 <div class="panel-body table-responsive">
                     <table class="table">
