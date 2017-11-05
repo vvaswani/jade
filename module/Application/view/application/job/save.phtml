@@ -114,4 +114,5 @@ $form->prepare();
                 <span class="glyphicon glyphicon-plus"></span> <?php echo $this->translate('common.save'); ?>
             </button>
 
+            <?php echo $this->formHidden($form->get('csrf')) ?>
             <?php echo $this->form()->closeTag($form); ?>

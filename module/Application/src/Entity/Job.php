@@ -159,6 +159,11 @@ class Job
      */
     public $submit;
 
+    /**
+     * @Annotation\Type("Zend\Form\Element\Csrf")
+     */
+    public $csrf;
+
     public function __construct() {
         $this->labels = new ArrayCollection();
         $this->files = new ArrayCollection();

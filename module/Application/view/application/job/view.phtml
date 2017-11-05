@@ -17,7 +17,7 @@ $carbon->setLocale(\Locale::getPrimaryLanguage(\Locale::getDefault()));
                     <span class="panel-title">
                         <?php echo $this->translate('job.entity'); ?> #<?php echo $this->escapeHtml($job->getId()); ?>: <?php echo $this->escapeHtml($job->getName()); ?>
                         <?php foreach ($job->getLabels() as $label): ?>
-                            <span class="label label-default pull-right" style="background-color: <?php echo $this->escapeHtml($label->getColour()); ?>"><?php echo $this->escapeHtml($label->getName()); ?></span>
+                            <span class="label label-default" style="background-color: <?php echo $this->escapeHtml($label->getColour()); ?>"><?php echo $this->escapeHtml($label->getName()); ?></span>
                         <?php endforeach; ?>
                     </span>
                     <div class="pull-right">
@@ -155,6 +155,7 @@ $carbon->setLocale(\Locale::getPrimaryLanguage(\Locale::getDefault()));
                         </a>
                         <div class="form-file-add">
                             <?php echo $this->form()->openTag($form); ?>
+                                <?php echo $this->formHidden($form->get('csrf')) ?>
                                 <?php echo $this->formFile($form->get('file')); ?>
                             <?php echo $this->form()->closeTag($form); ?>
                         </div>

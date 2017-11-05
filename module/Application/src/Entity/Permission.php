@@ -65,6 +65,11 @@ use Zend\Form\Annotation;
      */
     public $submit;
 
+    /**
+     * @Annotation\Type("Zend\Form\Element\Csrf")
+     */
+    public $csrf;
+
     public function setId($id)
     {
         $this->id = $id;

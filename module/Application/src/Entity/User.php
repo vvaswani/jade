@@ -94,6 +94,17 @@ class User
      */
     protected $permissions;
 
+    /**
+     * @Annotation\Type("Zend\Form\Element\Submit")
+     * @Annotation\Attributes({"value":"common.save"})
+     */
+    public $submit;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Csrf")
+     */
+    public $csrf;
+
     public function setId($id)
     {
         $this->id = $id;

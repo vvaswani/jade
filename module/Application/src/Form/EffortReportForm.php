@@ -43,4 +43,9 @@ class EffortReportForm
      * @Annotation\Attributes({"value":"common.confirm"})
      */
     public $submit;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Csrf")
+     */
+    public $csrf;
 }

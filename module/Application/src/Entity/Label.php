@@ -15,34 +15,34 @@ use Zend\Form\Annotation;
     const PERMISSION_MANAGE = 'LABEL.MANAGE';
 
     /**
-     * @ORM\Id 
+     * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @Annotation\Exclude()
      */
     protected $id;
-    
+
     /**
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
-     * @Annotation\Filter({"name":"StripTags"})     
+     * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":50}})
      * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"label.name"})     
+     * @Annotation\Options({"label":"label.name"})
      */
-    protected $name;     
-    
-    
+    protected $name;
+
+
     /**
      * @ORM\Column(type="string")
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      * @Annotation\Validator({"name":"Regex", "options":{"pattern":"/^#[0-9a-f]{3}([0-9a-f]{3})?$/"}})
      * @Annotation\Type("Zend\Form\Element\Color")
-     * @Annotation\Options({"label":"label.colour"})     
+     * @Annotation\Options({"label":"label.colour"})
      */
     protected $colour;
-    
+
     /**
      * @ORM\Column(type="datetime")
      * @Annotation\Exclude()
@@ -54,18 +54,23 @@ use Zend\Form\Annotation;
      * @Annotation\Exclude()
      */
     protected $permissions;
-    
+
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.save"})
      */
-    public $submit;    
+    public $submit;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Csrf")
+     */
+    public $csrf;
 
     public function setId($id)
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;
@@ -119,7 +124,7 @@ use Zend\Form\Annotation;
     public function removePermission(Permission $permission)
     {
         $this->permissions->removeElement($permission);
-    } 
+    }
 
     public function getUserPermissions(User $user)
     {
@@ -130,13 +135,13 @@ use Zend\Form\Annotation;
             $permission->setName(Label::PERMISSION_MANAGE);
             $permission->setLabel($this);
             $permissions[] = $permission;
-        } 
+        }
         foreach ($this->permissions as $permission) {
             if ($permission->getUser()->getId() == $user->getId()) {
                 $permissions[] = $permission;
             }
-        }        
+        }
         return $permissions;
-    }    
+    }
 }
 

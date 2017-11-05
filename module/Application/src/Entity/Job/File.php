@@ -16,25 +16,25 @@ use Zend\Form\Annotation;
     const UPLOAD_PATH = 'data/upload/jobs';
 
     /**
-     * @ORM\Id 
+     * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @Annotation\Exclude()
      */
     protected $id;
-    
+
     // in other cases, the form property and ORM property are separate
-    // because the form is bound with the entity and this is the only 
+    // because the form is bound with the entity and this is the only
     // option to access uploaded file data after validation
     // in this case, the form is not bound with the entity
-    // and uploaded file data can be accessed directly after validation 
+    // and uploaded file data can be accessed directly after validation
     // therefore the form and ORM properties need not be separate
     /**
      * @ORM\Column(type="string")
      * @Annotation\Validator({"name":"FileExtension", "options":{"extension":"pdf,jpeg,jpg,png,doc,docx,xls,xlsx,ppt,pptx,ods,odt,odp"} })
      * @Annotation\Type("Zend\Form\Element\File")
      * @Annotation\Name("file")
-     * @Annotation\Options({"label":"file.name"})     
+     * @Annotation\Options({"label":"file.name"})
      */
     protected $filename;
 
@@ -60,13 +60,18 @@ use Zend\Form\Annotation;
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.save"})
      */
-    public $submit;  
+    public $submit;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Csrf")
+     */
+    public $csrf;
 
     public function setId($id)
     {
         $this->id = $id;
     }
-    
+
     public function getId()
     {
         return $this->id;

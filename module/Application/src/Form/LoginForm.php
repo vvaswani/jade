@@ -14,15 +14,15 @@ class LoginForm
      * @Annotation\Validator({"name":"EmailAddress"})
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
-     * @Annotation\Options({"label":"user.username"})     
+     * @Annotation\Options({"label":"user.username"})
      */
-    protected $username;    
+    protected $username;
 
     /**
      * @Annotation\Type("Zend\Form\Element\Password")
      * @Annotation\Filter({"name":"StringTrim"})
-     * @Annotation\Filter({"name":"StripTags"})     
-     * @Annotation\Options({"label":"user.password"})     
+     * @Annotation\Filter({"name":"StripTags"})
+     * @Annotation\Options({"label":"user.password"})
      */
     protected $password;
 
@@ -33,11 +33,16 @@ class LoginForm
      * @Annotation\Filter({"name":"StringTrim"})
      * @Annotation\Filter({"name":"StripTags"})
      */
-    protected $continue;    
+    protected $continue;
 
     /**
      * @Annotation\Type("Zend\Form\Element\Submit")
      * @Annotation\Attributes({"value":"common.confirm"})
      */
     public $submit;
+
+    /**
+     * @Annotation\Type("Zend\Form\Element\Csrf")
+     */
+    public $csrf;
 }
