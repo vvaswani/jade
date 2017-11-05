@@ -10,6 +10,7 @@
  * control, so do not include passwords or other sensitive information in this
  * file.
  */
+
 return [
     'doctrine' => [
         'driver' => [
@@ -40,6 +41,20 @@ return [
                 'credential_property' => 'password',
                 'credential_callable' => 'Application\Controller\UserController::verifyCredential'
             ],
-        ]
+        ],
+    ],
+    'session' => [
+        'config' => [
+            'class' => Zend\Session\Config\SessionConfig::class,
+            'options' => [
+                'cookie_lifetime' => 3600,
+                'gc_maxlifetime' => 2592000,
+            ]
+        ],
+        'storage' => Zend\Session\Storage\SessionArrayStorage::class,
+        'validators' => [
+            Zend\Session\Validator\RemoteAddr::class,
+            Zend\Session\Validator\HttpUserAgent::class,
+        ],
     ],
 ];

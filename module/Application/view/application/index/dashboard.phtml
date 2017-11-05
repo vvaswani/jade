@@ -77,6 +77,11 @@
     </div>
 </div>
 
+<?php
+$carbon = \Carbon\Carbon::instance(new DateTime());
+$carbon->setLocale(\Locale::getPrimaryLanguage(\Locale::getDefault()));
+?>
+
 <div class="panel panel-default">
     <div class="panel-heading clearfix">
         <span class="panel-title">
@@ -137,6 +142,9 @@
                                             break;
                                         case 'contractRate':
                                             $propertyName = 'contract-rate';
+                                            $filter = new \Zend\I18n\Filter\NumberFormat();
+                                            $propertyValues[0] = $filter->filter($propertyValues[0]);
+                                            $propertyValues[1] = $filter->filter($propertyValues[1]);
                                             break;
                                         case 'contractCurrency':
                                             $propertyName = 'contract-currency';

@@ -32,6 +32,17 @@ return [
                     ],
                 ],
             ],
+            'locale' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route'    => '/locale/save/:locale',
+                    'defaults' => [
+                        'controller' => Controller\LocaleController::class,
+                        'action'     => 'save',
+                        'locale'     => 'en_GB'
+                    ],
+                ],
+            ],
             'jobs' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -213,6 +224,7 @@ return [
             'Application\Service\ActivityService' => 'Application\Factory\Service\ActivityServiceFactory',
             'Application\View\Csv\Strategy' => 'Application\Factory\View\Strategy\CsvStrategyFactory',
             'Application\View\Renderer\CsvRenderer' => 'Application\Factory\View\Renderer\CsvRendererFactory',
+            'SessionManager' => 'Application\Factory\Session\SessionManagerFactory',
         ],
         'invokables' => [
             'Doctrine\ORM\Mapping\UnderscoreNamingStrategy' => 'Doctrine\ORM\Mapping\UnderscoreNamingStrategy',
@@ -221,7 +233,6 @@ return [
         ]
     ],
     'translator' => [
-        'locale' => 'en_GB',
         'translation_file_patterns' =>  [
             [
                 'type'     => 'phparray',
@@ -233,6 +244,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => ApplicationControllerFactory::class,
+            Controller\LocaleController::class => ApplicationControllerFactory::class,
             Controller\JobController::class  => ApplicationControllerFactory::class,
             Controller\LabelController::class => ApplicationControllerFactory::class,
             Controller\Job\FileController::class => ApplicationControllerFactory::class,

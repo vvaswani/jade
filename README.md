@@ -4,10 +4,11 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 ## Features
 
- * Browser-based dashboard for client and case management
- * Electronic, searchable repository of documents and other case artifacts
- * Consolidated time recording and reporting system
- * Desktop and mobile access
+* Browser-based dashboard for client and case management
+* Electronic, searchable repository of documents and other case artifacts
+* Consolidated time recording and reporting system
+* Desktop and mobile access
+* Support for multiple languages
 
 [Screenshots and more information](https://www.slideshare.net/vvaswani/jade-10-2017-80571396)
 
@@ -15,38 +16,40 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 ### Prerequisites
 
- * PHP 5.6 or PHP 7.0 with extensions:
-   * `intl`
- * Apache 2.x
- * MySQL 5.x
- * Git
+* PHP 5.6 or PHP 7.0 with these extensions:
+  * `intl`
+  * `pdo`
+* Apache 2.x
+* MySQL 5.x
+* Git
 
 ### Configuration: Apache
 
-  * Ensure that your Apache server has the `AllowOverride All` directive set for the Web server document root.
-  * Ensure that your Apache server has the `mod_rewrite` module enabled.
+* Ensure that your Apache server has the `AllowOverride All` directive set for the Web server document root.
+* Ensure that your Apache server has the `mod_rewrite` module enabled.
 
 ### Configuration: PHP
 
-  * Set the `date.timezone` configuration value in your `php.ini` file to reflect your local timezone.
-  * Set the `post_max_size` configuration value in your `php.ini` file to a value 25% higher than the maximum possible size of a file upload.
-  * Set the `upload_max_filesize` configuration value in your `php.ini` file to a value 25% higher than the maximum possible size of a file upload.
-  * Set the `file_uploads` configuration value in your `php.ini` file to `On`.
+* Set the `date.timezone` configuration value in your `php.ini` file to reflect your local timezone.
+* Set the `post_max_size` configuration value in your `php.ini` file to a value 25% higher than the maximum possible size of a file upload.
+* Set the `upload_max_filesize` configuration value in your `php.ini` file to a value 25% higher than the maximum possible size of a file upload.
+* Set the `file_uploads` configuration value in your `php.ini` file to `On`.
 
 If administrator access to the `php.ini` file is not available, set these values in the `$APP_DIR/.htaccess` file using either the `php_flag` or `php_value` directives.
 
 ### Installation
 
-  * Create an empty MySQL database for the application.
-  * Install [Composer](http://getcomposer.org/).
-  * Clone or download the [application from Github](https://github.com/vvaswani/jade/). The variable `$APP_DIR` refers to the directory hosting the application source code.
-  * Download dependencies by executing `composer install`.
-  * Ensure that the `$APP_DIR/data/cache`, `$APP_DIR/data/tmp` and `$APP_DIR/data/upload` directories are writable by the Web server user.
-  * Copy `$APP_DIR/config/autoload/local.php.dist` to `$APP_DIR/config/autoload/local.php`. Any changes to this file will be ignored by Git to enable per-developer configuration.
-  * Update `$APP_DIR/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection.
-  * (For development environments, optional) Copy `$APP_DIR/config/development.config.php.dist` to `$APP_DIR/config/development.config.php`. This enables detailed exception listings and the Zend Developer Tools (ZDT) toolbar. This is not recommended for production environments.
-  * Create the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:create` from the `$APP_DIR` directory.
-  * Seed the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load` from the `$APP_DIR` directory.
+* Create an empty MySQL database for the application.
+* Install [Composer](http://getcomposer.org/).
+* Clone or download the [application from Github](https://github.com/vvaswani/jade/). The variable `$APP_DIR` refers to the directory hosting the application source code.
+* Download dependencies by executing `composer install`.
+* Ensure that the `$APP_DIR/data/cache`, `$APP_DIR/data/tmp` and `$APP_DIR/data/upload` directories are writable by the Web server user.
+* Copy `$APP_DIR/config/autoload/local.php.dist` to `$APP_DIR/config/autoload/local.php`. Any changes to this file will be ignored by Git to enable per-developer configuration.
+* Update the `doctrine.connections.orm_default.params` key in `$APP_DIR/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection.
+* Update the `translator.locale` key in `$APP_DIR/config/autoload/local.php` with the required locale and language (defaults to `English (UK)`, other languages may require [additional translation files](docs/LOCALIZATION.md)).
+* (For development environments, optional) Copy `$APP_DIR/config/development.config.php.dist` to `$APP_DIR/config/development.config.php`. This enables detailed exception listings and the Zend Developer Tools (ZDT) toolbar. This is not recommended for production environments.
+* Create the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:create` from the `$APP_DIR` directory.
+* Seed the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load` from the `$APP_DIR` directory.
 
 Sample commands:
 
@@ -65,10 +68,10 @@ Sample commands:
 
 ### Upgrade
 
-  * Pull the [latest application code from Github](https://github.com/vvaswani/jade/).
-  * Update dependencies by executing `composer install`.
-  * Update the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:update --force` from the `$APP_DIR` directory.
-  * Update the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load --append` from the `$APP_DIR` directory.
+* Pull the [latest application code from Github](https://github.com/vvaswani/jade/).
+* Update dependencies by executing `composer install`.
+* Update the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:update --force` from the `$APP_DIR` directory.
+* Update the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load --append` from the `$APP_DIR` directory.
 
 Sample commands:
 
@@ -79,9 +82,11 @@ Sample commands:
       $ ./vendor/bin/doctrine-module orm:fixtures:load --append
 
 ## Roadmap
+
 If you are interested in the future direction of this project, please contribute using the [issues log](https://github.com/vvaswani/jade/issues). Your feedback is appreciated.
 
 ## Useful Resources
- * [Project status](https://waffle.io/vvaswani/jade)
- * [User stories](https://github.com/vvaswani/jade/issues?q=is%3Aopen+is%3Aissue+label%3Astory)
- * [Screenshots](https://www.slideshare.net/vvaswani/jade-10-2017-80571396)
+
+* [Project status](https://waffle.io/vvaswani/jade)
+* [User stories](https://github.com/vvaswani/jade/issues?q=is%3Aopen+is%3Aissue+label%3Astory)
+* [Screenshots](https://www.slideshare.net/vvaswani/jade-10-2017-80571396)

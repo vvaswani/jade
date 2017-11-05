@@ -12,6 +12,7 @@ body {
     border: none;
     border-bottom: solid 1px grey;
     background-color: white;
+    height: 50px;
 }
 
 .navbar a {
@@ -119,4 +120,24 @@ input, textarea {
 
 .menu-card-title .label {
     background-color: #ddd;
+}
+
+#language-selector {
+    width: 140px;
+}
+
+#language-selector ul {
+    visibility: hidden;
+    display: none;
+    width: 140px;
+}
+
+#language-selector:hover ul {
+    visibility: visible;
+    display: block;
+    background-color: white;
+}
+
+#language-selector ul li {
+    list-style: none;
 }

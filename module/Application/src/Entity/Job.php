@@ -237,12 +237,14 @@ class Job
 
     public function getContractRate()
     {
-        return $this->contractRate;
+        $filter = new \Zend\I18n\Filter\NumberFormat();
+        return $filter->filter($this->contractRate);
     }
 
     public function setContractRate($contractRate)
     {
-        $this->contractRate = (float)$contractRate;
+        $filter = new \Zend\I18n\Filter\NumberParse();
+        $this->contractRate = $filter->filter($contractRate);
     }
 
     public function getStatus()

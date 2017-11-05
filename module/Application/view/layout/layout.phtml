@@ -45,6 +45,18 @@
                 <li><a href="<?php echo $this->url('home'); ?>"><?php echo $this->translate('common.home'); ?></a></li>
                 <li><a href="<?php echo $this->url('login'); ?>"><?php echo $this->translate('common.login'); ?></a></li>
                 <?php endif; ?>
+                <?php if (count($this->availableLocales) > 1): ?>
+                <li id="language-selector">
+                    <a href="#"><?php echo $this->escapeHtml($this->availableLocales[\Locale::getDefault()]); ?> <span class="caret"></span></a>
+                    <ul class="nav pull-right">
+                        <?php foreach ($this->availableLocales as $locale => $language): ?>
+                            <?php if ($locale != \Locale::getDefault()): ?>
+                            <li><a href="<?php echo $this->url('locale', array('action' => 'locale', 'locale' => $locale)); ?>"><?php echo $this->escapeHtml($language); ?></a></li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+                <?php endif; ?>
               </ul>
             </div><!--/.nav-collapse -->
           </div>

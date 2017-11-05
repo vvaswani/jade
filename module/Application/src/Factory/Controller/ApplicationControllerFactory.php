@@ -7,6 +7,7 @@ use Application\Service\ActivityService;
 use Application\Service\AuthorizationService;
 use Doctrine\ORM\Events;
 use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\Session\SessionManager;
 
 class ApplicationControllerFactory implements FactoryInterface
 {

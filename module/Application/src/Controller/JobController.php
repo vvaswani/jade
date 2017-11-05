@@ -147,6 +147,7 @@ class JobController extends AbstractActionController
         if ($request->isPost()){
             $form->setData($request->getPost());
             if ($form->isValid()){
+                //print_r($job->getContractRate()); die;
                 $this->em->persist($job);
                 $this->em->flush();
                 if (!file_exists(File::UPLOAD_PATH . '/' . (int)$job->getId())) {

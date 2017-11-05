@@ -20,7 +20,7 @@ class UserController extends AbstractActionController
 {
 
     private $em;
-    
+
     private $ams;
 
     private $as;
@@ -57,10 +57,10 @@ class UserController extends AbstractActionController
                     $queue = $this->ams->getQueue();
                     $source = $request->getServer('REMOTE_ADDR');
                     $queue[] = array(
-                        Activity::OPERATION_LOGIN, 
+                        Activity::OPERATION_LOGIN,
                         new \DateTime("now"),
                         $user,
-                        null, 
+                        null,
                         array('result' => (string)$result->getCode())
                     );
                     $this->ams->setQueue($queue);
@@ -71,15 +71,16 @@ class UserController extends AbstractActionController
                             return $this->redirect()->toRoute('dashboard');
                         } else {
                             $this->redirect()->toUrl($data['continue']);
-                        }                                    
+                        }
                     }
                 }
-             } 
+             }
         }
 
+        $this->layout()->setVariable('login', 'true');
         return new ViewModel(array(
             'form' => $form
-        ));        
+        ));
     }
 
     public function logoutAction()
@@ -89,14 +90,14 @@ class UserController extends AbstractActionController
             $this->as->clearIdentity();
             $request = $this->getRequest();
             $queue[] = array(
-                Activity::OPERATION_LOGOUT, 
+                Activity::OPERATION_LOGOUT,
                 new \DateTime("now"),
                 $clone,
-                null, 
+                null,
                 null
             );
             $this->ams->setQueue($queue);
-            $this->ams->flush();            
+            $this->ams->flush();
         }
         return $this->redirect()->toRoute('login');
     }
@@ -105,16 +106,16 @@ class UserController extends AbstractActionController
     {
         $identity = $this->as->getIdentity();
         if ($identity->getRole() == User::ROLE_ADMINISTRATOR) {
-            $users = $this->em->getRepository(User::class)->findBy(array(), 
+            $users = $this->em->getRepository(User::class)->findBy(array(),
                 array('creationTime' => 'DESC'));
         } else {
-            $users = array($identity);            
+            $users = array($identity);
         }
         return new ViewModel(array('users' => $users));
     }
 
     public function saveAction()
-    {   
+    {
         $id = (int) $this->params()->fromRoute('id', 0);
         $identity = $this->as->getIdentity();
         if (($identity->getRole() != User::ROLE_ADMINISTRATOR) && ($id != $identity->getId())) {
@@ -124,9 +125,9 @@ class UserController extends AbstractActionController
         if (!$id) {
             $user = new User();
             $user->setCreationTime(new \DateTime("now"));
-            $passwordRequired = true;  // new user creation  
+            $passwordRequired = true;  // new user creation
         } else {
-            $user = $this->em->getRepository(User::class)->find($id); 
+            $user = $this->em->getRepository(User::class)->find($id);
             $passwordHash = $user->getPassword();
             $passwordRequired = false;  // existing user modification
             $role = $user->getRole();
@@ -141,10 +142,10 @@ class UserController extends AbstractActionController
                 User::ROLE_ADMINISTRATOR => 'user.role-administrator',
                 User::ROLE_EMPLOYEE => 'user.role-employee',
                 User::ROLE_CUSTOMER => 'user.role-customer',
-            ));            
+            ));
         }
-        
-        // TODO use a @UniqueObject annotation once it works 
+
+        // TODO use a @UniqueObject annotation once it works
         $form->getInputFilter()->get('username')->getValidatorChain()->attach(
              new \DoctrineModule\Validator\UniqueObject(array(
                 'use_context' => true,
@@ -164,19 +165,19 @@ class UserController extends AbstractActionController
                     $passwordHash = password_hash($user->getPassword(), PASSWORD_DEFAULT);
                 }
                 $user->setPassword($passwordHash);
-                $user->setStatus(User::STATUS_ACTIVE); 
+                $user->setStatus(User::STATUS_ACTIVE);
                 // to avoid POST manual injection for role change
                 // explicitly reset the role
                 if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
                     $user->setRole($role);
-                }       
-                $this->em->persist($user); 
+                }
+                $this->em->persist($user);
                 $this->em->flush();
                 $this->ams->flush();
                 return $this->redirect()->toRoute('users');
             }
         }
-         
+
         return new ViewModel(array(
             'form' => $form,
             'id' => $user->getId(),
@@ -185,7 +186,7 @@ class UserController extends AbstractActionController
     }
 
     public function deleteAction()
-    {   
+    {
         $identity = $this->as->getIdentity();
 
         if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
@@ -205,43 +206,43 @@ class UserController extends AbstractActionController
         $request = $this->getRequest();
 
         // check for at least one administrator
-        if ($user->getRole() == User::ROLE_ADMINISTRATOR) {        
+        if ($user->getRole() == User::ROLE_ADMINISTRATOR) {
             $users = $this->em->getRepository(User::class)->findBy(array('role' => User::ROLE_ADMINISTRATOR));
             if (count($users) == 1) {
-                return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.role-administrator'), $this->url()->fromRoute('users')); 
+                return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.role-administrator'), $this->url()->fromRoute('users'));
             }
         }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'delete', 'id' => $id)));
-        
+
         if ($request->isPost()) {
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
                     $this->em->remove($user);
-                    $this->em->flush(); 
+                    $this->em->flush();
                     $this->ams->flush();
-                } 
+                }
             }
             return $this->redirect()->toRoute('users');
-        } 
+        }
 
         return $this->confirmationPlugin()->confirm(
-            'common.confirm-delete', 
+            'common.confirm-delete',
             array (
                 array('user.entity', 'lower', 'false'),
                 array($user->getUsername(), 'none', 'true'),
-            ),            
+            ),
             $form,
             $this->url()->fromRoute('users')
         );
     }
 
     public function deactivateAction()
-    {   
+    {
         $identity = $this->as->getIdentity();
 
         if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
@@ -259,50 +260,50 @@ class UserController extends AbstractActionController
         }
 
         // check for at least one administrator
-        if ($user->getRole() == User::ROLE_ADMINISTRATOR) {        
+        if ($user->getRole() == User::ROLE_ADMINISTRATOR) {
             $users = $this->em->getRepository(User::class)->findBy(array('role' => User::ROLE_ADMINISTRATOR));
             if (count($users) == 1) {
-                return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.role-administrator'), $this->url()->fromRoute('users')); 
+                return $this->alertPlugin()->alert('user.alert-min-threshold', array('user.role-administrator'), $this->url()->fromRoute('users'));
             }
         }
 
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'deactivate', 'id' => $id)));
-        
+
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
                     $user->setStatus(User::STATUS_INACTIVE);
-                    $this->em->persist($user); 
-                    $this->em->flush(); 
+                    $this->em->persist($user);
+                    $this->em->flush();
                     $this->ams->flush();
-                } 
+                }
             }
             return $this->redirect()->toRoute('users');
-        } 
+        }
 
         return $this->confirmationPlugin()->confirm(
-            'user.confirm-deactivate', 
+            'user.confirm-deactivate',
             array (
                 array('user.entity', 'lower', 'false'),
                 array($user->getUsername(), 'none', 'true'),
-            ),            
+            ),
             $form,
             $this->url()->fromRoute('users')
         );
-    }    
+    }
 
     public function activateAction()
-    {   
+    {
         $identity = $this->as->getIdentity();
 
         if ($identity->getRole() != User::ROLE_ADMINISTRATOR) {
             return $this->alertPlugin()->alert('common.alert-access-denied', array(), $this->url()->fromRoute('users'));
-        }     
+        }
 
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
@@ -317,34 +318,34 @@ class UserController extends AbstractActionController
         $builder = new AnnotationBuilder();
         $form = $builder->createForm(new ConfirmationForm());
         $form->setAttribute('action', $this->url()->fromRoute('users', array('action' => 'activate', 'id' => $id)));
-        
+
         $request = $this->getRequest();
         if ($request->isPost()){
             $form->setData($request->getPost());
-            if ($form->isValid()) { 
+            if ($form->isValid()) {
                 $data = $form->getData();
                 if ($data['confirm'] == 1) {
                     $user->setStatus(User::STATUS_ACTIVE);
-                    $this->em->persist($user); 
-                    $this->em->flush(); 
+                    $this->em->persist($user);
+                    $this->em->flush();
                     $this->ams->flush();
-                } 
+                }
             }
             return $this->redirect()->toRoute('users');
-        } 
+        }
 
         return $this->confirmationPlugin()->confirm(
-            'user.confirm-activate', 
+            'user.confirm-activate',
             array (
                 array('user.entity', 'lower', 'false'),
                 array($user->getUsername(), 'none', 'true'),
-            ),            
+            ),
             $form,
             $this->url()->fromRoute('users')
         );
     }
 
-    public static function verifyCredential(User $user, $inputPassword) 
+    public static function verifyCredential(User $user, $inputPassword)
     {
         if ($user->getStatus() == User::STATUS_ACTIVE) {
             return password_verify($inputPassword, $user->getPassword());

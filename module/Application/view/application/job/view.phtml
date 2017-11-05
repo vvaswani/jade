@@ -7,6 +7,9 @@ $form->setAttribute('method', 'POST');
 $form->setAttribute('enctype', 'multipart/form-data');
 $form->setAttribute('novalidate', 'true');
 $form->prepare();
+
+$carbon = \Carbon\Carbon::instance(new DateTime());
+$carbon->setLocale(\Locale::getPrimaryLanguage(\Locale::getDefault()));
 ?>
 
             <div class="panel panel-default">
@@ -32,7 +35,7 @@ $form->prepare();
                         <tbody>
                             <tr>
                                 <td><strong><?php echo $this->translate('job.creation-time'); ?></strong></td>
-                                <td><?php echo $job->getCreationTime()->format('d M Y h:i T'); ?></td>
+                                <td><?php echo $this->dateFormat($job->getCreationTime(), IntlDateFormatter::LONG, IntlDateFormatter::LONG); ?></td>
                             </tr>
                             <tr>
                                 <td><strong><?php echo $this->translate('job.description'); ?></strong></td>
@@ -173,7 +176,7 @@ $form->prepare();
                             <?php foreach ($job->getFiles() as $file): ?>
                             <tr>
                                 <td><?php echo $this->escapeHtml($file->getFilename()); ?></td>
-                                <td><?php echo $file->getCreationTime()->format('d M Y h:i T'); ?></td>
+                                <td><?php echo $this->dateFormat($file->getCreationTime(), IntlDateFormatter::LONG, IntlDateFormatter::LONG); ?></td>
                                 <td>
                                     <?php if ($this->authorize()->isAuthorized($this->identity(), 'job', 'view', $job)): ?>
                                     <a role="button" class="btn btn-primary btn-sm" href="<?php echo $this->url('jobs.files', array('action' => 'download', 'id' => $this->escapeHtml($file->getId()), 'jid' => $this->escapeHtml($job->getId()))); ?>">
@@ -281,7 +284,7 @@ $form->prepare();
                                 <?php if ($logCount < 5): ?>
                             <tr>
                                 <td><?php echo $log->getUser()->getName(); ?></td>
-                                <td><?php echo $log->getDate()->format('d M Y'); ?></td>
+                                <td><?php echo $this->dateFormat($log->getDate(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE); ?></td>
                                 <td><?php echo $log->getEffort(); ?></td>
                                 <td><?php echo $log->getDescription(); ?></td>
                             </tr>
@@ -333,6 +336,9 @@ $form->prepare();
                                                     break;
                                                 case 'contractRate':
                                                     $propertyName = 'contract-rate';
+                                                    $filter = new \Zend\I18n\Filter\NumberFormat();
+                                                    $propertyValues[0] = $filter->filter($propertyValues[0]);
+                                                    $propertyValues[1] = $filter->filter($propertyValues[1]);
                                                     break;
                                                 case 'contractCurrency':
                                                     $propertyName = 'contract-currency';

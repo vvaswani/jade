@@ -4,23 +4,23 @@
 
 ### Roles
 
- * Every user has a system role: administrator, employee or customer.
- * The user's system role defines access to user accounts.
- 	* Administrators can manage all user accounts.
- 	* Employees and customers can only manage their own account.
- * The user's system role also defines access to system resources.
-   	* Administrators can manage all system resources.
- 	* Employees and customers can access system resources based on resource-specific permissions.
+* Every user has a system role: administrator, employee or customer.
+* The user's system role defines access to user accounts.
+	* Administrators can manage all user accounts.
+	* Employees and customers can only manage their own account.
+* The user's system role also defines access to system resources.
+	* Administrators can manage all system resources.
+	* Employees and customers can access system resources based on resource-specific permissions.
 
 ### Resources
 
- * The system is composed of resources: jobs, labels, configuration, ...
- * Some resources have sub-resources: files belong to jobs, ...
- * Each resource defines a set of permissions, which are assigned on a per-resource basis.
- 	* Administrators have all permissions to each resource.
- 	* Employees and customers who create a resource have all permissions to it.
- 	* Other employees and customers have limited or nil permissions to resources.
- * Resource permissions are defined automatically by the system in some cases (labels) and can be manually granted/revoked in others (jobs).
+* The system is composed of resources: jobs, labels, configuration, ...
+* Some resources have sub-resources: files belong to jobs, ...
+* Each resource defines a set of permissions, which are assigned on a per-resource basis.
+	* Administrators have all permissions to each resource.
+	* Employees and customers who create a resource have all permissions to it.
+	* Other employees and customers have limited or nil permissions to resources.
+* Resource permissions are defined automatically by the system in some cases (labels) and can be manually granted/revoked in others (jobs).
 
 ## Permissions and Permission Matrix
 
@@ -30,21 +30,21 @@
 
 Permissions for label resources are defined and managed by the system.
 
- * `LABEL.MANAGE`: All access. Automatically granted by the system to administrators and the label creator.
+* `LABEL.MANAGE`: All access. Automatically granted by the system to administrators and the label creator.
 
 #### Jobs
 
 Permissions for job resources are initially defined by the system and can be additionally granted/revoked by users.
 
- * `JOB.MANAGE`: All access. Automatically granted by the system to administrators and the job creator.
- * `JOB.EDIT`: Limited write access. Manually granted by administrators and the job creator.
- * `JOB.VIEW`: Read access. Manually granted by administrators and the job creator.
+* `JOB.MANAGE`: All access. Automatically granted by the system to administrators and the job creator.
+* `JOB.EDIT`: Limited write access. Manually granted by administrators and the job creator.
+* `JOB.VIEW`: Read access. Manually granted by administrators and the job creator.
 
 #### Templates
 
 Permissions for template resources are defined and managed by the system.
 
- * `TEMPLATE.MANAGE`: All access. Automatically granted by the system to administrators and the template creator.
+* `TEMPLATE.MANAGE`: All access. Automatically granted by the system to administrators and the template creator.
 
 ### Permission Matrix
 
@@ -83,12 +83,12 @@ Permissions for template resources are defined and managed by the system.
 | Modify other log entries          |       Y       |    Y *5  |    N     |
 | Delete other log entries from job |       Y       |    Y *5  |    N     |
 
- *1 = only for the user's own data
+*1 = only for the user's own data
 
- *2 = only for those created by the user
+*2 = only for those created by the user
 
- *3 = only if the user has `JOB.VIEW` or higher permissions for the job
+*3 = only if the user has `JOB.VIEW` or higher permissions for the job
 
- *4 = only if the user has `JOB.EDIT` or higher permissions for the job
+*4 = only if the user has `JOB.EDIT` or higher permissions for the job
 
- *5 = only if the user has `JOB.MANAGE` permissions for the job
+*5 = only if the user has `JOB.MANAGE` permissions for the job
