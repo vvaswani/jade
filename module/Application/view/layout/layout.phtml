@@ -72,3 +72,10 @@
 
     </body>
 </html>
+<?php if ($this->home): ?>
+    <?php $id = file_get_contents('RELEASE.md'); ?>
+    <?php if (!empty($id)): ?>
+<!-- commit hash: <?php echo $id; ?> -->
+    <?php endif; ?>
+<?php endif; ?>
+

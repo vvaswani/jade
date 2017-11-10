@@ -141,3 +141,7 @@ input, textarea {
 #language-selector ul li {
     list-style: none;
 }
+
+#issue-log {
+    padding-bottom: 30px;
+}
