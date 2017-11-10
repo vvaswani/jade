@@ -15,6 +15,7 @@ return array(
 	'common.download' => "Télécharger",
 	'common.cancel' => "Annuler",
 	'common.generate' => "Générer",
+	'common.send-feedback' => 'Envoyer une demande de fonctionnalité ou un rapport de bug',
 
 	'common.dashboard' => "Tableau de Bord",
 	'common.reports' => "Rapports",

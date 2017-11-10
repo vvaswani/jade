@@ -16,6 +16,7 @@ return array(
 	'common.download' => 'Download',
 	'common.cancel' => 'Cancel',
 	'common.generate' => 'Generate',
+	'common.send-feedback' => 'Send feature request or bug report',
 
 	'common.dashboard' => 'Dashboard',
 	'common.reports' => 'Reports',
