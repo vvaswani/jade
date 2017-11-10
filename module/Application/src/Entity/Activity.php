@@ -21,6 +21,7 @@ class Activity
     const OPERATION_LOGOUT = 'LOGOUT';
     const OPERATION_GRANT = 'GRANT';
     const OPERATION_REVOKE = 'REVOKE';
+    const OPERATION_REPORT = 'REPORT';
 
     const ENTITY_TYPE_JOB = 'JOB';
     const ENTITY_TYPE_LABEL = 'LABEL';

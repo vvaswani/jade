@@ -367,6 +367,17 @@ $carbon->setLocale(\Locale::getPrimaryLanguage(\Locale::getDefault()));
                                     );
                                     break;
                             }
+                        } else if ($activity->getOperation() == $activity::OPERATION_REPORT) {
+                            switch ($activity->getEntityType()) {
+                                case $activity::ENTITY_TYPE_JOB:
+                                    $properties = json_decode($activity->getData(), true);
+                                    echo sprintf(
+                                        $this->translate('activity-stream.reported'),
+                                        '<strong>' . $this->escapeHtml($activity->getUser()->getName()) . '</strong>',
+                                        '<strong>' . strtolower($this->translate('report.' . $properties['name'])) . '</strong>'
+                                    );
+                                    break;
+                            }
                         }
                     }
                     ?>

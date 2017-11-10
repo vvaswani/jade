@@ -72,6 +72,16 @@ class ReportController extends AbstractActionController
                 }
 
                 $logs = $this->em->getRepository(Job::class)->getJobLogs($job->getId(), $from, $to);
+                $queue[] = array(
+                    Activity::OPERATION_REPORT,
+                    new \DateTime("now"),
+                    $job,
+                    null,
+                    array('name' => 'job-effort')
+                );
+                $this->ams->setQueue($queue);
+                $this->ams->flush();
+
             }
         }
 

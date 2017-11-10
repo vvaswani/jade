@@ -54,6 +54,7 @@ return array(
 	'activity-stream.closed' => '%s closed this %s.',
 	'activity-stream.granted' => '%s granted %s access to this %s.',
 	'activity-stream.revoked' => '%s revoked %s\'s access to this %s.',
+	'activity-stream.reported' => '%s requested a %s.',
 	'activity-stream.recent-activity' => 'Recent Activity',
 	'activity-stream.no-activity' => 'No recent activity to report',
 

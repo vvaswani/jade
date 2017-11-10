@@ -74,6 +74,16 @@ class ReportController extends AbstractActionController
                 }
 
                 $logs = $this->em->getRepository(User::class)->getUserLogs($user->getId(), $from, $to);
+                $queue[] = array(
+                    Activity::OPERATION_REPORT,
+                    new \DateTime("now"),
+                    $user,
+                    null,
+                    array('name' => 'user-effort')
+                );
+                $this->ams->setQueue($queue);
+                $this->ams->flush();
+
             }
         }
 
