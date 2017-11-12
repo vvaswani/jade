@@ -53,6 +53,7 @@ return array(
 	'activity-stream.closed' => "%s cerró %s",
 	'activity-stream.granted' => "%s dio acceso a %s",
 	'activity-stream.revoked' => "%s revocó %s acceso %s.",
+	'activity-stream.reported' => '%s solicitó un %s.',
 	'activity-stream.recent-activity' => "Actividad reciente",
 	'activity-stream.no-activity' => "Sin actividad reciente que indicar",
 
