@@ -23,8 +23,8 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 ## Installation
 
-* [Windows installation instructions](docs/INSTALL.md)
-* [Linux installation instructions](docs/INSTALL.md)
+* [Windows installation instructions](docs/INSTALL_WINDOWS.md)
+* [Linux installation instructions](docs/INSTALL_LINUX.md)
 
 ## Roadmap
 
