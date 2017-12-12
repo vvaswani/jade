@@ -12,9 +12,7 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 [Screenshots and more information](https://www.slideshare.net/vvaswani/jade-10-2017-80571396)
 
-## Installation and Configuration
-
-### Prerequisites
+## Requirements
 
 * PHP 5.6 or PHP 7.0 with these extensions:
   * `intl`
@@ -23,63 +21,10 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 * MySQL 5.x
 * Git
 
-### Configuration: Apache
+## Installation
 
-* Ensure that your Apache server has the `AllowOverride All` directive set for the Web server document root.
-* Ensure that your Apache server has the `mod_rewrite` module enabled.
-
-### Configuration: PHP
-
-* Set the `date.timezone` configuration value in your `php.ini` file to reflect your local timezone.
-* Set the `post_max_size` configuration value in your `php.ini` file to a value 25% higher than the maximum possible size of a file upload.
-* Set the `upload_max_filesize` configuration value in your `php.ini` file to a value 25% higher than the maximum possible size of a file upload.
-* Set the `file_uploads` configuration value in your `php.ini` file to `On`.
-
-If administrator access to the `php.ini` file is not available, set these values in the `$APP_DIR/.htaccess` file using either the `php_flag` or `php_value` directives.
-
-### Installation
-
-* Create an empty MySQL database for the application.
-* Install [Composer](http://getcomposer.org/).
-* Clone or download the [application from Github](https://github.com/vvaswani/jade/). The variable `$APP_DIR` refers to the directory hosting the application source code.
-* Download dependencies by executing `composer install`.
-* Ensure that the `$APP_DIR/data/cache`, `$APP_DIR/data/tmp` and `$APP_DIR/data/upload` directories are writable by the Web server user.
-* Copy `$APP_DIR/config/autoload/local.php.dist` to `$APP_DIR/config/autoload/local.php`. Any changes to this file will be ignored by Git to enable per-developer configuration.
-* Update the `doctrine.connections.orm_default.params` key in `$APP_DIR/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection.
-* Update the `translator.locale` key in `$APP_DIR/config/autoload/local.php` with the required locale and language (defaults to `English (UK)`, other languages may require [additional translation files](docs/LOCALIZATION.md)).
-* (For development environments, optional) Copy `$APP_DIR/config/development.config.php.dist` to `$APP_DIR/config/development.config.php`. This enables detailed exception listings and the Zend Developer Tools (ZDT) toolbar. This is not recommended for production environments.
-* Create the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:create` from the `$APP_DIR` directory.
-* Seed the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load` from the `$APP_DIR` directory.
-
-Sample commands:
-
-      $ echo "CREATE DATABASE jade" | mysql -u root -p
-      $ cd /var/www
-      $ git clone https://github.com/vvaswani/jade/
-      $ cd jade
-      $ composer install
-      $ chown -R www-data data/tmp
-      $ chown -R www-data data/cache
-      $ chown -R www-data data/upload
-      $ cp config/autoload/local.php.dist config/autoload/local.php
-      $ cp config/autoload/development.config.php.dist config/autoload/development.config.php
-      $ ./vendor/bin/doctrine-module orm:schema-tool:create
-      $ ./vendor/bin/doctrine-module orm:fixtures:load
-
-### Upgrade
-
-* Pull the [latest application code from Github](https://github.com/vvaswani/jade/).
-* Update dependencies by executing `composer install`.
-* Update the database tables by running the command `vendor/bin/doctrine-module orm:schema-tool:update --force` from the `$APP_DIR` directory.
-* Update the database tables by running the command `vendor/bin/doctrine-module orm:fixtures:load --append` from the `$APP_DIR` directory.
-
-Sample commands:
-
-      $ cd jade
-      $ git pull
-      $ composer install
-      $ ./vendor/bin/doctrine-module orm:schema-tool:update --force
-      $ ./vendor/bin/doctrine-module orm:fixtures:load --append
+* [Windows installation instructions](docs/INSTALL.md)
+* [Linux installation instructions](docs/INSTALL.md)
 
 ## Roadmap
 
@@ -87,6 +32,7 @@ If you are interested in the future direction of this project, please contribute
 
 ## Useful Resources
 
+* [Public website and demo](http://jade.melonfire.com)
 * [Project status](https://waffle.io/vvaswani/jade)
 * [User stories](https://github.com/vvaswani/jade/issues?q=is%3Aopen+is%3Aissue+label%3Astory)
 * [Screenshots](https://www.slideshare.net/vvaswani/jade-10-2017-80571396)
