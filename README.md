@@ -32,7 +32,6 @@ If you are interested in the future direction of this project, please contribute
 
 ## Useful Resources
 
-* [Public website and demo](http://jade.melonfire.com)
 * [Project status](https://waffle.io/vvaswani/jade)
 * [User stories](https://github.com/vvaswani/jade/issues?q=is%3Aopen+is%3Aissue+label%3Astory)
 * [Screenshots](https://www.slideshare.net/vvaswani/jade-10-2017-80571396)
