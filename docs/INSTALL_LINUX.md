@@ -1,17 +1,33 @@
 # Installation and Configuration
 
-The steps below will walk you through installing an Apache/MySQL/PHP environment on your Linux system, then installing and configuring Jade to work in that environment.
+The steps below will walk you through installing an Apache/MySQL/PHP environment on your Linux system, then installing and configuring Jade to work in that environment. You will need `root` access to perform some of these steps.
 
 ## Linux
 
 * Install Apache, PHP, MySQL and Git.
 
-      sudo apt-get install apache2 php5 php5-intl php5-mysqlnd mysql
+      apt-get install apache2 php5 php5-intl php5-mysqlnd mysql-server mysql-client
+
+* Update your Apache configuration file.
       
-* Ensure that your Apache server has the `AllowOverride All` directive set for the Web server document root.
-* Ensure that your Apache server has the `mod_rewrite` module enabled.
-* Update your `php.ini` file with the following configuration changes:
-  * Set the `date.timezone` configuration value in your `php.ini` file to reflect your local timezone.
+  * Ensure that your Apache server has the `AllowOverride All` directive set for the Web server document root.
+
+        <Directory /var/www>
+          ...
+          AllowOverride All
+        </Directory>
+
+  * Ensure that your Apache server has the `mod_rewrite` module enabled.
+
+        LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
+
+  * Ensure that the `DirectoryIndex` directive supports `.php` file extensions.
+  
+        DirectoryIndex index.php index.html
+          
+* Update your `php.ini` file.
+
+  * Set the `date.timezone` configuration value in your `php.ini` file to reflect your local timezone. [Find your timezone in the PHP manual](http://php.net/manual/en/timezones.php).
 
         date.timezone=IST
 
@@ -38,6 +54,12 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
   > Update the previous command to use a more complex password if you wish.
 
 * Install [Composer](http://getcomposer.org/).
+
+      cd /usr/local/bin
+      php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      php composer-setup.php
+      mv composer.phar composer
+
 * Clone or download the [code from Github](https://github.com/vvaswani/jade/). 
 
   > The steps below assume that your Web server document root is installed in `/var/www`. If your Web server document root is configured to use a different location, replace the paths below accordingly.
@@ -61,7 +83,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
 
       cp config/autoload/local.php.dist config/autoload/local.php
 
-* Update the `doctrine.connections.orm_default.params` key in `/var/www/jade/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection.
+* Update the `doctrine.connections.orm_default.params` key in `/var/www/jade/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection. Update the password as needed.
 
       ...
       'params' => [
@@ -80,12 +102,6 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
           'locale' => 'en_GB',
       ],
       ...
-
-* (For development environments, optional) Copy `/var/www/jade/config/development.config.php.dist` to `/var/www/jade/config/development.config.php`. This enables detailed exception listings and the Zend Developer Tools (ZDT) toolbar. 
-
-      cp config/autoload/development.config.php.dist config/autoload/development.config.php
-
-  > This is not recommended for production environments.
   
 * Create the database tables by running the commands below from the `/var/www/jade` directory.
 
