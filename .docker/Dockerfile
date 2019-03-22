@@ -2,7 +2,7 @@ FROM php:7.3-apache
 RUN apt-get update && apt-get install -y libicu-dev git zip unzip && docker-php-ext-install intl && docker-php-ext-install pdo_mysql
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 # RUN git clone git://github.com/vvaswani/jade.git . && git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
-RUN git clone git://github.com/vvaswani/jade.git . && git checkout docker
+# RUN git clone git://github.com/vvaswani/jade.git . && git checkout docker
 COPY .docker/php/application.ini "$PHP_INI_DIR/conf.d/application.ini"
 COPY . /var/www/html/
 COPY config/autoload/local.php.dist /var/www/html/config/autoload/local.php
