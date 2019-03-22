@@ -9,7 +9,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       apt-get install apache2 php5 php5-intl php5-mysqlnd mysql-server mysql-client
 
 * Update your Apache configuration file.
-      
+
   * Ensure that your Apache server has the `AllowOverride All` directive set for the Web server document root.
 
         <Directory /var/www>
@@ -22,9 +22,9 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
         LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
 
   * Ensure that the `DirectoryIndex` directive supports `.php` file extensions.
-  
+
         DirectoryIndex index.php index.html
-          
+
 * Update your `php.ini` file.
 
   * Set the `date.timezone` configuration value in your `php.ini` file to reflect your local timezone. [Find your timezone in the PHP manual](http://php.net/manual/en/timezones.php).
@@ -35,7 +35,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
 
         post_max_size=50M
         upload_max_filesize=50M
-  
+
   * Set the `file_uploads` configuration value in your `php.ini` file to `On`.
 
         file_uploads=On
@@ -45,12 +45,12 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
 * Restart the Apache server.
 
       service apache2 restart
-      
+
 * Create an empty MySQL database for the application.
 
-      echo "CREATE DATABASE jade" | mysql -u root -p
-      echo "GRANT ALL ON jade.* TO 'jade'@'localhost' IDENTIFIED BY 'password'" | mysql -u root -p
-      
+      echo "CREATE DATABASE example" | mysql -u root -p
+      echo "GRANT ALL ON example.* TO 'example-user'@'localhost' IDENTIFIED BY 'example-password'" | mysql -u root -p
+
   > Update the previous command to use a more complex password if you wish.
 
 * Install [Composer](http://getcomposer.org/).
@@ -60,14 +60,14 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       php composer-setup.php
       mv composer.phar composer
 
-* Clone or download the [code from Github](https://github.com/vvaswani/jade/). 
+* Clone or download the [code from Github](https://github.com/vvaswani/jade/).
 
   > The steps below assume that your Web server document root is installed in `/var/www`. If your Web server document root is configured to use a different location, replace the paths below accordingly.
 
       cd /var/www
       git clone -c core.symlinks=true https://github.com/vvaswani/jade/
       git checkout master
-  
+
 * Download dependencies by executing `composer install`.
 
       cd /var/www/jade
@@ -89,9 +89,9 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       'params' => [
           'host'     => 'localhost',
           'port'     => '3306',
-          'user'     => 'jade',
-          'password' => 'password',
-          'dbname'   => 'jade',
+          'user'     => 'example-username',
+          'password' => 'example-password',
+          'dbname'   => 'example',
       ]
       ...
 
@@ -102,7 +102,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
           'locale' => 'en_GB',
       ],
       ...
-  
+
 * Create the database tables by running the commands below from the `/var/www/jade` directory.
 
       ./vendor/bin/doctrine-module orm:schema-tool:create

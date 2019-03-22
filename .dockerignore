@@ -14,5 +14,4 @@ data/tmp/*
 data/upload/*
 error_log
 .htpasswd
-RELEASE.md
-.docker
+config/autoload/local.php

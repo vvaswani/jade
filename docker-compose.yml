@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  db:
+    image: mariadb
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: example
+      MYSQL_USER: example-user
+      MYSQL_PASSWORD: example-password
+  app:
+    image: app
+    container_name: app
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+networks:
+  default:
+   name: default-network

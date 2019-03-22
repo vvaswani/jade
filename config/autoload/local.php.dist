@@ -19,9 +19,9 @@ return [
                 'params' => [
                     'host'     => 'localhost',
                     'port'     => '3306',
-                    'user'     => 'username',
-                    'password' => 'password',
-                    'dbname'   => 'jade',
+                    'user'     => 'example-user',
+                    'password' => 'example-password',
+                    'dbname'   => 'example',
                 ]
             ],
         ],

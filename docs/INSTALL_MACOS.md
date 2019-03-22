@@ -10,7 +10,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       mysql.server start
 
 * Download and install PHP via Homebrew.
- 
+
       brew tap homebrew/homebrew-php
       brew install php71 --with-httpd
       brew install php71-intl
@@ -28,52 +28,52 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
     * Set the Apache server port to 80 by adjusting the `Listen` directive.
 
           Listen 80
-          
+
     * Find the `DirectoryIndex` directive and update it to support `.php` file extensions.
-    
+
           DirectoryIndex index.php index.html
 
     * Find the `<Directory /usr/local/var/www>...</Directory>` block and update the `AllowOverride` directive in it to support local overrides.
-    
+
           <Directory /usr/local/var/www>
             ...
             AllowOverride All
           </Directory>
-          
+
     * Activate PHP and URL rewriting support by adding the following lines to the end of the file:
-    
+
           LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
           LoadModule php7_module /usr/local/opt/php71/libexec/apache2/libphp7.so
           <FilesMatch .php$>
             SetHandler application/x-httpd-php
           </FilesMatch>
-          
+
 * Edit the `/usr/local/etc/php/7.1/php.ini` file.
-  
+
     * Configure the maximum size for file uploads by adjusting the `post_max` and `upload_max` variables to a value 25% higher than the maximum possible size of a file upload.
-  
+
           post_max_size=50M
           upload_max_filesize=50M
 
     * Set the `file_uploads` configuration value in your `php.ini` file to `On`.
 
           file_uploads=On
-          
+
     * Configure the timezone for the application logs by adjusting the `date.timezone` variable. [Find your timezone in the PHP manual](http://php.net/manual/en/timezones.php).
-  
+
           date.timezone=IST
 
 * Create an empty MySQL database for the application.
 
-      echo "CREATE DATABASE jade" | mysql -u root
-      echo "GRANT ALL ON jade.* TO 'jade'@'localhost' IDENTIFIED BY 'password'" | mysql -u root
-      
+      echo "CREATE DATABASE example" | mysql -u root
+      echo "GRANT ALL ON example.* TO 'example-user'@'localhost' IDENTIFIED BY 'example-password'" | mysql -u root
+
   > Update the previous command to use a more complex password if you wish.
 
 * Start the Homebrew Apache server.
 
       /usr/local/bin/apachectl start
-  
+
 * Install [Composer](https://getcomposer.org) into the `/usr/local/bin` directory.
 
       cd /usr/local/bin
@@ -82,7 +82,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       mv composer.phar composer
 
 * Download the [latest stable release of Jade](https://github.com/vvaswani/jade/releases).
-* Extract the contents of the release archive to the `/usr/local/var/www` directory. 
+* Extract the contents of the release archive to the `/usr/local/var/www` directory.
 * Rename the resulting `/usr/local/var/www/jade-x.y.z` directory to `/usr/local/var/www/jade`.
 * Download dependencies by executing `composer install`.
 
@@ -96,7 +96,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       chown -R _www data/tmp
       chown -R _www data/cache
       chown -R _www data/upload
-  
+
 * Copy `/usr/local/var/www/jade/config/autoload/local.php.dist` to `/usr/local/var/www/jade/config/autoload/local.php`.
 
       cp config/autoload/local.php.dist config/autoload/local.php
@@ -107,9 +107,9 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       'params' => [
           'host'     => 'localhost',
           'port'     => '3306',
-          'user'     => 'jade',
-          'password' => 'password',
-          'dbname'   => 'jade',
+          'user'     => 'example-user',
+          'password' => 'example-password',
+          'dbname'   => 'example',
       ]
       ...
 
