@@ -3,15 +3,15 @@ RUN apt-get update && apt-get install -y libicu-dev git zip unzip && docker-php-
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 # RUN git clone git://github.com/vvaswani/jade.git . && git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
 # RUN git clone git://github.com/vvaswani/jade.git . && git checkout docker
-COPY .docker/php/application.ini "$PHP_INI_DIR/conf.d/application.ini"
+COPY .docker/config/php.ini "$PHP_INI_DIR/conf.d/app.ini"
 COPY . /var/www/html/
-COPY config/autoload/local.php.dist /var/www/html/config/autoload/local.php
+#COPY config/autoload/local.php.dist /var/www/html/config/autoload/local.php
 WORKDIR /var/www/html
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php composer-setup.php
-RUN php composer.phar install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
-RUN php composer.phar dump-autoload --no-scripts --no-dev --optimize
-RUN rm -rf composer-setup.php composer.phar .docker/
+#RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+#RUN php composer-setup.php
+#RUN php composer.phar install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
+#RUN php composer.phar dump-autoload --no-scripts --no-dev --optimize
+#RUN rm -rf composer-setup.php composer.phar
+RUN apt-get remove libicu-dev git zip unzip && apt-get autoremove
 RUN chown -R www-data:www-data /var/www/html && a2enmod rewrite
-RUN service apache2 restart
 EXPOSE 80
