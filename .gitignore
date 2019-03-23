@@ -11,7 +11,8 @@ composer.phar
 vendor
 data/cache/*
 data/tmp/*
-data/upload/*
+data/upload/templates/*
+data/upload/jobs/*
 error_log
 .htpasswd
 RELEASE.md

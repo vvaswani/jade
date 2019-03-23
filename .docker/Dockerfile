@@ -12,6 +12,6 @@ WORKDIR /var/www/html
 #RUN php composer.phar install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
 #RUN php composer.phar dump-autoload --no-scripts --no-dev --optimize
 #RUN rm -rf composer-setup.php composer.phar
-RUN apt-get remove libicu-dev git zip unzip && apt-get autoremove
+#RUN apt-get remove -y libicu-dev git zip unzip && apt-get autoremove -y
 RUN chown -R www-data:www-data /var/www/html && a2enmod rewrite
 EXPOSE 80

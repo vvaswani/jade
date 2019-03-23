@@ -10,7 +10,8 @@ composer.phar
 *.*~
 data/cache/*
 data/tmp/*
-data/upload/*
+data/upload/templates/*
+data/upload/jobs/*
 error_log
 .htpasswd
 config/autoload/local.php

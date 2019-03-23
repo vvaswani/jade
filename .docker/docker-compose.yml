@@ -10,6 +10,8 @@ services:
       MYSQL_DATABASE: example
       MYSQL_USER: example-user
       MYSQL_PASSWORD: example-password
+    volumes:
+      - db-data:/var/lib/mysql
   app:
     image: app
     container_name: app
@@ -27,6 +29,13 @@ services:
       MYSQL_PASSWORD: example-password
     entrypoint: ["/var/www/html/.docker/scripts/entrypoint.sh"]
     command: ["apache2-foreground"]
+    volumes:
+      - app-data:/var/www/html/data/upload
 networks:
   default:
    name: default-network
+volumes:
+  app-data:
+    name: app-data
+  db-data:
+    name: db-data
