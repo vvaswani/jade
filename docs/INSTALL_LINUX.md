@@ -48,8 +48,8 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
 
 * Create an empty MySQL database for the application.
 
-      echo "CREATE DATABASE example" | mysql -u root -p
-      echo "GRANT ALL ON example.* TO 'example-user'@'localhost' IDENTIFIED BY 'example-password'" | mysql -u root -p
+      echo "CREATE DATABASE app" | mysql -u root -p
+      echo "GRANT ALL ON app.* TO 'app-user'@'localhost' IDENTIFIED BY 'app-password'" | mysql -u root -p
 
   > Update the previous command to use a more complex password if you wish.
 
@@ -89,9 +89,9 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       'params' => [
           'host'     => 'localhost',
           'port'     => '3306',
-          'user'     => 'example-username',
-          'password' => 'example-password',
-          'dbname'   => 'example',
+          'user'     => 'app-username',
+          'password' => 'app-password',
+          'dbname'   => 'app',
       ]
       ...
 

@@ -32,8 +32,8 @@ If administrator access to the `php.ini` file is not available, set these values
 
 Sample commands on Linux:
 
-    echo "CREATE DATABASE example" | mysql -u root -p
-    echo "GRANT ALL ON example.* TO 'example-user'@'localhost' IDENTIFIED BY 'example-password'" | mysql -u root -p
+    echo "CREATE DATABASE app" | mysql -u root -p
+    echo "GRANT ALL ON app.* TO 'app-user'@'localhost' IDENTIFIED BY 'app-password'" | mysql -u root -p
     cd /var/www
     wget https://github.com/vvaswani/jade/archive/jade-x.y.z.tar.gz
     tar -xzvf jade-x.y.z.tar.gz

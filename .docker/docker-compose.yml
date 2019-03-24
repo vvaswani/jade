@@ -7,9 +7,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: example
-      MYSQL_USER: example-user
-      MYSQL_PASSWORD: example-password
+      MYSQL_DATABASE: app
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: app-password
     volumes:
       - db-data:/var/lib/mysql
   app:
@@ -24,9 +24,9 @@ services:
     ports:
       - "8080:80"
     environment:
-      MYSQL_DATABASE: example
-      MYSQL_USER: example-user
-      MYSQL_PASSWORD: example-password
+      MYSQL_DATABASE: app
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: app-password
     entrypoint: ["/var/www/html/.docker/scripts/entrypoint.sh"]
     command: ["apache2-foreground"]
     volumes:
