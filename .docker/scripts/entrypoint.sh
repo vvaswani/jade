@@ -10,9 +10,9 @@ if [ ! -f /var/www/html/config/autoload/local.php ]; then
 	echo "Creating configuration file with database credentials..."
 	cp /var/www/html/config/autoload/local.php.dist /var/www/html/config/autoload/local.php
 	sed -i "s/localhost/db/g" /var/www/html/config/autoload/local.php
-	sed -i "s/example-user/$MYSQL_USER/g" /var/www/html/config/autoload/local.php
-	sed -i "s/example-password/$MYSQL_PASSWORD/g" /var/www/html/config/autoload/local.php
-	sed -i "s/example/$MYSQL_DATABASE/g" /var/www/html/config/autoload/local.php
+	sed -i "s/app-user/$MYSQL_USER/g" /var/www/html/config/autoload/local.php
+	sed -i "s/app-password/$MYSQL_PASSWORD/g" /var/www/html/config/autoload/local.php
+	sed -i "s/app/$MYSQL_DATABASE/g" /var/www/html/config/autoload/local.php
 	echo "Configuration file created."
 else
 	echo "Configuration file found, skipping."

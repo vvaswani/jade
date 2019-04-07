@@ -24,7 +24,7 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 * If you have [Docker](https://docker.com/) and [Docker Compose](https://docs.docker.com/compose/), install the application with the following commands:
 
 		    cd /tmp
-		    curl https://raw.githubusercontent.com/vvaswani/jade/dev-master/.docker/docker-compose.yml > docker-compose.yml && docker-compose up
+		    curl https://raw.githubusercontent.com/vvaswani/jade/master/.docker/docker-compose.yml > docker-compose.yml && docker-compose up
 
 	Browse to http://DOCKER-HOST:8080/ to access the application.
 

@@ -5,7 +5,6 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 RUN git clone git://github.com/vvaswani/jade.git . && git checkout docker
 COPY .docker/config/php.ini "$PHP_INI_DIR/conf.d/app.ini"
 COPY . /var/www/html/
-COPY config/autoload/local.php.dist /var/www/html/config/autoload/local.php
 WORKDIR /var/www/html
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php
