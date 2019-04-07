@@ -1,6 +1,6 @@
 # Installation and Configuration
 
-The steps below will walk you through installing an Apache/MySQL/PHP environment on your macOS system, then installing and configuring Jade to work in that environment. You will need `root` access to perform some of these steps.
+The steps below will walk you through installing an Apache/MySQL/PHP environment on your macOS system, then installing and configuring the application to work in that environment. You will need `root` access to perform some of these steps.
 
 ## macOS
 
@@ -81,27 +81,27 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       php composer-setup.php
       mv composer.phar composer
 
-* Download the [latest stable release of Jade](https://github.com/vvaswani/jade/releases).
+* Download the [latest stable release](https://github.com/vvaswani/jade/releases).
 * Extract the contents of the release archive to the `/usr/local/var/www` directory.
-* Rename the resulting `/usr/local/var/www/jade-x.y.z` directory to `/usr/local/var/www/jade`.
+* Rename the resulting `/usr/local/var/www/jade-x.y.z` directory to `/usr/local/var/www/app`.
 * Download dependencies by executing `composer install`.
 
-      cd /usr/local/var/www/jade
+      cd /usr/local/var/www/app
       composer install
 
-  Composer should now begin downloading all the dependencies for Jade. This process will take several minutes.
+  Composer should now begin downloading all the dependencies. This process will take several minutes.
 
-* Ensure that the `/usr/local/var/www/jade/data/cache`, `/usr/local/var/www/jade/data/tmp` and `/usr/local/var/www/jade/data/upload` directories are writable by the Web server user.
+* Ensure that the `/usr/local/var/www/app/data/cache`, `/usr/local/var/www/app/data/tmp` and `/usr/local/var/www/app/data/upload` directories are writable by the Web server user.
 
       chown -R _www data/tmp
       chown -R _www data/cache
       chown -R _www data/upload
 
-* Copy `/usr/local/var/www/jade/config/autoload/local.php.dist` to `/usr/local/var/www/jade/config/autoload/local.php`.
+* Copy `/usr/local/var/www/app/config/autoload/local.php.dist` to `/usr/local/var/www/app/config/autoload/local.php`.
 
       cp config/autoload/local.php.dist config/autoload/local.php
 
-* Update the `doctrine.connections.orm_default.params` key in `/usr/local/var/www/jade/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection. Update the password as needed.
+* Update the `doctrine.connections.orm_default.params` key in `/usr/local/var/www/app/config/autoload/local.php` with the correct database credentials for the Doctrine ORM connection. Update the password as needed.
 
       ...
       'params' => [
@@ -113,7 +113,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       ]
       ...
 
-* Update the `translator.locale` key in `/usr/local/var/www/jade/config/autoload/local.php` with the required locale and language (defaults to `English (UK)`, other languages may require [additional translation files](LOCALIZATION.md)).
+* Update the `translator.locale` key in `/usr/local/var/www/app/config/autoload/local.php` with the required locale and language (defaults to `English (UK)`, other languages may require [additional translation files](LOCALIZATION.md)).
 
       ...
       'translator' => [
@@ -121,9 +121,9 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       ],
       ...
 
-* Create the database tables by running the commands below from the `/usr/local/var/www/jade` directory.
+* Create the database tables by running the commands below from the `/usr/local/var/www/app` directory.
 
       ./vendor/bin/doctrine-module orm:schema-tool:create
       ./vendor/bin/doctrine-module orm:fixtures:load
 
-* Browse to `http://localhost/jade` to access the application.
+* Browse to `http://localhost/app` to access the application.

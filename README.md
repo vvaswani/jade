@@ -21,9 +21,16 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 ## Installation
 
-* If you already have the components listed above, install Jade into your existing environment using this [brief guide](docs/INSTALL_ALL.md).
+* If you have [Docker](https://docker.com/) and [Docker Compose](https://docs.docker.com/compose/), install the application with the following commands:
 
-* If you don't have the components listed above, set up the necessary environment and then install Jade into it using the detailed installation instructions for [Windows](docs/INSTALL_WINDOWS.md), [Linux](docs/INSTALL_LINUX.md) or [macOS](docs/INSTALL_MACOS.md).
+		    cd /tmp
+		    curl https://raw.githubusercontent.com/vvaswani/jade/dev-master/.docker/docker-compose.yml > docker-compose.yml && docker-compose up
+
+	Browse to http://DOCKER-HOST:8080/ to access the application.
+
+* If you don't have [Docker](https://docker.com/) and [Docker Compose](https://docs.docker.com/compose/) but have an environment with all the components listed above, install the application into your existing environment using this [brief guide](docs/INSTALL_ALL.md).
+
+* If you don't have [Docker](https://docker.com/), [Docker Compose](https://docs.docker.com/compose/) or the components listed above, refer to the [Windows](docs/INSTALL_WINDOWS.md), [Linux](docs/INSTALL_LINUX.md) or [macOS](docs/INSTALL_MACOS.md) guides for detailed, platform-specific instructions on how to set up the necessary environment and install the application.
 
 ## Roadmap
 
@@ -38,4 +45,4 @@ If you are interested in the future direction of this project, please [review th
 
 ## Disclaimer
 
-"Jade" is a working name for this project. The final name is yet to be determined (see [issue #54](https://github.com/vvaswani/jade/issues/54)). 
+"Jade" is a working name for this project. The final name is yet to be determined (see [issue #54](https://github.com/vvaswani/jade/issues/54)).

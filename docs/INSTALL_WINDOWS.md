@@ -1,6 +1,6 @@
 # Installation and Configuration
 
-The steps below will walk you through installing an Apache/MySQL/PHP environment on your Windows system, then installing and configuring Jade to work in that environment. You will need administrator access to perform some of these steps.
+The steps below will walk you through installing an Apache/MySQL/PHP environment on your Windows system, then installing and configuring the application to work in that environment. You will need administrator access to perform some of these steps.
 
 ## Windows
 
@@ -41,21 +41,21 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
 
     > The steps below assume that Git is installed in `C:\Git`. If you installed Git to a different location, replace the paths below accordingly.
 
-* Download the [latest stable release of Jade](https://github.com/vvaswani/jade/releases).
+* Download the [latest stable release of the application](https://github.com/vvaswani/jade/releases).
 
 * Extract the contents of the release archive to the `C:\xampp\htdocs\` directory.
 
-* Rename the resulting `C:\xampp\htdocs\jade-x.y.z` directory to `C:\xampp\htdocs\jade`.
+* Rename the resulting `C:\xampp\htdocs\jade-x.y.z` directory to `C:\xampp\htdocs\app`.
 
 * From the XAMPP control panel, click the "Shell" button and start a new shell.
 
 * Within the XAMPP shell, execute the commands below:
 
       set PATH=%PATH%;"C:\Git\cmd"
-      cd htdocs\jade
+      cd htdocs\app
       composer install
 
-  Composer should now begin downloading all the dependencies for Jade. This process will take several minutes.
+  Composer should now begin downloading all the dependencies. This process will take several minutes.
 
   ![Composer](images/xampp-windows-composer.png)
 
@@ -66,9 +66,9 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
 
   > Update the previous command to use a more complex password if you wish.
 
-* Copy `C:\xampp\htdocs\jade\config\autoload\local.php.dist` to `C:\xampp\htdocs\jade\config\autoload\local.php`.
+* Copy `C:\xampp\htdocs\app\config\autoload\local.php.dist` to `C:\xampp\htdocs\app\config\autoload\local.php`.
 
-* Update the `doctrine.connections.orm_default.params` key in `C:\xampp\htdocs\jade\config\autoload\local.php` with the correct database credentials for the Doctrine ORM connection, as shown below. Update the password as needed.
+* Update the `doctrine.connections.orm_default.params` key in `C:\xampp\htdocs\app\config\autoload\local.php` with the correct database credentials for the Doctrine ORM connection, as shown below. Update the password as needed.
 
       ...
       'params' => [
@@ -80,7 +80,7 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       ]
       ...
 
-* Update the `translator.locale` key in `C:\xampp\htdocs\jade\config\autoload\local.php` with the required locale and language (defaults to `English (UK)`, other languages may require [additional translation files](LOCALIZATION.md)).
+* Update the `translator.locale` key in `C:\xampp\htdocs\app\config\autoload\local.php` with the required locale and language (defaults to `English (UK)`, other languages may require [additional translation files](LOCALIZATION.md)).
 
       ...
       'translator' => [
@@ -88,9 +88,9 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       ],
       ...
 
-* Within the XAMPP shell, create the database tables by running the command below from the `C:\xampp\htdocs\jade` directory:
+* Within the XAMPP shell, create the database tables by running the command below from the `C:\xampp\htdocs\app` directory:
 
-      cd htdocs\jade
+      cd htdocs\app
       .\vendor\bin\doctrine-module orm:schema-tool:create
       .\vendor\bin\doctrine-module orm:fixtures:load
 
@@ -98,12 +98,12 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
 
 * Launch a new Windows command prompt as administrator.
 
-* Change to the `C:\xampp\htdocs\jade\public\components` directory and run the following commands:
+* Change to the `C:\xampp\htdocs\app\public\components` directory and run the following commands:
 
       del bootstrap
       mklink /D bootstrap ..\..\vendor\components\bootstrap
       del bootstrap-select
-      mklink /D bootstrap-select ..\..\vendor\bootstrap-select\bootstrap-select
+      mklink /D bootstrap-select ..\..\vendor\snapappointments\bootstrap-select
       del jquery
       mklink /D jquery ..\..\vendor\components\jquery
       del modernizr
@@ -113,4 +113,4 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       del polyfill\html5-simple-date-input-polyfill
       mklink /D polyfill\html5-simple-date-input-polyfill ..\..\..\vendor\liorwohl\html5-simple-date-input-polyfill
 
-* Browse to `http://localhost/jade` to access the application.
+* Browse to `http://localhost/app` to access the application.
