@@ -16,8 +16,7 @@ services:
     image: app
     container_name: app
     build:
-      context: https://github.com/vvaswani/jade.git#docker
-#      context: ..
+      context: https://github.com/vvaswani/jade.git#master
       dockerfile: .docker/Dockerfile
     depends_on:
       - db
