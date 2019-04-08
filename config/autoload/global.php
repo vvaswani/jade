@@ -42,6 +42,13 @@ return [
                 'credential_callable' => 'Application\Controller\UserController::verifyCredential'
             ],
         ],
+        'migrations_configuration' => [
+            'orm_default' => [
+                'directory' => 'data/migrations',
+                'namespace' => 'Migrations',
+                'table'     => 'migration',
+            ],
+        ],
     ],
     'session' => [
         'config' => [

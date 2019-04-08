@@ -1,6 +1,6 @@
 # Installation and Configuration
 
-The steps below will walk you through installing and configuring Jade to work with an existing Apache/MySQL/PHP environment. You will need `root` access to perform some of these steps.
+The steps below will walk you through installing and configuring the application to work with an existing Apache/MySQL/PHP environment. You will need `root` access to perform some of these steps.
 
 ## Configuration: Apache
 
@@ -32,13 +32,13 @@ If administrator access to the `php.ini` file is not available, set these values
 
 Sample commands on Linux:
 
-    echo "CREATE DATABASE jade" | mysql -u root -p
-    echo "GRANT ALL ON jade.* TO 'jade'@'localhost' IDENTIFIED BY 'password'" | mysql -u root -p
+    echo "CREATE DATABASE app" | mysql -u root -p
+    echo "GRANT ALL ON app.* TO 'app-user'@'localhost' IDENTIFIED BY 'app-password'" | mysql -u root -p
     cd /var/www
     wget https://github.com/vvaswani/jade/archive/jade-x.y.z.tar.gz
     tar -xzvf jade-x.y.z.tar.gz
-    mv jade-x.y.z jade
-    cd jade
+    mv jade-x.y.z app
+    cd app
     composer install
     chown -R www-data data/tmp
     chown -R www-data data/cache

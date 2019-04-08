@@ -1,0 +1,40 @@
+version: '3.5'
+
+services:
+  db:
+    image: mariadb
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: app-password
+    volumes:
+      - db-data:/var/lib/mysql
+  app:
+    image: app
+    container_name: app
+    build:
+      context: https://github.com/vvaswani/jade.git#master
+      dockerfile: .docker/Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_USER: app-user
+      MYSQL_PASSWORD: app-password
+    entrypoint: ["/var/www/html/.docker/scripts/entrypoint.sh"]
+    command: ["apache2-foreground"]
+    volumes:
+      - app-data:/var/www/html/data/upload
+networks:
+  default:
+   name: default-network
+volumes:
+  app-data:
+    name: app-data
+  db-data:
+    name: db-data
