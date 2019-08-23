@@ -32,6 +32,8 @@ Jade provides a standard set of tools for lawyers to manage their cases and clie
 
 * If you don't have [Docker](https://docker.com/), [Docker Compose](https://docs.docker.com/compose/) or the components listed above, refer to the [Windows](docs/INSTALL_WINDOWS.md), [Linux](docs/INSTALL_LINUX.md) or [macOS](docs/INSTALL_MACOS.md) guides for detailed, platform-specific instructions on how to set up the necessary environment and install the application.
 
+The system is initialized with a single administrator account. The default username is `admin@example.com` and the default password  is `admin`. It is recommended that you change these credentials immediately upon login.
+
 ## Roadmap
 
 If you are interested in the future direction of this project, please [review the roadmap](https://github.com/vvaswani/jade/milestones) or contribute using the [issues log](https://github.com/vvaswani/jade/issues). Your feedback is appreciated.
