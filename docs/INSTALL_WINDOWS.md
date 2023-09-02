@@ -113,4 +113,6 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       del polyfill\html5-simple-date-input-polyfill
       mklink /D polyfill\html5-simple-date-input-polyfill ..\..\..\vendor\liorwohl\html5-simple-date-input-polyfill
 
-* Browse to `http://localhost/app` to access the application.
+* Browse to `http://localhost/app` to access the application. Log in with default username `admin@example.com` and password `admin`.
+
+  > It is recommended that you change these credentials immediately upon login.

@@ -108,4 +108,6 @@ The steps below will walk you through installing an Apache/MySQL/PHP environment
       ./vendor/bin/doctrine-module orm:schema-tool:create
       ./vendor/bin/doctrine-module orm:fixtures:load
 
-* Browse to `http://localhost/app` to access the application.
+* Browse to `http://localhost/app` to access the application. Log in with default username `admin@example.com` and password `admin`.
+
+  > It is recommended that you change these credentials immediately upon login.

@@ -48,3 +48,7 @@ Sample commands on Linux:
     cp config/autoload/development.config.php.dist config/autoload/development.config.php
     ./vendor/bin/doctrine-module orm:schema-tool:create
     ./vendor/bin/doctrine-module orm:fixtures:load
+
+## Credentials
+
+By default, the system is initialized with a single administrator account. The default username is `admin@example.com` and the default password  is `admin`. It is recommended that you change these credentials immediately upon login.
