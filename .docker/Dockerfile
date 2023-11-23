@@ -7,7 +7,7 @@ COPY .docker/config/php.ini "$PHP_INI_DIR/conf.d/app.ini"
 COPY . /var/www/html/
 WORKDIR /var/www/html
 RUN curl https://getcomposer.org/installer > composer-setup.php && php composer-setup.php
-RUN php composer.phar install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
+RUN COMPOSER_ALLOW_SUPERUSER=1 php composer.phar install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
 RUN php composer.phar dump-autoload --no-scripts --no-dev --optimize
 RUN rm -rf composer-setup.php composer.phar
 RUN apt-get remove -y libicu-dev git zip unzip && apt-get autoremove -y
