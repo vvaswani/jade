@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.3-apache
 RUN apt-get update && apt-get install -y libicu-dev git zip unzip && docker-php-ext-install intl && docker-php-ext-install pdo_mysql
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 RUN git config --global --add safe.directory /var/www/html
