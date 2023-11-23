@@ -13,6 +13,4 @@ RUN rm -rf composer-setup.php composer.phar
 RUN apt-get remove -y libicu-dev git zip unzip && apt-get autoremove -y
 RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /var/www/html/.docker/scripts/wait-for-it.sh && chmod +x /var/www/html/.docker/scripts/wait-for-it.sh
 RUN chown -R www-data:www-data /var/www/html && a2enmod rewrite
-RUN vendor/bin/doctrine-module orm:schema-tool:create
-RUN vendor/bin/doctrine-module orm:fixtures:load
 EXPOSE 80
